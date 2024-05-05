@@ -109,8 +109,16 @@ NULL
 icd10_chapter_title <- function(token, chapter, release = 2019,
                                 language = "en", dry_run = FALSE){
 
-  .icd10_site_title(token = token, site = chapter,
-                    release = release, language = language, dry_run = dry_run)
+  tryCatch({
+    #Search for the chapter
+    .icd10_site_title(token = token, site = chapter,
+                      release = release, language = language,
+                      dry_run = dry_run)
+  },
+
+  #Return NULL if not found anywhere
+  httr2_http_404 = function(cnd) {warning("ICD-10 chapter possibly not found"); return(NA_character_)}
+  )
 
 }
 
@@ -155,9 +163,16 @@ icd10_chapters <- function(token, release = 2019, language = "en",
 icd10_block_title <- function(token, block, release = 2019,
                               language = "en", dry_run = FALSE){
 
-  .icd10_site_title(token = token, site = block,
-                    release = release, language = language, dry_run = dry_run)
+  tryCatch({
+    #Search for the block
+    .icd10_site_title(token = token, site = block,
+                      release = release, language = language,
+                      dry_run = dry_run)
+  },
 
+  #Return NULL if not found anywhere
+  httr2_http_404 = function(cnd) {warning("ICD-10 block possibly not found"); return(NA_character_)}
+  )
 }
 
 #' Block of ICD-10 Chapter
@@ -344,9 +359,8 @@ icd10_block_info <- function(token, block, release = 2019, language = "en",
 
   #Add block info
   if (!dry_run){
-    block_info <- c("block" = block, "block_title" = block_title)
-    names(parent_info) <- c("chapter", "chapter_title")
-    all_info <- c(block_info, parent_info)
+    all_info <- c("code" = block, "title" = block_title, parent_info)
+    all_info <- check_names(all_info)
   } else {
     all_info <- NULL
   }
@@ -389,17 +403,9 @@ icd10_code_info <- function(token, code, release = 2019, language = "en",
                                   codes_only = codes_only)
 
     #Add block info
-    if (nchar(code) == 3 & !dry_run){
-
-      code_info          <- c("code" = code, "code_title" = code_title)
-      names(parent_info) <- c("block","block_title","chapter", "chapter_title")
-      all_info           <- c(code_info, parent_info)
-
-    } else if (!dry_run){
-      code_info          <- c("subcode" = code, "subcode_title" = code_title)
-      names(parent_info) <- c("code","code_title","block","block_title",
-                              "chapter", "chapter_title")
-      all_info <- c(code_info, parent_info)
+    if (!dry_run){
+      all_info <- c("code.0" = code, "title.0" = code_title, parent_info)
+      all_info <- check_names(all_info)
     } else {
       all_info <- NULL
     }
@@ -418,6 +424,7 @@ icd10_code_info <- function(token, code, release = 2019, language = "en",
 icd10_chapter_info <- function(token, chapter, release = 2019, language = "en",
                                dry_run = FALSE, codes_only = FALSE){
 
+
   if (!codes_only){
     chapter_title <- icd10_chapter_title(token = token, chapter = chapter,
                                          release = release, language = language,
@@ -430,3 +437,90 @@ icd10_chapter_info <- function(token, chapter, release = 2019, language = "en",
   all_info <- c("chapter" = chapter, "chapter_title" = chapter_title)
   return(all_info)
 }
+
+#' @name vectorsearch
+#' @title Search for information on multiple codes, blocks or chapter in a
+#' `vector`.
+#'
+#' @inheritParams icd10_code_info
+#' @param codes A `vector` containing multiple codes.
+#' @param blocks A `vector` containing multiple blocks.
+#' @param chapters A `vector` containing multiple chapters
+#'
+#' @note All entries in the vector must be of the same level. That is, you
+#' cannot combine codes with blocks or codes with chapters. If you wish
+#' to do so generate two different vectors one for the codes and one for the
+#' chapters
+#'
+#' @returns A `data.frame` with information for each code in `codevec`
+NULL
+
+#' @rdname vectorsearch
+#' @examples
+#' #Change `dry_run = FALSE` to run the example
+#' token <- get_token("123","123", dry_run = TRUE)
+#' icd10_code_info_vectorized(token,
+#'     codes = c("E14.1","C80.0","F14"),
+#'     dry_run = TRUE)
+#' @export
+icd10_code_info_vectorized <- function(token, codes, release = 2019,
+                                       language = "en", dry_run = FALSE,
+                                       codes_only = FALSE,
+                                       validate_code = TRUE){
+
+  .icd10_search_vectorized(searchvec = codes, searchfun = icd10_code_info,
+                           token = token, release = release, language = language,
+                           dry_run = dry_run, codes_only = codes_only,
+                           validate_code = validate_code)
+}
+
+#' @rdname vectorsearch
+#'
+#' @examples
+#' #Change `dry_run = FALSE` to run the example
+#' token <- get_token("123","123", dry_run = TRUE)
+#' icd10_block_info_vectorized(token,
+#'     blocks = c("E10-E14", "F10-F19", "C76-C80"),
+#'     dry_run = TRUE)
+#' @export
+icd10_block_info_vectorized <- function(token, blocks, release = 2019,
+                                       language = "en", dry_run = FALSE,
+                                       codes_only = FALSE){
+
+  .icd10_search_vectorized(searchvec = blocks, searchfun = icd10_block_info,
+                           token = token, release = release, language = language,
+                           dry_run = dry_run, codes_only = codes_only)
+}
+
+
+#' @rdname vectorsearch
+#'
+#' @examples
+#' #Change `dry_run = FALSE` to run the example
+#' token <- get_token("123","123", dry_run = TRUE)
+#' icd10_chapter_info_vectorized(token,
+#'     chapters = c("XII","II","V"),
+#'     dry_run = TRUE)
+#' @export
+icd10_chapter_info_vectorized <- function(token, chapters, release = 2019,
+                                        language = "en", dry_run = FALSE,
+                                        codes_only = FALSE){
+
+  .icd10_search_vectorized(searchvec = chapters, searchfun = icd10_chapter_info,
+                           token = token, release = release, language = language,
+                           dry_run = dry_run, codes_only = codes_only)
+}
+
+#' @name tidysearch
+#'
+#' @title Search for information on multiple codes, blocks or chapter in a
+#' `data.frame` or `tibble`.
+#'
+#' @inheritParams icd10_code_info
+#' @param .data A `data.frame` or a `data.frame`extension such as a `tibble`.
+#' @param var Name of the `data.frame` column with the ICD-10 code that
+#' requires the info search
+#'
+#' @export
+NULL
+

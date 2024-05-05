@@ -12,7 +12,9 @@ RoxygenNote: 7.3.1
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
-Config/testthat/parallel: true
+Config/testthat/parallel: false
 Imports: 
     dplyr,
     httr2
+Depends: 
+    R (>= 4.2.0)

@@ -248,3 +248,54 @@
   return(parents)
 }
 
+#' Search info in a vectorized way
+#'
+#' @description
+#' Searches for chapter, block or code in a vectorized fashion
+#'
+#' @param searchvec Vector to be searched
+#' @param searchfun Search function to be utilized
+#' @param ... Additional parameters to pass to `searchfun`
+#' @inheritParams .icd10_parents
+#'
+#' @returns A data frame containing all the parent nodes for the block/code/chapter
+#' @keywords internal
+.icd10_search_vectorized <- function(searchvec, searchfun, token, release,
+                                     language, dry_run, codes_only, ...){
+
+  #Obtain unique entries of the code vector
+  uniquevec <- unique(searchvec)
+
+  #Loop through all entries
+  res <- lapply(uniquevec, function(x) {
+    codeinfo <- searchfun(token, x, release = release, language = language,
+                          dry_run = dry_run, codes_only = codes_only,
+                          ...)
+    if (is.na(codeinfo[1])){
+      codeinfo <- NULL
+    } else {
+      codeinfo <- c(codeinfo, "search_value" = x)
+    }
+    return(codeinfo)
+  })
+
+  # Convert each list to a dataframe and bind them together
+  dbf <- dplyr::bind_rows(res)
+
+  #Check that it has rows
+  if (nrow(dbf) > 0){
+    #Join the dataframe
+    dbf <- data.frame(search_value = searchvec) |>
+      dplyr::left_join(
+        dbf,
+        by = dplyr::join_by(search_value)
+      ) |>
+      dplyr::select(as.symbol("search_value"), dplyr::everything())
+  } else {
+    warning("No value of `searchvec` was found")
+    dbf <- data.frame(search_value = searchvec)
+  }
+
+  return(dbf)
+}
+
