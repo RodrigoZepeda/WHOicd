@@ -10,7 +10,8 @@
   release = 2019,
   language = "en",
   dry_run = FALSE,
-  codes_only = FALSE
+  codes_only = FALSE,
+  auto_update = TRUE
 )
 }
 \arguments{

@@ -9,12 +9,16 @@
 #' @param language (`character`) Language for the request. Available languages are
 #' listed in [https://icd.who.int/docs/icd-api/SupportedClassifications/](https://icd.who.int/docs/icd-api/SupportedClassifications/)
 #' the default is English (`language = "en"`).
+#' @inheritParams check_token_expiration_time
+#'
 #' @return An `httr2` request for the API
 #' @keywords internal
-make_request <- function(url, token, language = "en"){
+make_request <- function(url, token, language = "en",
+                         auto_update = TRUE, dry_run = FALSE){
 
   #Check whether the token will expire soon or has expired
-  check_token_expiration_time(token)
+  check_token_expiration_time(token, auto_update = auto_update,
+                              dry_run = dry_run)
 
   req <- httr2::request(base_url = url) |>
     httr2::req_headers(
@@ -53,12 +57,14 @@ run_request <- function(res, dry_run){
 #' throws a warning to the user.
 #'
 #' @inheritParams make_request
+#' @param auto_update Attempts to update token automatically
 #'
 #' @return NULL It checks whether the token has expired or is soon to expire
 #' and alerts the user.
 #'
 #' @keywords internal
-check_token_expiration_time <- function(token){
+check_token_expiration_time <- function(token, auto_update = TRUE,
+                                        dry_run = TRUE){
 
   if (!is.null(token)){
     time_since_creation <- difftime(Sys.time(), token$creation_time,
@@ -67,9 +73,15 @@ check_token_expiration_time <- function(token){
     if (time_since_creation >= token$expires_in){
       stop("Token expired. Use `get_token()` to generate a new one.")
     } else if (abs(time_since_creation - token$expires_in) < 3*60){
-      warning(
-        "Token will expire in the next 3 minutes. Use `get_token() to generate a new one."
-      )
+      if (auto_update){
+        token <- get_token(token["client_id"], token["client_secret"],
+                           dry_run = dry_run)
+      } else {
+        warning(
+          paste0("Token will expire in the next 3 minutes. Use `get_token() ",
+                 "to generate a new one.")
+        )
+      }
     }
   }
 }

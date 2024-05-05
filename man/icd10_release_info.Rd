@@ -4,7 +4,13 @@
 \alias{icd10_release_info}
 \title{Request information on a certain ICD-10 release}
 \usage{
-icd10_release_info(token, release = 2019, language = "en", dry_run = FALSE)
+icd10_release_info(
+  token,
+  release = 2019,
+  language = "en",
+  dry_run = FALSE,
+  auto_update = TRUE
+)
 }
 \arguments{
 \item{token}{(\code{list}) Access token to the API obtained from \code{\link[=get_token]{get_token()}}}
@@ -18,6 +24,8 @@ the default is English (\code{language = "en"}).}
 
 \item{dry_run}{(\code{logical}) If \code{TRUE} will create the request and generate an empty token. This
 function is mostly for development.}
+
+\item{auto_update}{Attempts to update token automatically}
 }
 \value{
 vector with information on the publishing date and title

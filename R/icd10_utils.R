@@ -17,13 +17,15 @@
 #'
 #' @keywords internal
 .icd10_request_children <- function(token, site, release = 2019, language = "en",
-                                   dry_run = FALSE){
+                                   dry_run = FALSE, auto_update = TRUE){
 
   #Request the list of sections to chapter
   res <- make_request(
     url = paste0('https://id.who.int/icd/release/10/', release,"/", site),
     token = token,
-    language = language
+    language = language,
+    auto_update = auto_update,
+    dry_run = dry_run
   )
   req <- run_request(res = res, dry_run = dry_run)
 
@@ -55,14 +57,17 @@
 #'
 #' @export
 .icd10_site_title <- function(token, site, release = 2019,
-                              language = "en", dry_run = FALSE){
+                              language = "en", dry_run = FALSE,
+                              auto_update = TRUE){
 
   #Request the release list to entity
   res <- make_request(
     url = paste0('https://id.who.int/icd/release/10/', release,"/",
                  toupper(site)),
     token = token,
-    language = language
+    language = language,
+    auto_update = auto_update,
+    dry_run = dry_run
   )
   req <- run_request(res = res, dry_run = dry_run)
 
@@ -165,7 +170,8 @@
 #'
 #' @keywords internal
 .icd10_parent <- function(token, site, release = 2019, language = "en",
-                            dry_run = FALSE, codes_only = FALSE){
+                            dry_run = FALSE, codes_only = FALSE,
+                          auto_update = TRUE){
 
 
   #Request the release list to entity
@@ -173,7 +179,9 @@
     url = paste0('https://id.who.int/icd/release/10/', release,"/",
                  toupper(site)),
     token = token,
-    language = language
+    language = language,
+    auto_update = auto_update,
+    dry_run = dry_run
   )
   req <- run_request(res = res, dry_run = dry_run)
 

@@ -4,10 +4,12 @@
 \alias{check_token_expiration_time}
 \title{Check token expiration time}
 \usage{
-check_token_expiration_time(token)
+check_token_expiration_time(token, auto_update = TRUE, dry_run = TRUE)
 }
 \arguments{
 \item{token}{(\code{list}) Access token to the API obtained from \code{\link[=get_token]{get_token()}}}
+
+\item{auto_update}{Attempts to update token automatically}
 }
 \value{
 NULL It checks whether the token has expired or is soon to expire

@@ -9,7 +9,8 @@ icd10_code_search_release(
   code,
   language = "en",
   dry_run = FALSE,
-  validate_code = TRUE
+  validate_code = TRUE,
+  auto_update = TRUE
 )
 }
 \arguments{
@@ -26,6 +27,8 @@ function is mostly for development.}
 
 \item{validate_code}{( \code{logical}) Apply additional functions to validate that
 the ICD-10 code is written as the API needs it.}
+
+\item{auto_update}{Attempts to update token automatically}
 }
 \value{
 A vector of characters with the ICD-10 releases where you can find

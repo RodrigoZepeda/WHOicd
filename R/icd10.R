@@ -17,13 +17,16 @@
 #' #Search for ICD-10 releases
 #' icd10_releases(token, dry_run = TRUE)
 #' @export
-icd10_releases <- function(token, language = "en", dry_run = FALSE){
+icd10_releases <- function(token, language = "en",
+                           dry_run = FALSE, auto_update = TRUE){
 
   #Request the release list to entity
   res <- make_request(
     url = 'https://id.who.int/icd/release/10',
     token = token,
-    language = language
+    language = language,
+    auto_update = auto_update,
+    dry_run = dry_run
   )
   req <- run_request(res = res, dry_run = dry_run)
 
@@ -59,13 +62,15 @@ icd10_releases <- function(token, language = "en", dry_run = FALSE){
 #' icd10_release_info(token, release = 2016, dry_run = TRUE)
 #' @export
 icd10_release_info <- function(token, release = 2019, language = "en",
-                               dry_run = FALSE){
+                               dry_run = FALSE, auto_update = TRUE){
 
   #Request the release list to entity
   res <- make_request(
     url = paste0('https://id.who.int/icd/release/10/', release),
     token = token,
-    language = language
+    language = language,
+    auto_update = auto_update,
+    dry_run = dry_run
   )
   req <- run_request(res = res, dry_run = dry_run)
 
@@ -267,7 +272,7 @@ icd10_codes <- function(token, block, release = 2019, language = "en",
 #'
 #' Searches for a specific ICD-10 code across different releases and returns
 #' the editions of those releases in which the code appears.
-#'
+#' @inheritParams make_request
 #' @inheritParams icd10_code_title
 #'
 #' @returns A vector of characters with the ICD-10 releases where you can find
@@ -281,7 +286,8 @@ icd10_codes <- function(token, block, release = 2019, language = "en",
 #' icd10_code_search_release(token, "NOT-A-CODE")
 #' @export
 icd10_code_search_release <- function(token, code, language = "en",
-                                      dry_run = FALSE, validate_code = TRUE){
+                                      dry_run = FALSE, validate_code = TRUE,
+                                      auto_update = TRUE){
 
   if (validate_code){
     code <- .icd10_validate_code(code)
@@ -291,7 +297,9 @@ icd10_code_search_release <- function(token, code, language = "en",
   res <- make_request(
     url = paste0('https://id.who.int/icd/release/10/', code),
     token = token,
-    language = language
+    language = language,
+    auto_update = auto_update,
+    dry_run = dry_run
   )
 
   releases <- tryCatch({

@@ -4,7 +4,7 @@
 \alias{make_request}
 \title{Make a request for the WHO API}
 \usage{
-make_request(url, token, language = "en")
+make_request(url, token, language = "en", auto_update = TRUE, dry_run = FALSE)
 }
 \arguments{
 \item{url}{(\code{character}) Address for the request}
@@ -14,6 +14,8 @@ make_request(url, token, language = "en")
 \item{language}{(\code{character}) Language for the request. Available languages are
 listed in \url{https://icd.who.int/docs/icd-api/SupportedClassifications/}
 the default is English (\code{language = "en"}).}
+
+\item{auto_update}{Attempts to update token automatically}
 }
 \value{
 An \code{httr2} request for the API

@@ -54,6 +54,8 @@ get_token <- function(client_id, client_secret, dry_run = FALSE){
 
     #Add a creation time to token
     token["creation_time"] <- Sys.time()
+    token["client_id"]     <- client_id
+    token["client_secret"] <- client_secret
   }
 
   return(token)

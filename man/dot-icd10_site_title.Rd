@@ -9,7 +9,8 @@
   site,
   release = 2019,
   language = "en",
-  dry_run = FALSE
+  dry_run = FALSE,
+  auto_update = TRUE
 )
 }
 \arguments{
@@ -27,6 +28,8 @@ the default is English (\code{language = "en"}).}
 
 \item{dry_run}{(\code{logical}) If \code{TRUE} will create the request and generate an empty token. This
 function is mostly for development.}
+
+\item{auto_update}{Attempts to update token automatically}
 }
 \value{
 A character with the title of the site
