@@ -380,7 +380,7 @@ icd10_code_info <- function(token, code, release = 2019, language = "en",
     code_title <- ""
   }
 
-  if (is.na(code_title)){
+  if (!dry_run && is.na(code_title)){
     return(NA)
   } else {
     #Get parents
