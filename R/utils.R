@@ -74,7 +74,8 @@ check_token_expiration_time <- function(token, auto_update = TRUE,
       stop("Token expired. Use `get_token()` to generate a new one.")
     } else if (abs(time_since_creation - token$expires_in) < 3*60){
       if (auto_update){
-        token <- get_token(token["client_id"], token["client_secret"],
+        token <- get_token(client_id = unlist(token["client_id"]),
+                           client_secret = unlist(token["client_secret"]),
                            dry_run = dry_run)
       } else {
         warning(
