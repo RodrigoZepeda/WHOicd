@@ -266,6 +266,7 @@
 
   #Obtain unique entries of the code vector
   uniquevec <- unique(searchvec)
+  uniquevec <- uniquevec[!is.na(uniquevec)]
 
   #Loop through all entries
   res <- lapply(uniquevec, function(x) {
