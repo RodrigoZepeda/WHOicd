@@ -194,26 +194,26 @@ icd10_release_info(token, release = 2016)
 Go to the WHO ICD API website at [https://icd.who.int/icdapi](https://icd.who.int/icdapi)
 and click on `Register` inside the `API Access` section:
 
-![Image of the ICD API website indicating where the Register button for the API lies](images/api1.png)
+![Image of the ICD API website indicating where the Register button for the API lies](man/figures/api1.png)
 
 Fill out your information and verify your email. 
 
-![Image of the API website with the register form](images/api2.png)
+![Image of the API website with the register form](man/figures/api2.png)
 
 Once your email is verified go to the `Login` page. Enter your email and password:
 
-![API login page requesting the user for email and password](images/api2_5.png)
+![API login page requesting the user for email and password](man/figures/api2_5.png)
 
 Read and accept the terms and conditions for the API
 
-![Image of API website indicating where is the button to accept terms and conditions](images/api3.png)
+![Image of API website indicating where is the button to accept terms and conditions](man/figures/api3.png)
 
 Under **API Access** click on `View API access key(s)`
 
-![Image of API website indicating where is the button to View the API access keys](images/api4.png)
+![Image of API website indicating where is the button to View the API access keys](man/figures/api4.png)
 Your client id and secret will be required by the `WHOicd` library. Copy them, they are the equivalent to a user and password for this API. You'll need them to interact with the WHO ICD. **Don't share them!!**
 
-![Image of API website indicating where is the button to View the API access keys](images/api5.png)
+![Image of API website indicating where is the button to View the API access keys](man/figures/api5.png)
 
 ## Support
 

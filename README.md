@@ -332,7 +332,7 @@ Go to the WHO ICD API website at <https://icd.who.int/icdapi> and click
 on `Register` inside the `API Access` section:
 
 <figure>
-<img src="images/api1.png"
+<img src="man/figures/api1.png"
 alt="Image of the ICD API website indicating where the Register button for the API lies" />
 <figcaption aria-hidden="true">Image of the ICD API website indicating
 where the Register button for the API lies</figcaption>
@@ -341,7 +341,7 @@ where the Register button for the API lies</figcaption>
 Fill out your information and verify your email.
 
 <figure>
-<img src="images/api2.png"
+<img src="man/figures/api2.png"
 alt="Image of the API website with the register form" />
 <figcaption aria-hidden="true">Image of the API website with the
 register form</figcaption>
@@ -351,7 +351,7 @@ Once your email is verified go to the `Login` page. Enter your email and
 password:
 
 <figure>
-<img src="images/api2_5.png"
+<img src="man/figures/api2_5.png"
 alt="API login page requesting the user for email and password" />
 <figcaption aria-hidden="true">API login page requesting the user for
 email and password</figcaption>
@@ -360,7 +360,7 @@ email and password</figcaption>
 Read and accept the terms and conditions for the API
 
 <figure>
-<img src="images/api3.png"
+<img src="man/figures/api3.png"
 alt="Image of API website indicating where is the button to accept terms and conditions" />
 <figcaption aria-hidden="true">Image of API website indicating where is
 the button to accept terms and conditions</figcaption>
@@ -369,13 +369,13 @@ the button to accept terms and conditions</figcaption>
 Under **API Access** click on `View API access key(s)`
 
 ![Image of API website indicating where is the button to View the API
-access keys](images/api4.png) Your client id and secret will be required
-by the `WHOicd` library. Copy them, they are the equivalent to a user
-and password for this API. You’ll need them to interact with the WHO
-ICD. **Don’t share them!!**
+access keys](man/figures/api4.png) Your client id and secret will be
+required by the `WHOicd` library. Copy them, they are the equivalent to
+a user and password for this API. You’ll need them to interact with the
+WHO ICD. **Don’t share them!!**
 
 <figure>
-<img src="images/api5.png"
+<img src="man/figures/api5.png"
 alt="Image of API website indicating where is the button to View the API access keys" />
 <figcaption aria-hidden="true">Image of API website indicating where is
 the button to View the API access keys</figcaption>
