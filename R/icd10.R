@@ -517,10 +517,77 @@ icd10_chapter_info_vectorized <- function(token, chapters, release = 2019,
 #' `data.frame` or `tibble`.
 #'
 #' @inheritParams icd10_code_info
-#' @param .data A `data.frame` or a `data.frame`extension such as a `tibble`.
-#' @param var Name of the `data.frame` column with the ICD-10 code that
-#' requires the info search
+#' @inheritParams .icd10_search_tidy
 #'
-#' @export
 NULL
 
+#' @rdname tidysearch
+#' @examples
+#' #Change `dry_run = FALSE` to run the example
+#' token <- get_token("123","123", dry_run = TRUE)
+#' codes_df <- data.frame(Sex = c("M","F","F"), icd10 = c("E14.1","C80.0","F14"))
+#' codes_df |>
+#'     icd10_code_info_tidy("icd10", token, dry_run = TRUE)
+#' @export
+icd10_code_info_tidy <- function(.data, colname, token, release = 2019,
+                                 language = "en", dry_run = FALSE,
+                                 codes_only = FALSE,
+                                 validate_code = TRUE){
+
+  dbf <- .icd10_search_tidy(.data = .data, colname,
+                            searchfun = icd10_code_info,
+                            token = token, release = release,
+                            language = language, dry_run = dry_run,
+                            codes_only = codes_only,
+                            validate_code = validate_code)
+
+  return(dbf)
+
+
+}
+
+#' @rdname tidysearch
+#' @examples
+#' #Change `dry_run = FALSE` to run the example
+#' token <- get_token("123","123", dry_run = TRUE)
+#' codes_df <- data.frame(Sex = c("M","F","F"), icd10 = c("C76-C80","E10-E14","F10-F19"))
+#' codes_df |>
+#'     icd10_block_info_tidy("icd10", token, dry_run = TRUE)
+#' @export
+icd10_block_info_tidy <- function(.data, colname, token, release = 2019,
+                                 language = "en", dry_run = FALSE,
+                                 codes_only = FALSE,
+                                 validate_code = TRUE){
+
+  dbf <- .icd10_search_tidy(.data = .data, colname,
+                            searchfun = icd10_block_info,
+                            token = token, release = release,
+                            language = language, dry_run = dry_run,
+                            codes_only = codes_only)
+
+  return(dbf)
+
+}
+
+#' @rdname tidysearch
+#' @examples
+#' #Change `dry_run = FALSE` to run the example
+#' token    <- get_token("123","123", dry_run = TRUE)
+#' codes_df <- data.frame(Sex = c("M","F","F"), icd10_chapter = c("X", "IV","II"))
+#' codes_df |>
+#'     icd10_chapter_info_tidy("icd10_chapter", token, dry_run = TRUE)
+#' @export
+icd10_chapter_info_tidy <- function(.data, colname, token, release = 2019,
+                                  language = "en", dry_run = FALSE,
+                                  codes_only = FALSE,
+                                  validate_code = TRUE){
+
+  dbf <- .icd10_search_tidy(.data = .data, colname,
+                            searchfun = icd10_chapter_info,
+                            token = token, release = release,
+                            language = language, dry_run = dry_run,
+                            codes_only = codes_only)
+
+  return(dbf)
+
+}

@@ -34,8 +34,8 @@ get_token <- function(client_id, client_secret, dry_run = FALSE){
 
   token_endpoint <- 'https://icdaccessmanagement.who.int/connect/token'
 
-  token_req <- request(base_url = token_endpoint) |>
-    req_body_form(
+  token_req <- httr2::request(base_url = token_endpoint) |>
+    httr2::req_body_form(
       client_id = client_id,
       client_secret = client_secret,
       scope = 'icdapi_access',
@@ -43,14 +43,14 @@ get_token <- function(client_id, client_secret, dry_run = FALSE){
     )
 
   if (dry_run){
-    token_req |> req_dry_run()
+    token_req |> httr2::req_dry_run()
     token <- NULL
   } else {
 
     #Obtain the token
     token <- token_req |>
-      req_perform() |>
-      resp_body_json()
+      httr2::req_perform() |>
+      httr2::resp_body_json()
 
     #Add a creation time to token
     token["creation_time"] <- Sys.time()

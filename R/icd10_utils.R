@@ -260,21 +260,23 @@
 #'
 #' @returns A data frame containing all the parent nodes for the block/code/chapter
 #' @keywords internal
-.icd10_search_vectorized <- function(searchvec, searchfun, token, release,
-                                     language, dry_run, codes_only, ...){
+.icd10_search_vectorized <- function(searchvec, searchfun, token, release = 2019,
+                                     language = "en", dry_run = FALSE,
+                                     codes_only = FALSE, ...){
 
   #Obtain unique entries of the code vector
   uniquevec <- unique(searchvec)
 
   #Loop through all entries
   res <- lapply(uniquevec, function(x) {
+    print(paste0("Searching code: ", x))
     codeinfo <- searchfun(token, x, release = release, language = language,
                           dry_run = dry_run, codes_only = codes_only,
                           ...)
-    if (is.na(codeinfo[1])){
-      codeinfo <- NULL
-    } else {
+    if (!dry_run && any(!is.na(codeinfo))){
       codeinfo <- c(codeinfo, "search_value" = x)
+    } else {
+      codeinfo <- NULL
     }
     return(codeinfo)
   })
@@ -285,10 +287,10 @@
   #Check that it has rows
   if (nrow(dbf) > 0){
     #Join the dataframe
-    dbf <- data.frame(search_value = searchvec) |>
+    dbf <- data.frame("search_value" = searchvec) |>
       dplyr::left_join(
         dbf,
-        by = dplyr::join_by(search_value)
+        by = "search_value"
       ) |>
       dplyr::select(as.symbol("search_value"), dplyr::everything())
   } else {
@@ -299,3 +301,46 @@
   return(dbf)
 }
 
+#' Search info in a tidy way
+#'
+#' @description
+#' Searches for chapter, block or code in a vectorized fashion and returns
+#' into a tidy object (as a `mutate` would)
+#'
+#' @param .data A `data.frame` or a `data.frame`extension such as a `tibble`.
+#' @param colname (`character`) Name of the `data.frame` column with the ICD-10 code/block or chapter
+#' to search
+#' @inheritParams .icd10_search_vectorized
+#'
+#' @returns A data frame containing all the parent nodes for the block/code/chapter
+#' as well as the original dataframe
+#' @keywords internal
+.icd10_search_tidy <- function(.data, colname, searchfun, token, release,
+                               language, dry_run, codes_only, ...){
+
+
+  if (!(colname %in% colnames(.data))){
+    stop(paste0("Column ", colname, " could not be found. Please rename it or",
+                " make sure it exists in data"))
+  }
+
+  #Get the column
+  searchvec <- unlist(.data[colname])
+
+  #Use vectorized search
+  dbf <- .icd10_search_vectorized(searchvec = searchvec, searchfun = searchfun,
+                                  token = token, release = release,
+                                  language = language, dry_run = dry_run,
+                                  codes_only = codes_only, ...)
+
+  #Finalize by joining
+  if (!dry_run && nrow(dbf) > 0){
+    matchvector <- c("search_value")
+    names(matchvector) <- colname
+    .data <- .data |>
+      dplyr::left_join(dbf, by = matchvector)
+  }
+
+  return(.data)
+
+}

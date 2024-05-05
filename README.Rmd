@@ -56,23 +56,80 @@ token <- get_token(CLIENT_ID, CLIENT_SECRET)
 
 ### Obtaining information on codes and blocks
 
-#### Bottom-up search
+#### Bottom-up search 
+
+##### Search one value 
+
 You can obtain all the information from a certain ICD-10 code using the `icd10_code_info` function:
 
 ```{r}
-icd10_code_info(token, "D60.1")
+icd10_code_info(token, "M20")
 ```
 Same information is available for blocks
 
 ```{r}
-icd10_block_info(token, "D60-D64")
+icd10_block_info(token, "M00-M25")
 ```
-
 and for chapters:
 
 ```{r}
 icd10_chapter_info(token, chapter = "VI")
 ```
+
+##### Search one vector
+
+Vectorized versions of those functions exist which allow the user to input a vector of codes
+and obtain a `data.frame`:
+
+```{r, message=FALSE}
+icd10_code_info_vectorized(token, codes = c("E10", "M21","C00.1"))
+```
+
+Additionally for blocks and chapters the following are available:
+
+```{r, results='hide', message=FALSE}
+#For blocks
+icd10_block_info_vectorized(token, blocks = c("E10-E14", "F10-F19", "C76-C80"))
+
+#For chapters
+icd10_chapter_info_vectorized(token, chapters = c("XII","II","V"))
+```
+
+##### Search from a data.frame (tidyverse)
+
+Using the `tidy` functions you can search in a `data.frame` and create new columns
+in the same data.frame.
+
+As an example, consider the following which adds columns to chapters and blocks:
+
+```{r, message=FALSE}
+codes_df <- data.frame(
+  Sex = c("M","F","F"), 
+  icd10 = c("E14.1","C80.0","F14")
+)
+
+codes_df |>
+  icd10_code_info_tidy("icd10", token)
+
+```
+
+Additionally for blocks and chapters the following are available:
+
+```{r, results='hide', message=FALSE}
+#For blocks
+codes_df <- data.frame(Sex = c("M","F","F"), 
+                       icd10_blocks = c("C76-C80","E10-E14","F10-F19"))
+codes_df |>
+     icd10_block_info_tidy("icd10_blocks", token, dry_run = TRUE)
+
+#For chapters
+codes_df <- data.frame(Sex = c("M","F","F"), 
+                       icd10_chapters = c("II","IV","III"))
+codes_df |>
+     icd10_chapter_info_tidy("icd10_chapters", token, dry_run = TRUE)
+
+```
+
 
 #### Top-down search
 
