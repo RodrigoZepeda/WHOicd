@@ -1,6 +1,6 @@
 Package: WHOicd
 Title: Retrieve data from the World Health Organization (WHO) International Classification of Diseases (ICD) API
-Version: 0.1.0
+Version: 0.2.0
 Authors@R: 
     person("Rodrigo", "Zepeda-Tello", , "rzepeda17@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-4471-5270"))
@@ -10,10 +10,12 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
 Suggests: 
+    httptest,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Config/testthat/parallel: false
 Imports: 
+    curl,
     dplyr,
     httr2
 Depends: 

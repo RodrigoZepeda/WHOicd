@@ -9,6 +9,8 @@
 status](https://www.r-pkg.org/badges/version/WHOicd)](https://CRAN.R-project.org/package=WHOicd)
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![Codecov test
+coverage](https://codecov.io/gh/RodrigoZepeda/WHOicd/branch/main/graph/badge.svg)](https://app.codecov.io/gh/RodrigoZepeda/WHOicd?branch=main)
 <!-- badges: end -->
 
 Access the World Health Organization’s (WHO) International
@@ -106,7 +108,7 @@ Vectorized versions of those functions exist which allow the user to
 input a vector of codes and obtain a `data.frame`:
 
 ``` r
-icd10_code_info_vectorized(token, codes = c("E10", "M21","C00.1"))
+icd10_code_info_vectorized(token, codes = c("E10", "M21", "C00.1"))
 #> [1] "Searching code: E10"
 #> [1] "Searching code: M21"
 #> [1] "Searching code: C00.1"
@@ -139,11 +141,11 @@ icd10_code_info_vectorized(token, codes = c("E10", "M21","C00.1"))
 Additionally for blocks and chapters the following are available:
 
 ``` r
-#For blocks
+# For blocks
 icd10_block_info_vectorized(token, blocks = c("E10-E14", "F10-F19", "C76-C80"))
 
-#For chapters
-icd10_chapter_info_vectorized(token, chapters = c("XII","II","V"))
+# For chapters
+icd10_chapter_info_vectorized(token, chapters = c("XII", "II", "V"))
 ```
 
 ##### Search from a data.frame (tidyverse)
@@ -156,8 +158,8 @@ blocks:
 
 ``` r
 codes_df <- data.frame(
-  Sex = c("M","F","F"), 
-  icd10 = c("E14.1","C80.0","F14")
+  Sex = c("M", "F", "F"),
+  icd10 = c("E14.1", "C80.0", "F14")
 )
 
 codes_df |>
@@ -190,19 +192,23 @@ codes_df |>
 Additionally for blocks and chapters the following are available:
 
 ``` r
-#For blocks
-codes_df <- data.frame(Sex = c("M","F","F"), 
-                       icd10_blocks = c("C76-C80","E10-E14","F10-F19"))
+# For blocks
+codes_df <- data.frame(
+  Sex = c("M", "F", "F"),
+  icd10_blocks = c("C76-C80", "E10-E14", "F10-F19")
+)
 codes_df |>
-     icd10_block_info_tidy("icd10_blocks", token, dry_run = TRUE)
+  icd10_block_info_tidy("icd10_blocks", token, dry_run = TRUE)
 #> Warning in .icd10_search_vectorized(searchvec = searchvec, searchfun =
 #> searchfun, : No value of `searchvec` was found
 
-#For chapters
-codes_df <- data.frame(Sex = c("M","F","F"), 
-                       icd10_chapters = c("II","IV","III"))
+# For chapters
+codes_df <- data.frame(
+  Sex = c("M", "F", "F"),
+  icd10_chapters = c("II", "IV", "III")
+)
 codes_df |>
-     icd10_chapter_info_tidy("icd10_chapters", token, dry_run = TRUE)
+  icd10_chapter_info_tidy("icd10_chapters", token, dry_run = TRUE)
 #> Warning in .icd10_search_vectorized(searchvec = searchvec, searchfun =
 #> searchfun, : No value of `searchvec` was found
 ```

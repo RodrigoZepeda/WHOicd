@@ -26,33 +26,31 @@
 #' @export
 #'
 #' @examples
-#' #Substitute CLIENT_ID and CLIENT_SECRET for your ID and secret
-#' CLIENT_ID     <- Sys.getenv("CLIENT_ID")
+#' # Substitute CLIENT_ID and CLIENT_SECRET for your ID and secret
+#' CLIENT_ID <- Sys.getenv("CLIENT_ID")
 #' CLIENT_SECRET <- Sys.getenv("CLIENT_SECRET")
 #' token <- get_token(CLIENT_ID, CLIENT_SECRET, dry_run = TRUE)
-get_token <- function(client_id, client_secret, dry_run = FALSE){
-
-  token_endpoint <- 'https://icdaccessmanagement.who.int/connect/token'
+get_token <- function(client_id, client_secret, dry_run = FALSE) {
+  token_endpoint <- "https://icdaccessmanagement.who.int/connect/token"
 
   token_req <- httr2::request(base_url = token_endpoint) |>
     httr2::req_body_form(
       client_id = client_id,
       client_secret = client_secret,
-      scope = 'icdapi_access',
-      grant_type = 'client_credentials'
+      scope = "icdapi_access",
+      grant_type = "client_credentials"
     )
 
-  if (dry_run){
+  if (dry_run) {
     token_req |> httr2::req_dry_run()
     token <- NULL
   } else {
-
-    #Obtain the token
+    # Obtain the token
     token <- token_req |>
       httr2::req_perform() |>
       httr2::resp_body_json()
 
-    #Add a creation time to token
+    # Add a creation time to token
     token["creation_time"] <- Sys.time()
     token["client_id"]     <- client_id
     token["client_secret"] <- client_secret

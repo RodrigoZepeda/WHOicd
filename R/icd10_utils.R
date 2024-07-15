@@ -17,11 +17,10 @@
 #'
 #' @keywords internal
 .icd10_request_children <- function(token, site, release = 2019, language = "en",
-                                   dry_run = FALSE, auto_update = TRUE){
-
-  #Request the list of sections to chapter
+                                    dry_run = FALSE, auto_update = TRUE) {
+  # Request the list of sections to chapter
   res <- make_request(
-    url = paste0('https://id.who.int/icd/release/10/', release,"/", site),
+    url = paste0("https://id.who.int/icd/release/10/", release, "/", site),
     token = token,
     language = language,
     auto_update = auto_update,
@@ -29,18 +28,18 @@
   )
   req <- run_request(res = res, dry_run = dry_run)
 
-  #Get the chapter numbers
-  if (!is.null(req)){
+  # Get the chapter numbers
+  if (!is.null(req)) {
     releases <- req |> resp_body_json()
     releases <- unlist(releases[grepl("child", names(releases))],
-                       use.names = FALSE)
-    children <- gsub(paste0(".*release/10/",release,"/"), "", releases)
+      use.names = FALSE
+    )
+    children <- gsub(paste0(".*release/10/", release, "/"), "", releases)
   } else {
     children <- NULL
   }
 
   return(children)
-
 }
 
 #' ICD-10 site title
@@ -58,12 +57,13 @@
 #' @export
 .icd10_site_title <- function(token, site, release = 2019,
                               language = "en", dry_run = FALSE,
-                              auto_update = TRUE){
-
-  #Request the release list to entity
+                              auto_update = TRUE) {
+  # Request the release list to entity
   res <- make_request(
-    url = paste0('https://id.who.int/icd/release/10/', release,"/",
-                 toupper(site)),
+    url = paste0(
+      "https://id.who.int/icd/release/10/", release, "/",
+      toupper(site)
+    ),
     token = token,
     language = language,
     auto_update = auto_update,
@@ -71,8 +71,8 @@
   )
   req <- run_request(res = res, dry_run = dry_run)
 
-  #Get the chapter numbers
-  if (!is.null(req)){
+  # Get the chapter numbers
+  if (!is.null(req)) {
     site_name <- req |> resp_body_json()
     site_name <- unlist(site_name["title"])
     site_name <- as.character(site_name["title.@value"])
@@ -81,7 +81,6 @@
   }
 
   return(site_name)
-
 }
 
 #' ICD-10 chapter, section or code child node names
@@ -99,25 +98,27 @@
 #'
 #' @keywords internal
 .icd10_name_children <- function(token, site, release = 2019, language = "en",
-                                   dry_run = FALSE, codes_only = FALSE){
+                                 dry_run = FALSE, codes_only = FALSE) {
+  children <- .icd10_request_children(
+    token = token, site = site,
+    release = release, language = language,
+    dry_run = dry_run
+  )
 
-  children <- .icd10_request_children(token = token, site = site,
-                                      release = release, language = language,
-                                      dry_run = dry_run)
-
-  if (length(children) > 0 & !codes_only){
-
-    #Loop through all chapters and create a data.frame
+  if (length(children) > 0 & !codes_only) {
+    # Loop through all chapters and create a data.frame
     titles <- rep(NA_character_, length(children))
-    for (k in 1:length(children)){
-      titles[k] <- .icd10_site_title(token = token,
-                                     site = children[k],
-                                     release = release,
-                                     language = language,
-                                     dry_run = dry_run)
+    for (k in 1:length(children)) {
+      titles[k] <- .icd10_site_title(
+        token = token,
+        site = children[k],
+        release = release,
+        language = language,
+        dry_run = dry_run
+      )
     }
 
-    #Create data.frame
+    # Create data.frame
     children_df <- data.frame(`codes` = children, `title` = titles)
   } else if (codes_only) {
     children_df <- data.frame(`codes` = children)
@@ -126,7 +127,6 @@
   }
 
   return(children_df)
-
 }
 
 #' ICD-10 code validation
@@ -142,16 +142,15 @@
 #' code
 #'
 #' @keywords internal
-.icd10_validate_code <- function(code){
-
-  #Capitalize
+.icd10_validate_code <- function(code) {
+  # Capitalize
   code <- toupper(code)
 
-  #Check that it has a point if the number of characters for ICD-10 code is
-  #larger than 3
-  if (nchar(code) > 3){
-    if (substring(code, 4, 4) != "."){
-        code <- paste0(substring(code, 1, 3), ".", substring(code, 4))
+  # Check that it has a point if the number of characters for ICD-10 code is
+  # larger than 3
+  if (nchar(code) > 3) {
+    if (substring(code, 4, 4) != ".") {
+      code <- paste0(substring(code, 1, 3), ".", substring(code, 4))
     }
   }
 
@@ -170,14 +169,14 @@
 #'
 #' @keywords internal
 .icd10_parent <- function(token, site, release = 2019, language = "en",
-                            dry_run = FALSE, codes_only = FALSE,
-                          auto_update = TRUE){
-
-
-  #Request the release list to entity
+                          dry_run = FALSE, codes_only = FALSE,
+                          auto_update = TRUE) {
+  # Request the release list to entity
   res <- make_request(
-    url = paste0('https://id.who.int/icd/release/10/', release,"/",
-                 toupper(site)),
+    url = paste0(
+      "https://id.who.int/icd/release/10/", release, "/",
+      toupper(site)
+    ),
     token = token,
     language = language,
     auto_update = auto_update,
@@ -185,19 +184,18 @@
   )
   req <- run_request(res = res, dry_run = dry_run)
 
-  #Get the parent code
-  if (!is.null(req)){
+  # Get the parent code
+  if (!is.null(req)) {
     parent_name <- req |> resp_body_json()
     parent_name <- unlist(parent_name["parent"])
     parent_name <- as.character(parent_name)
-    parent_name <- gsub(paste0('.*release/10/', release,"/?"), "", parent_name)
+    parent_name <- gsub(paste0(".*release/10/", release, "/?"), "", parent_name)
     parent_name <- ifelse(nchar(parent_name) == 0, NA_character_, parent_name)
   } else {
     parent_name <- NA_character_
   }
 
   return(parent_name)
-
 }
 
 
@@ -214,40 +212,42 @@
 #'
 #' @keywords internal
 .icd10_parents <- function(token, site, release = 2019, language = "en",
-                            dry_run = FALSE, codes_only = FALSE){
-
+                           dry_run = FALSE, codes_only = FALSE) {
   parents <- c()
   site_has_parent <- TRUE
-  current_parent  <- site
+  current_parent <- site
 
-  while(site_has_parent){
+  while (site_has_parent) {
+    # Get the parents of the site
+    current_parent <- .icd10_parent(
+      token = token, site = current_parent,
+      release = release, language = language,
+      dry_run = dry_run
+    )
 
-    #Get the parents of the site
-    current_parent  <- .icd10_parent(token = token, site = current_parent,
-                                      release = release, language = language,
-                                      dry_run = dry_run)
-
-    #Indicate whether the parents exist
+    # Indicate whether the parents exist
     site_has_parent <- !is.na(current_parent)
 
-    if (site_has_parent){
-      parents         <- c(parents, "code" = current_parent)
+    if (site_has_parent) {
+      parents <- c(parents, "code" = current_parent)
 
-      #Obtain name of the parent
-      if (!codes_only){
-        name_parent <- .icd10_site_title(token = token, site = current_parent,
-                                         release = release, language = language,
-                                         dry_run = dry_run)
+      # Obtain name of the parent
+      if (!codes_only) {
+        name_parent <- .icd10_site_title(
+          token = token, site = current_parent,
+          release = release, language = language,
+          dry_run = dry_run
+        )
       } else {
         name_parent <- ""
       }
 
-      #Add name of parent to list of names
-      parents <- c(parents, "title" =  name_parent)
+      # Add name of parent to list of names
+      parents <- c(parents, "title" = name_parent)
     }
   }
 
-  if (!dry_run){
+  if (!dry_run) {
     names(parents) <- make.unique(names(parents))
   } else {
     parents <- NULL
@@ -270,19 +270,20 @@
 #' @keywords internal
 .icd10_search_vectorized <- function(searchvec, searchfun, token, release = 2019,
                                      language = "en", dry_run = FALSE,
-                                     codes_only = FALSE, ...){
-
-  #Obtain unique entries of the code vector
+                                     codes_only = FALSE, ...) {
+  # Obtain unique entries of the code vector
   uniquevec <- unique(searchvec)
   uniquevec <- uniquevec[!is.na(uniquevec)]
 
-  #Loop through all entries
+  # Loop through all entries
   res <- lapply(uniquevec, function(x) {
     print(paste0("Searching code: ", x))
-    codeinfo <- searchfun(token, x, release = release, language = language,
-                          dry_run = dry_run, codes_only = codes_only,
-                          ...)
-    if (!dry_run && any(!is.na(codeinfo))){
+    codeinfo <- searchfun(token, x,
+      release = release, language = language,
+      dry_run = dry_run, codes_only = codes_only,
+      ...
+    )
+    if (!dry_run && any(!is.na(codeinfo))) {
       codeinfo <- c(codeinfo, "search_value" = x)
     } else {
       codeinfo <- NULL
@@ -293,9 +294,9 @@
   # Convert each list to a dataframe and bind them together
   dbf <- dplyr::bind_rows(res)
 
-  #Check that it has rows
-  if (nrow(dbf) > 0){
-    #Join the dataframe
+  # Check that it has rows
+  if (nrow(dbf) > 0) {
+    # Join the dataframe
     dbf <- data.frame("search_value" = searchvec) |>
       dplyr::left_join(
         dbf,
@@ -325,25 +326,27 @@
 #' as well as the original dataframe
 #' @keywords internal
 .icd10_search_tidy <- function(.data, colname, searchfun, token, release,
-                               language, dry_run, codes_only, ...){
-
-
-  if (!(colname %in% colnames(.data))){
-    stop(paste0("Column ", colname, " could not be found. Please rename it or",
-                " make sure it exists in data"))
+                               language, dry_run, codes_only, ...) {
+  if (!(colname %in% colnames(.data))) {
+    stop(paste0(
+      "Column ", colname, " could not be found. Please rename it or",
+      " make sure it exists in data"
+    ))
   }
 
-  #Get the column
+  # Get the column
   searchvec <- unlist(.data[colname])
 
-  #Use vectorized search
-  dbf <- .icd10_search_vectorized(searchvec = searchvec, searchfun = searchfun,
-                                  token = token, release = release,
-                                  language = language, dry_run = dry_run,
-                                  codes_only = codes_only, ...)
+  # Use vectorized search
+  dbf <- .icd10_search_vectorized(
+    searchvec = searchvec, searchfun = searchfun,
+    token = token, release = release,
+    language = language, dry_run = dry_run,
+    codes_only = codes_only, ...
+  )
 
-  #Finalize by joining
-  if (!dry_run && nrow(dbf) > 0){
+  # Finalize by joining
+  if (!dry_run && nrow(dbf) > 0) {
     matchvector <- c("search_value")
     names(matchvector) <- colname
     .data <- .data |>
@@ -351,5 +354,4 @@
   }
 
   return(.data)
-
 }

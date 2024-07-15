@@ -5,3 +5,5 @@
 ^\.DS_Store$
 ^images$
 ^docs$
+^codecov\.yml$
+^\.github$
