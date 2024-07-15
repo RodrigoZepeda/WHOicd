@@ -69,17 +69,17 @@ Obtains the title of an ICD-10 block or code, as well
 as the chapter (and block) to which it belongs (in a certain release).
 }
 \examples{
-#Change `dry_run = FALSE` to run the example
-token <- get_token("123","123", dry_run = TRUE)
+# Change `dry_run = FALSE` to run the example
+token <- get_token("123", "123", dry_run = TRUE)
 icd10_block_info(token, "D60-D64", dry_run = TRUE)
 
-#Change `dry_run = FALSE` to run the example
-token <- get_token("123","123", dry_run = TRUE)
+# Change `dry_run = FALSE` to run the example
+token <- get_token("123", "123", dry_run = TRUE)
 icd10_code_info(token, "D60", dry_run = TRUE)
 icd10_code_info(token, "D60.1", dry_run = TRUE)
 
-#Change `dry_run = FALSE` to run the example
-token <- get_token("123","123", dry_run = TRUE)
+# Change `dry_run = FALSE` to run the example
+token <- get_token("123", "123", dry_run = TRUE)
 icd10_chapter_info(token, "II", dry_run = TRUE)
 
 }

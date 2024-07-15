@@ -19,25 +19,24 @@
 #' @export
 icd10_releases <- function(token, language = "en", auto_update = TRUE,
                            dry_run = FALSE) {
-
-  #Request information from the WHO and obtain the body
-  releases <- request_WHO("https://id.who.int/icd/release/10",
-                          token = token,
-                          language = language,
-                          auto_update = auto_update,
-                          dry_run = dry_run,
-                          warning_message_404 = paste("Request not found. Possibly is not",
-                                                      "available for the language specified."))
-
-  #Obtain the years from the release
-  if (!is.null(releases)) {
-    get_release_numbers <- gsub(
-      paste0(".*icd/release/10/"), "",
-      unlist(releases["release"], use.names = FALSE)
-    )
-  } else {
-    get_release_numbers <- NULL
-  }
+  # Request information from the WHO and obtain the body
+  get_release_numbers <- request_WHO("https://id.who.int/icd/release/10",
+    token = token,
+    language = language,
+    auto_update = auto_update,
+    dry_run = dry_run,
+    warning_message_404 = paste(
+      "Request not found. Possibly is not",
+      "available in the requested language or it was incorrectly specified."
+    ),
+    post_process_function = function(x) {
+      gsub(
+        paste0(".*icd/release/10/"),
+        "",
+        unlist(x["release"], use.names = FALSE)
+      )
+    }
+  )
 
   return(get_release_numbers)
 }
@@ -62,24 +61,23 @@ icd10_releases <- function(token, language = "en", auto_update = TRUE,
 #' @export
 icd10_release_info <- function(token, release = 2019, language = "en",
                                dry_run = FALSE, auto_update = TRUE) {
-
   releases <- request_WHO(
     url = paste0("https://id.who.int/icd/release/10/", release),
     token = token,
     language = language,
     auto_update = auto_update,
     dry_run = dry_run,
-    warning_message_404 = paste("Request not found. Possibly release is not",
-                                "available for the language specified."))
-
-  if (!is.null(releases)) {
-    releases <- releases[!grepl("child|parent", names(releases))]
-    releases <- unlist(releases)
-    names(releases) <- gsub("@", "", names(releases))
-  } else {
-    releases <- NULL
-  }
-
+    warning_message_404 = paste(
+      "Request not found. Possibly release is not",
+      "available for the language requested or incorrectly specified."
+    ),
+    post_process_function = function(releases) {
+      releases <- releases[!grepl("child|parent", names(releases))]
+      releases <- unlist(releases)
+      names(releases) <- gsub("@", "", names(releases))
+      return(releases)
+    }
+  )
   return(releases)
 }
 
@@ -109,22 +107,28 @@ NULL
 #' @export
 icd10_chapter_title <- function(token, chapter, release = 2019,
                                 language = "en", dry_run = FALSE) {
-  tryCatch(
-    {
-      # Search for the chapter
-      .icd10_site_title(
-        token = token, site = chapter,
-        release = release, language = language,
-        dry_run = dry_run
-      )
-    },
-
-    # Return NULL if not found anywhere
-    httr2_http_404 = function(cnd) {
-      warning("ICD-10 chapter possibly not found")
-      return(NA_character_)
+  # Request the release list to entity
+  site_name <- request_WHO(
+    url = paste0(
+      "https://id.who.int/icd/release/10/", release, "/",
+      toupper(chapter)
+    ),
+    token = token,
+    language = language,
+    auto_update = auto_update,
+    dry_run = dry_run,
+    warning_message_404 = paste(
+      "Request not found. Possibly any of release, chapter/block/code or language is not",
+      "available or incorrectly specified."
+    ),
+    post_process_function = function(site_name) {
+      site_name <- unlist(site_name["title"])
+      site_name <- as.character(site_name["title.@value"])
+      return(site_name)
     }
   )
+
+  return(site_name)
 }
 
 #' Chapters of ICD-10
@@ -134,7 +138,7 @@ icd10_chapter_title <- function(token, chapter, release = 2019,
 #' @inheritParams make_request
 #' @inheritParams get_token
 #' @inheritParams icd10_release_info
-#' @inheritParams .icd10_name_children
+#' @inheritParams icd10_name_children
 #'
 #' @returns Data frame with all the chapters and their description
 #' @examples
@@ -145,9 +149,12 @@ icd10_chapter_title <- function(token, chapter, release = 2019,
 #' @export
 icd10_chapters <- function(token, release = 2019, language = "en",
                            dry_run = FALSE, codes_only = FALSE) {
-  .icd10_name_children(token,
-    site = "", language = language,
-    release = release, dry_run = dry_run,
+  icd10_name_children(
+    token,
+    site = "",
+    language = language,
+    release = release,
+    dry_run = dry_run,
     codes_only = codes_only
   )
 }
@@ -166,21 +173,12 @@ icd10_chapters <- function(token, release = 2019, language = "en",
 #' @export
 icd10_block_title <- function(token, block, release = 2019,
                               language = "en", dry_run = FALSE) {
-  tryCatch(
-    {
-      # Search for the block
-      .icd10_site_title(
-        token = token, site = block,
-        release = release, language = language,
-        dry_run = dry_run
-      )
-    },
-
-    # Return NULL if not found anywhere
-    httr2_http_404 = function(cnd) {
-      warning("ICD-10 block possibly not found")
-      return(NA_character_)
-    }
+  icd10_chapter_title(
+    token = token,
+    chapter = block,
+    release = release,
+    language = language,
+    dry_run = dry_run
   )
 }
 
@@ -192,7 +190,7 @@ icd10_block_title <- function(token, block, release = 2019,
 #' @inheritParams make_request
 #' @inheritParams get_token
 #' @inheritParams icd10_chapter_title
-#' @inheritParams .icd10_name_children
+#' @inheritParams icd10_name_children
 #'
 #' @returns Data frame with all the blocks inside a chapter and their
 #' description
@@ -204,9 +202,12 @@ icd10_block_title <- function(token, block, release = 2019,
 #' @export
 icd10_blocks <- function(token, chapter, release = 2019, language = "en",
                          dry_run = FALSE, codes_only = FALSE) {
-  .icd10_name_children(
-    token = token, site = chapter, release = release,
-    language = language, dry_run = dry_run,
+  icd10_name_children(
+    token = token,
+    site = chapter,
+    release = release,
+    language = language,
+    dry_run = dry_run,
     codes_only = codes_only
   )
 }
@@ -227,24 +228,16 @@ icd10_blocks <- function(token, chapter, release = 2019, language = "en",
 icd10_code_title <- function(token, code, release = 2019, language = "en",
                              dry_run = FALSE, validate_code = TRUE) {
   if (validate_code) {
-    code <- .icd10_validate_code(code)
+    code <- icd10_validate_code(code)
   }
 
-  tryCatch(
-    {
-      # Search for the code
-      .icd10_site_title(
-        token = token, site = code,
-        release = release, language = language,
-        dry_run = dry_run
-      )
-    },
-
-    # Return NULL if not found anywhere
-    httr2_http_404 = function(cnd) {
-      warning("ICD-10 code possibly not found")
-      return(NA_character_)
-    }
+  # Obtain the code
+  icd10_chapter_title(
+    token = token,
+    chapter = code,
+    release = release,
+    language = language,
+    dry_run = dry_run
   )
 }
 
@@ -256,7 +249,7 @@ icd10_code_title <- function(token, code, release = 2019, language = "en",
 #' @inheritParams make_request
 #' @inheritParams get_token
 #' @inheritParams icd10_block_title
-#' @inheritParams .icd10_name_children
+#' @inheritParams icd10_name_children
 #'
 #' @returns Data frame with all the codes inside a block and their
 #' description
@@ -269,9 +262,12 @@ icd10_code_title <- function(token, code, release = 2019, language = "en",
 #' @export
 icd10_codes <- function(token, block, release = 2019, language = "en",
                         dry_run = FALSE, codes_only = FALSE) {
-  .icd10_name_children(
-    token = token, site = block, release = release,
-    language = language, dry_run = dry_run,
+  icd10_name_children(
+    token = token,
+    site = block,
+    release = release,
+    language = language,
+    dry_run = dry_run,
     codes_only = codes_only
   )
 }
@@ -297,38 +293,27 @@ icd10_code_search_release <- function(token, code, language = "en",
                                       dry_run = FALSE, validate_code = TRUE,
                                       auto_update = TRUE) {
   if (validate_code) {
-    code <- .icd10_validate_code(code)
+    code <- icd10_validate_code(code)
   }
 
   # Request the release list to entity
-  res <- make_request(
+  releases <- request_WHO(
     url = paste0("https://id.who.int/icd/release/10/", code),
     token = token,
     language = language,
     auto_update = auto_update,
-    dry_run = dry_run
+    dry_run = dry_run,
+    warning_message_404 = paste(
+      "Request not found. Possibly chapter/block/code or language is not",
+      "available or incorrectly specified."
+    ),
+    post_process_function = function(releases) {
+      releases <- releases[grepl("release", names(releases))]
+      releases <- unlist(releases, use.names = FALSE)
+      releases <- sub(".*/([^/]+)/[^/]+$", "\\1", releases)
+      return(releases)
+    }
   )
-
-  releases <- tryCatch(
-    {
-      req <- run_request(res = res, dry_run = dry_run)
-
-      if (!is.null(req)) {
-        releases <- req |> resp_body_json()
-        releases <- releases[grepl("release", names(releases))]
-        releases <- unlist(releases, use.names = FALSE)
-        releases <- sub(".*/([^/]+)/[^/]+$", "\\1", releases)
-      } else {
-        releases <- NULL
-      }
-
-      releases
-    },
-
-    # Return NULL if not found anywhere
-    httr2_http_404 = function(cnd) NULL
-  )
-
   return(releases)
 }
 
@@ -369,12 +354,12 @@ icd10_block_info <- function(token, block, release = 2019, language = "en",
     block_title <- ""
   }
 
+  # FIXME: Vectorize this request for the parents
   parent_info <- .icd10_parents(
     token = token, site = block, release = release,
     language = language, dry_run = dry_run,
     codes_only = codes_only
   )
-
 
   # Add block info
   if (!dry_run) {
@@ -400,7 +385,7 @@ icd10_code_info <- function(token, code, release = 2019, language = "en",
                             validate_code = TRUE) {
   # Validate code
   if (validate_code) {
-    code <- .icd10_validate_code(code)
+    code <- icd10_validate_code(code)
   }
 
   # Get block title
@@ -418,7 +403,7 @@ icd10_code_info <- function(token, code, release = 2019, language = "en",
     return(NA)
   } else {
     # Get parents
-    parent_info <- .icd10_parents(
+    parent_info <- icd10_parents(
       token = token, site = code, release = release,
       language = language, dry_run = dry_run,
       codes_only = codes_only

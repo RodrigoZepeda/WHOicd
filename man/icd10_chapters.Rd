@@ -35,8 +35,8 @@ Data frame with all the chapters and their description
 Lists the available chapters for an ICD-10 release.
 }
 \examples{
-#Change `dry_run = FALSE` to run the example
-token <- get_token("123","123", dry_run = TRUE)
+# Change `dry_run = FALSE` to run the example
+token <- get_token("123", "123", dry_run = TRUE)
 icd10_chapters(token, release = 2016, dry_run = TRUE)
 
 }

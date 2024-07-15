@@ -61,16 +61,16 @@ A character with the title of the chapter, block or code
 Obtain the title of an ICD-10 chapter, block or code
 }
 \examples{
-#Change `dry_run = FALSE` to run the example
-token <- get_token("123","123", dry_run = TRUE)
+# Change `dry_run = FALSE` to run the example
+token <- get_token("123", "123", dry_run = TRUE)
 icd10_chapter_title(token, "XII", dry_run = TRUE)
 
-#Change `dry_run = FALSE` to run the example
-token <- get_token("123","123", dry_run = TRUE)
+# Change `dry_run = FALSE` to run the example
+token <- get_token("123", "123", dry_run = TRUE)
 icd10_block_title(token, "L50-L54", dry_run = TRUE)
 
-#Change `dry_run = FALSE` to run the example
-token <- get_token("123","123", dry_run = TRUE)
+# Change `dry_run = FALSE` to run the example
+token <- get_token("123", "123", dry_run = TRUE)
 icd10_code_title(token, "E14.1", dry_run = TRUE)
 
 }

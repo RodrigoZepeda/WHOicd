@@ -16,71 +16,28 @@
 #' @returns A vector with all the children node codes available on `site`.
 #'
 #' @keywords internal
-.icd10_request_children <- function(token, site, release = 2019, language = "en",
+icd10_request_children <- function(token, site, release = 2019, language = "en",
                                     dry_run = FALSE, auto_update = TRUE) {
-  # Request the list of sections to chapter
-  res <- make_request(
+
+  # Request the release list to entity
+  children <- request_WHO(
     url = paste0("https://id.who.int/icd/release/10/", release, "/", site),
     token = token,
     language = language,
     auto_update = auto_update,
-    dry_run = dry_run
+    dry_run = dry_run,
+    warning_message_404 = paste(
+      "Request not found. Possibly any of release, chapter/block/code or language is not",
+      "available or incorrectly specified."
+    ),
+    post_process_function = function(releases){
+      releases <- unlist(releases[grepl("child", names(releases))], use.names = FALSE)
+      releases <- gsub(paste0(".*release/10/", release, "/"), "", releases)
+      return(releases)
+    }
   )
-  req <- run_request(res = res, dry_run = dry_run)
-
-  # Get the chapter numbers
-  if (!is.null(req)) {
-    releases <- req |> resp_body_json()
-    releases <- unlist(releases[grepl("child", names(releases))],
-      use.names = FALSE
-    )
-    children <- gsub(paste0(".*release/10/", release, "/"), "", releases)
-  } else {
-    children <- NULL
-  }
 
   return(children)
-}
-
-#' ICD-10 site title
-#'
-#' @description Obtain the title of an ICD-10 site
-#' as requested to `https://id.who.int/icd/release/10/\{release\}/\{site\}`
-#'
-#' @inheritParams make_request
-#' @inheritParams get_token
-#' @inheritParams icd10_release_info
-#' @inheritParams .icd10_request_children
-#'
-#' @returns A character with the title of the site
-#'
-#' @export
-.icd10_site_title <- function(token, site, release = 2019,
-                              language = "en", dry_run = FALSE,
-                              auto_update = TRUE) {
-  # Request the release list to entity
-  res <- make_request(
-    url = paste0(
-      "https://id.who.int/icd/release/10/", release, "/",
-      toupper(site)
-    ),
-    token = token,
-    language = language,
-    auto_update = auto_update,
-    dry_run = dry_run
-  )
-  req <- run_request(res = res, dry_run = dry_run)
-
-  # Get the chapter numbers
-  if (!is.null(req)) {
-    site_name <- req |> resp_body_json()
-    site_name <- unlist(site_name["title"])
-    site_name <- as.character(site_name["title.@value"])
-  } else {
-    site_name <- NULL
-  }
-
-  return(site_name)
 }
 
 #' ICD-10 chapter, section or code child node names
@@ -89,7 +46,7 @@
 #' `https://id.who.int/icd/release/10/\{release\}/\{site\}`,
 #' lists the child nodes and names them.
 #'
-#' @inheritParams .icd10_request_children
+#' @inheritParams icd10_request_children
 #' @param codes_only Return only the codes without the titles. This option
 #' is faster as it realizes less requests.
 #'
@@ -97,21 +54,22 @@
 #' available at `site` as well as their codes (column `code`).
 #'
 #' @keywords internal
-.icd10_name_children <- function(token, site, release = 2019, language = "en",
+icd10_name_children <- function(token, site, release = 2019, language = "en",
                                  dry_run = FALSE, codes_only = FALSE) {
-  children <- .icd10_request_children(
+
+  children <- icd10_request_children(
     token = token, site = site,
     release = release, language = language,
     dry_run = dry_run
   )
 
   if (length(children) > 0 & !codes_only) {
-    # Loop through all chapters and create a data.frame
+    # Loop through all chapters/blocks/codes and create a data.frame
     titles <- rep(NA_character_, length(children))
     for (k in 1:length(children)) {
-      titles[k] <- .icd10_site_title(
+      titles[k] <- icd10_chapter_title(
         token = token,
-        site = children[k],
+        chapter = children[k],
         release = release,
         language = language,
         dry_run = dry_run
@@ -142,7 +100,7 @@
 #' code
 #'
 #' @keywords internal
-.icd10_validate_code <- function(code) {
+icd10_validate_code <- function(code) {
   # Capitalize
   code <- toupper(code)
 
@@ -163,42 +121,37 @@
 #' `https://id.who.int/icd/release/10/\{release\}/\{site\}`,
 #' and obtains the parent node.
 #'
-#' @inheritParams .icd10_name_children
+#' @inheritParams icd10_name_children
 #'
 #' @returns A character containing the `site` of the parent node.
 #'
 #' @keywords internal
-.icd10_parent <- function(token, site, release = 2019, language = "en",
+icd10_parent <- function(token, site, release = 2019, language = "en",
                           dry_run = FALSE, codes_only = FALSE,
                           auto_update = TRUE) {
+
   # Request the release list to entity
-  res <- make_request(
-    url = paste0(
-      "https://id.who.int/icd/release/10/", release, "/",
-      toupper(site)
-    ),
+  res <- request_WHO(
+    url = paste0("https://id.who.int/icd/release/10/", release, "/", toupper(site)),
     token = token,
     language = language,
     auto_update = auto_update,
-    dry_run = dry_run
+    dry_run = dry_run,
+    warning_message_404 = paste(
+      "Request not found. Possibly any of release, chapter/block/code or language is not",
+      "available or incorrectly specified."
+    ),
+    post_process_function = function(releases){
+      parent_name <- unlist(parent_name["parent"])
+      parent_name <- as.character(parent_name)
+      parent_name <- gsub(paste0(".*release/10/", release, "/?"), "", parent_name)
+      parent_name <- ifelse(nchar(parent_name) == 0, NULL, parent_name)
+      return(parent_name)
+    }
   )
-  req <- run_request(res = res, dry_run = dry_run)
 
-  # Get the parent code
-  if (!is.null(req)) {
-    parent_name <- req |> resp_body_json()
-    parent_name <- unlist(parent_name["parent"])
-    parent_name <- as.character(parent_name)
-    parent_name <- gsub(paste0(".*release/10/", release, "/?"), "", parent_name)
-    parent_name <- ifelse(nchar(parent_name) == 0, NA_character_, parent_name)
-  } else {
-    parent_name <- NA_character_
-  }
-
-  return(parent_name)
+  return(res)
 }
-
-
 
 #' ICD-10 parent search
 #'
@@ -206,12 +159,12 @@
 #' `https://id.who.int/icd/release/10/\{release\}/\{site\}`,
 #' lists the parent nodes and names them (recursively).
 #'
-#' @inheritParams .icd10_name_children
+#' @inheritParams icd10_name_children
 #'
 #' @returns A named vector containing all the parents for the current site
 #'
 #' @keywords internal
-.icd10_parents <- function(token, site, release = 2019, language = "en",
+icd10_parents <- function(token, site, release = 2019, language = "en",
                            dry_run = FALSE, codes_only = FALSE) {
   parents <- c()
   site_has_parent <- TRUE
@@ -219,7 +172,7 @@
 
   while (site_has_parent) {
     # Get the parents of the site
-    current_parent <- .icd10_parent(
+    current_parent <- icd10_parent(
       token = token, site = current_parent,
       release = release, language = language,
       dry_run = dry_run
@@ -233,7 +186,7 @@
 
       # Obtain name of the parent
       if (!codes_only) {
-        name_parent <- .icd10_site_title(
+        name_parent <- icd10_chapter_title(
           token = token, site = current_parent,
           release = release, language = language,
           dry_run = dry_run
@@ -264,7 +217,7 @@
 #' @param searchvec Vector to be searched
 #' @param searchfun Search function to be utilized
 #' @param ... Additional parameters to pass to `searchfun`
-#' @inheritParams .icd10_parents
+#' @inheritParams icd10_parents
 #'
 #' @returns A data frame containing all the parent nodes for the block/code/chapter
 #' @keywords internal
@@ -274,7 +227,7 @@
   # Obtain unique entries of the code vector
   uniquevec <- unique(searchvec)
   uniquevec <- uniquevec[!is.na(uniquevec)]
-
+#FIXME: Try and fix this version
   # Loop through all entries
   res <- lapply(uniquevec, function(x) {
     print(paste0("Searching code: ", x))
@@ -327,6 +280,8 @@
 #' @keywords internal
 .icd10_search_tidy <- function(.data, colname, searchfun, token, release,
                                language, dry_run, codes_only, ...) {
+
+  #FIXME: Try and fix this version
   if (!(colname %in% colnames(.data))) {
     stop(paste0(
       "Column ", colname, " could not be found. Please rename it or",

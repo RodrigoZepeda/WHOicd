@@ -75,19 +75,22 @@ to do so generate two different vectors one for the codes and one for the
 chapters
 }
 \examples{
-#Change `dry_run = FALSE` to run the example
-token <- get_token("123","123", dry_run = TRUE)
+# Change `dry_run = FALSE` to run the example
+token <- get_token("123", "123", dry_run = TRUE)
 icd10_code_info_vectorized(token,
-    codes = c("E14.1","C80.0","F14"),
-    dry_run = TRUE)
-#Change `dry_run = FALSE` to run the example
-token <- get_token("123","123", dry_run = TRUE)
+  codes = c("E14.1", "C80.0", "F14"),
+  dry_run = TRUE
+)
+# Change `dry_run = FALSE` to run the example
+token <- get_token("123", "123", dry_run = TRUE)
 icd10_block_info_vectorized(token,
-    blocks = c("E10-E14", "F10-F19", "C76-C80"),
-    dry_run = TRUE)
-#Change `dry_run = FALSE` to run the example
-token <- get_token("123","123", dry_run = TRUE)
+  blocks = c("E10-E14", "F10-F19", "C76-C80"),
+  dry_run = TRUE
+)
+# Change `dry_run = FALSE` to run the example
+token <- get_token("123", "123", dry_run = TRUE)
 icd10_chapter_info_vectorized(token,
-    chapters = c("XII","II","V"),
-    dry_run = TRUE)
+  chapters = c("XII", "II", "V"),
+  dry_run = TRUE
+)
 }

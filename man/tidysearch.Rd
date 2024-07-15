@@ -70,19 +70,19 @@ Search for information on multiple codes, blocks or chapter in a
 \code{data.frame} or \code{tibble}.
 }
 \examples{
-#Change `dry_run = FALSE` to run the example
-token <- get_token("123","123", dry_run = TRUE)
-codes_df <- data.frame(Sex = c("M","F","F"), icd10 = c("E14.1","C80.0","F14"))
+# Change `dry_run = FALSE` to run the example
+token <- get_token("123", "123", dry_run = TRUE)
+codes_df <- data.frame(Sex = c("M", "F", "F"), icd10 = c("E14.1", "C80.0", "F14"))
 codes_df |>
-    icd10_code_info_tidy("icd10", token, dry_run = TRUE)
-#Change `dry_run = FALSE` to run the example
-token <- get_token("123","123", dry_run = TRUE)
-codes_df <- data.frame(Sex = c("M","F","F"), icd10 = c("C76-C80","E10-E14","F10-F19"))
+  icd10_code_info_tidy("icd10", token, dry_run = TRUE)
+# Change `dry_run = FALSE` to run the example
+token <- get_token("123", "123", dry_run = TRUE)
+codes_df <- data.frame(Sex = c("M", "F", "F"), icd10 = c("C76-C80", "E10-E14", "F10-F19"))
 codes_df |>
-    icd10_block_info_tidy("icd10", token, dry_run = TRUE)
-#Change `dry_run = FALSE` to run the example
-token    <- get_token("123","123", dry_run = TRUE)
-codes_df <- data.frame(Sex = c("M","F","F"), icd10_chapter = c("X", "IV","II"))
+  icd10_block_info_tidy("icd10", token, dry_run = TRUE)
+# Change `dry_run = FALSE` to run the example
+token <- get_token("123", "123", dry_run = TRUE)
+codes_df <- data.frame(Sex = c("M", "F", "F"), icd10_chapter = c("X", "IV", "II"))
 codes_df |>
-    icd10_chapter_info_tidy("icd10_chapter", token, dry_run = TRUE)
+  icd10_chapter_info_tidy("icd10_chapter", token, dry_run = TRUE)
 }

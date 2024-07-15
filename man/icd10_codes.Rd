@@ -40,8 +40,8 @@ Lists the available codes inside a block for an ICD-10
 release.
 }
 \examples{
-#Change `dry_run = FALSE` to run the example
-token <- get_token("123","123", dry_run = TRUE)
+# Change `dry_run = FALSE` to run the example
+token <- get_token("123", "123", dry_run = TRUE)
 icd10_codes(token, "I70-I79", dry_run = TRUE)
 
 }

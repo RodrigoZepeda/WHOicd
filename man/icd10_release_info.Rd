@@ -35,9 +35,9 @@ Obtains publishing information available for a specific
 release of the International Classification of Diseases ICD-10.
 }
 \examples{
-#Change `dry_run = FALSE` to run the example
-token <- get_token("123","123", dry_run = TRUE)
+# Change `dry_run = FALSE` to run the example
+token <- get_token("123", "123", dry_run = TRUE)
 
-#Get title and url for release
+# Get title and url for release
 icd10_release_info(token, release = 2016, dry_run = TRUE)
 }

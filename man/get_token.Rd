@@ -35,8 +35,8 @@ required to use the WHO API.
 }
 
 \examples{
-#Substitute CLIENT_ID and CLIENT_SECRET for your ID and secret
-CLIENT_ID     <- Sys.getenv("CLIENT_ID")
+# Substitute CLIENT_ID and CLIENT_SECRET for your ID and secret
+CLIENT_ID <- Sys.getenv("CLIENT_ID")
 CLIENT_SECRET <- Sys.getenv("CLIENT_SECRET")
 token <- get_token(CLIENT_ID, CLIENT_SECRET, dry_run = TRUE)
 }
