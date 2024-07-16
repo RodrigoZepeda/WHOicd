@@ -128,3 +128,33 @@ name_df <- function(df) {
 
   return(df)
 }
+
+#' Generate a duration period for the DORIS system in ISO 8601 format
+#'
+#' Creates a duration period for the DORIS system in ISO-8601 format
+#' from inputting years, months, weeks, days, hours, minutes, and seconds
+#'
+#' @param years Number of years in the duration (default = 0).
+#' @param months Number of months in the duration (default = 0).
+#' @param weeks Number of weeks in the duration (default = 0).
+#' @param days Number of days in the duration (default = 0).
+#' @param hours Number of hours in the duration (default = 0).
+#' @param minutes Number of minutes in the duration (default = 0).
+#' @param seconds Number of seconds in the duration (default = 0).
+#'
+#' @return A time duration formatted according to ISO-8601
+#' @examples
+#'
+#' #A duration with 24 years
+#' iso_8601(years = 24)
+#'
+#' #A duration with 6 months, 2 weeks and 5 days
+#' iso_8601(months = 6, weeks = 2, days = 5)
+#'
+#' @export
+iso_8601 <- function(years = 0, months = 0, weeks = 0, days = 0, hours = 0, minutes = 0, seconds = 0){
+
+  paste0("P", floor(years), "Y", floor(months), "M", floor(weeks), "W", floor(days), "D",
+         "T", floor(hours), "H", floor(minutes), "M", floor(seconds), "S")
+
+}

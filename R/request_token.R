@@ -24,10 +24,8 @@
 #' @export
 #'
 #' @examples
-#' # Substitute CLIENT_ID and CLIENT_SECRET for your ID and secret
-#' if (Sys.getenv("CLIENT_ID") != "" & Sys.getenv("CLIENT_SECRET") != ""){
-#'   CLIENT_ID <- Sys.getenv("CLIENT_ID")
-#'   CLIENT_SECRET <- Sys.getenv("CLIENT_SECRET")
+#' #Assuming that the CLIENT ID and CLIENT SECRET are set up. Substitute accordingly
+#' if (exists("CLIENT_ID") & exists("CLIENT_SECRET")) {
 #'   token <- get_token(CLIENT_ID, CLIENT_SECRET)
 #' }
 get_token <- function(client_id, client_secret) {
