@@ -19,7 +19,7 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">WHOicd</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.0</span>
       </span>
     </div>
 
@@ -51,7 +51,7 @@
 </div>
 <!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="contents col-md-9">
@@ -99,7 +99,7 @@
 </h5>
 <p>You can obtain all the information from a certain ICD-10 code using the <code>icd10_code_info</code> function:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/icd10info.html">icd10_code_info</a></span><span class="op">(</span><span class="va">token</span>, <span class="st">"M20"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu">icd10_code_info</span><span class="op">(</span><span class="va">token</span>, <span class="st">"M20"</span><span class="op">)</span></span>
 <span><span class="co">#&gt;                                                           code </span></span>
 <span><span class="co">#&gt;                                                          "M20" </span></span>
 <span><span class="co">#&gt;                                                     code_title </span></span>
@@ -118,7 +118,7 @@
 <span><span class="co">#&gt; "Diseases of the musculoskeletal system and connective tissue"</span></span></code></pre></div>
 <p>Same information is available for blocks</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/icd10info.html">icd10_block_info</a></span><span class="op">(</span><span class="va">token</span>, <span class="st">"M00-M25"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu">icd10_block_info</span><span class="op">(</span><span class="va">token</span>, <span class="st">"M00-M25"</span><span class="op">)</span></span>
 <span><span class="co">#&gt;                                                          block </span></span>
 <span><span class="co">#&gt;                                                      "M00-M25" </span></span>
 <span><span class="co">#&gt;                                                    block_title </span></span>
@@ -129,7 +129,7 @@
 <span><span class="co">#&gt; "Diseases of the musculoskeletal system and connective tissue"</span></span></code></pre></div>
 <p>and for chapters:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/icd10info.html">icd10_chapter_info</a></span><span class="op">(</span><span class="va">token</span>, chapter <span class="op">=</span> <span class="st">"VI"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu">icd10_chapter_info</span><span class="op">(</span><span class="va">token</span>, chapter <span class="op">=</span> <span class="st">"VI"</span><span class="op">)</span></span>
 <span><span class="co">#&gt;                          chapter                    chapter_title </span></span>
 <span><span class="co">#&gt;                             "VI" "Diseases of the nervous system"</span></span></code></pre></div>
 </div>
@@ -138,7 +138,7 @@
 </h5>
 <p>Vectorized versions of those functions exist which allow the user to input a vector of codes and obtain a <code>data.frame</code>:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/vectorsearch.html">icd10_code_info_vectorized</a></span><span class="op">(</span><span class="va">token</span>, codes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"E10"</span>, <span class="st">"M21"</span>,<span class="st">"C00.1"</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu">icd10_code_info_vectorized</span><span class="op">(</span><span class="va">token</span>, codes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"E10"</span>, <span class="st">"M21"</span>, <span class="st">"C00.1"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "Searching code: E10"</span></span>
 <span><span class="co">#&gt; [1] "Searching code: M21"</span></span>
 <span><span class="co">#&gt; [1] "Searching code: C00.1"</span></span>
@@ -168,11 +168,11 @@
 <span><span class="co">#&gt; 3 Malignant neoplasms of lip, oral cavity and pharynx</span></span></code></pre></div>
 <p>Additionally for blocks and chapters the following are available:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#For blocks</span></span>
-<span><span class="fu"><a href="reference/vectorsearch.html">icd10_block_info_vectorized</a></span><span class="op">(</span><span class="va">token</span>, blocks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"E10-E14"</span>, <span class="st">"F10-F19"</span>, <span class="st">"C76-C80"</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co"># For blocks</span></span>
+<span><span class="fu">icd10_block_info_vectorized</span><span class="op">(</span><span class="va">token</span>, blocks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"E10-E14"</span>, <span class="st">"F10-F19"</span>, <span class="st">"C76-C80"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co">#For chapters</span></span>
-<span><span class="fu"><a href="reference/vectorsearch.html">icd10_chapter_info_vectorized</a></span><span class="op">(</span><span class="va">token</span>, chapters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"XII"</span>,<span class="st">"II"</span>,<span class="st">"V"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="co"># For chapters</span></span>
+<span><span class="fu">icd10_chapter_info_vectorized</span><span class="op">(</span><span class="va">token</span>, chapters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"XII"</span>, <span class="st">"II"</span>, <span class="st">"V"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level5">
 <h5 id="search-from-a-dataframe-tidyverse">Search from a data.frame (tidyverse)<a class="anchor" aria-label="anchor" href="#search-from-a-dataframe-tidyverse"></a>
@@ -181,12 +181,12 @@
 <p>As an example, consider the following which adds columns to chapters and blocks:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">codes_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span>  Sex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"M"</span>,<span class="st">"F"</span>,<span class="st">"F"</span><span class="op">)</span>, </span>
-<span>  icd10 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"E14.1"</span>,<span class="st">"C80.0"</span>,<span class="st">"F14"</span><span class="op">)</span></span>
+<span>  Sex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"M"</span>, <span class="st">"F"</span>, <span class="st">"F"</span><span class="op">)</span>,</span>
+<span>  icd10 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"E14.1"</span>, <span class="st">"C80.0"</span>, <span class="st">"F14"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">codes_df</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/tidysearch.html">icd10_code_info_tidy</a></span><span class="op">(</span><span class="st">"icd10"</span>, <span class="va">token</span><span class="op">)</span></span>
+<span>  <span class="fu">icd10_code_info_tidy</span><span class="op">(</span><span class="st">"icd10"</span>, <span class="va">token</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "Searching code: E14.1"</span></span>
 <span><span class="co">#&gt; [1] "Searching code: C80.0"</span></span>
 <span><span class="co">#&gt; [1] "Searching code: F14"</span></span>
@@ -212,19 +212,23 @@
 <span><span class="co">#&gt; 3                                                                &lt;NA&gt;</span></span></code></pre></div>
 <p>Additionally for blocks and chapters the following are available:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#For blocks</span></span>
-<span><span class="va">codes_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>Sex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"M"</span>,<span class="st">"F"</span>,<span class="st">"F"</span><span class="op">)</span>, </span>
-<span>                       icd10_blocks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"C76-C80"</span>,<span class="st">"E10-E14"</span>,<span class="st">"F10-F19"</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co"># For blocks</span></span>
+<span><span class="va">codes_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  Sex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"M"</span>, <span class="st">"F"</span>, <span class="st">"F"</span><span class="op">)</span>,</span>
+<span>  icd10_blocks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"C76-C80"</span>, <span class="st">"E10-E14"</span>, <span class="st">"F10-F19"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
 <span><span class="va">codes_df</span> <span class="op">|&gt;</span></span>
-<span>     <span class="fu"><a href="reference/tidysearch.html">icd10_block_info_tidy</a></span><span class="op">(</span><span class="st">"icd10_blocks"</span>, <span class="va">token</span>, dry_run <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>  <span class="fu">icd10_block_info_tidy</span><span class="op">(</span><span class="st">"icd10_blocks"</span>, <span class="va">token</span>, dry_run <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning in .icd10_search_vectorized(searchvec = searchvec, searchfun =</span></span>
 <span><span class="co">#&gt; searchfun, : No value of `searchvec` was found</span></span>
 <span></span>
-<span><span class="co">#For chapters</span></span>
-<span><span class="va">codes_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>Sex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"M"</span>,<span class="st">"F"</span>,<span class="st">"F"</span><span class="op">)</span>, </span>
-<span>                       icd10_chapters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"II"</span>,<span class="st">"IV"</span>,<span class="st">"III"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co"># For chapters</span></span>
+<span><span class="va">codes_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  Sex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"M"</span>, <span class="st">"F"</span>, <span class="st">"F"</span><span class="op">)</span>,</span>
+<span>  icd10_chapters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"II"</span>, <span class="st">"IV"</span>, <span class="st">"III"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
 <span><span class="va">codes_df</span> <span class="op">|&gt;</span></span>
-<span>     <span class="fu"><a href="reference/tidysearch.html">icd10_chapter_info_tidy</a></span><span class="op">(</span><span class="st">"icd10_chapters"</span>, <span class="va">token</span>, dry_run <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>  <span class="fu">icd10_chapter_info_tidy</span><span class="op">(</span><span class="st">"icd10_chapters"</span>, <span class="va">token</span>, dry_run <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning in .icd10_search_vectorized(searchvec = searchvec, searchfun =</span></span>
 <span><span class="co">#&gt; searchfun, : No value of `searchvec` was found</span></span></code></pre></div>
 </div>
@@ -268,7 +272,7 @@
 </h3>
 <p>Not all codes are available across releases. For example, the <code>C80.0</code> code was not in the <code>2008</code> release of the ICD-10. Hence if you are using that release you will not find it:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/icd10info.html">icd10_code_info</a></span><span class="op">(</span><span class="va">token</span>, code <span class="op">=</span> <span class="st">"C80.0"</span>, release <span class="op">=</span> <span class="fl">2008</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu">icd10_code_info</span><span class="op">(</span><span class="va">token</span>, code <span class="op">=</span> <span class="st">"C80.0"</span>, release <span class="op">=</span> <span class="fl">2008</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning in value[[3L]](cond): ICD-10 code possibly not found</span></span>
 <span><span class="co">#&gt; [1] NA</span></span></code></pre></div>
 <p>However you can use the <code>icd10_code_search_release</code> to search for a release containing that code:</p>
@@ -277,7 +281,7 @@
 <span><span class="co">#&gt; [1] "2019" "2016" "2010"</span></span></code></pre></div>
 <p>and use one of those releases instead:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/icd10info.html">icd10_code_info</a></span><span class="op">(</span><span class="va">token</span>, code <span class="op">=</span> <span class="st">"C80.0"</span>, release <span class="op">=</span> <span class="fl">2016</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu">icd10_code_info</span><span class="op">(</span><span class="va">token</span>, code <span class="op">=</span> <span class="st">"C80.0"</span>, release <span class="op">=</span> <span class="fl">2016</span><span class="op">)</span></span>
 <span><span class="co">#&gt;                                                                code_1 </span></span>
 <span><span class="co">#&gt;                                                               "C80.0" </span></span>
 <span><span class="co">#&gt;                                                          code_title_1 </span></span>
@@ -386,6 +390,7 @@ Image of API website indicating where is the button to View the API access keys
 <ul class="list-unstyled">
 <li><a href="https://CRAN.R-project.org/package=WHOicd" class="external-link"><img src="https://www.r-pkg.org/badges/version/WHOicd" alt="CRAN status"></a></li>
 <li><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
+<li><a href="https://app.codecov.io/gh/RodrigoZepeda/WHOicd?branch=main" class="external-link"><img src="https://codecov.io/gh/RodrigoZepeda/WHOicd/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
 </ul>
 </div>
 
@@ -400,16 +405,16 @@ Image of API website indicating where is the button to View the API access keys
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
 </div>
 
       </footer>
 </div>
 
-  
 
 
-  
+
+
 
   </body>
 </html>

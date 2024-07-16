@@ -4,7 +4,7 @@ release of the International Classification of Diseases ICD-10."><!-- mathjax --
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--></head><body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -18,7 +18,7 @@ release of the International Classification of Diseases ICD-10."><!-- mathjax --
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">WHOicd</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.0</span>
       </span>
     </div>
 
@@ -30,13 +30,13 @@ release of the International Classification of Diseases ICD-10."><!-- mathjax --
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Request information on a certain ICD-10 release</h1>
-    
+
     <div class="hidden name"><code>icd10_release_info.Rd</code></div>
     </div>
 
@@ -46,63 +46,60 @@ release of the International Classification of Diseases ICD-10.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">icd10_release_info</span><span class="op">(</span><span class="va">token</span>, release <span class="op">=</span> <span class="fl">2019</span>, language <span class="op">=</span> <span class="st">"en"</span>, dry_run <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">icd10_release_info</span><span class="op">(</span><span class="va">token</span>, release <span class="op">=</span> <span class="fl">2019</span>, language <span class="op">=</span> <span class="st">"en"</span>, auto_update <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>token</dt>
+
+
+<dl><dt id="arg-token">token<a class="anchor" aria-label="anchor" href="#arg-token"></a></dt>
 <dd><p>(<code>list</code>) Access token to the API obtained from <code><a href="get_token.html">get_token()</a></code></p></dd>
 
 
-<dt>release</dt>
+<dt id="arg-release">release<a class="anchor" aria-label="anchor" href="#arg-release"></a></dt>
 <dd><p>(<code>character</code>) ICD-10 release (<code>default = 2019</code>). Use
 <code><a href="icd10_releases.html">icd10_releases()</a></code> to get all available releases.</p></dd>
 
 
-<dt>language</dt>
+<dt id="arg-language">language<a class="anchor" aria-label="anchor" href="#arg-language"></a></dt>
 <dd><p>(<code>character</code>) Language for the request. Available languages are
 listed in <a href="https://icd.who.int/docs/icd-api/SupportedClassifications/" class="external-link">https://icd.who.int/docs/icd-api/SupportedClassifications/</a>
 the default is English (<code>language = "en"</code>).</p></dd>
 
 
-<dt>dry_run</dt>
-<dd><p>(<code>logical</code>) If <code>TRUE</code> will create the request and generate an empty token. This
-function is mostly for development.</p></dd>
+<dt id="arg-auto-update">auto_update<a class="anchor" aria-label="anchor" href="#arg-auto-update"></a></dt>
+<dd><p>Attempts to update token automatically</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>vector with information on the publishing date and title</p>
+    <p>vector with information on the publishing date and title</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">#Change `dry_run = FALSE` to run the example</span></span></span>
-<span class="r-in"><span><span class="va">token</span> <span class="op">&lt;-</span> <span class="fu"><a href="get_token.html">get_token</a></span><span class="op">(</span><span class="st">"123"</span>,<span class="st">"123"</span>, dry_run <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> POST /connect/token HTTP/1.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Host</span>: icdaccessmanagement.who.int</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">User-Agent</span>: httr2/1.0.1 r-curl/5.2.1 libcurl/8.4.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Accept</span>: */*</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Accept-Encoding</span>: deflate, gzip</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Content-Type</span>: application/x-www-form-urlencoded</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Content-Length</span>: 81</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> client_id=123&amp;client_secret=123&amp;scope=icdapi_access&amp;grant_type=client_credentials</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">#Assuming that the CLIENT ID and CLIENT SECRET are set up. Substitute accordingly</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/exists.html" class="external-link">exists</a></span><span class="op">(</span><span class="st">"CLIENT_ID"</span><span class="op">)</span> <span class="op">&amp;</span> <span class="fu"><a href="https://rdrr.io/r/base/exists.html" class="external-link">exists</a></span><span class="op">(</span><span class="st">"CLIENT_SECRET"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="co">#Generated token</span></span></span>
+<span class="r-in"><span>  <span class="va">token</span> <span class="op">&lt;-</span> <span class="fu"><a href="get_token.html">get_token</a></span><span class="op">(</span><span class="va">CLIENT_ID</span>, <span class="va">CLIENT_SECRET</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#Get title and url for release</span></span></span>
-<span class="r-in"><span><span class="fu">icd10_release_info</span><span class="op">(</span><span class="va">token</span>, release <span class="op">=</span> <span class="fl">2016</span>, dry_run <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> GET /icd/release/10/2016 HTTP/1.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Host</span>: id.who.int</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">User-Agent</span>: httr2/1.0.1 r-curl/5.2.1 libcurl/8.4.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Accept-Encoding</span>: deflate, gzip</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Accept</span>: application/json</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Accept-Language</span>: en</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">API-Version</span>: v2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+<span class="r-in"><span>  <span class="co"># Get title and url for release</span></span></span>
+<span class="r-in"><span>  <span class="fu">icd10_release_info</span><span class="op">(</span><span class="va">token</span>, release <span class="op">=</span> <span class="fl">2016</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                                    context </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                   "http://id.who.int/icd/contexts/contextForTopLevel.json" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                                         id </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                    "http://id.who.int/icd/release/10/2016" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                             title.language </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                                       "en" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                                title.value </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "International Statistical Classification of Diseases and Related Health Problems 10th Revision (ICD-10) Version for 2016" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                                releaseDate </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                               "2016-11-01" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                                 browserUrl </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                 "http://apps.who.int/classifications/icd10/browse/2016/en" </span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -117,15 +114,15 @@ function is mostly for development.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
 </div>
 
       </footer></div>
 
-  
 
 
-  
+
+
 
   </body></html>
 
