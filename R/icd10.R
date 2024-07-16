@@ -89,23 +89,15 @@ icd10_release_info <- function(token, release = 2019, language = "en", auto_upda
 }
 
 #' @title ICD-10 titles
-#' @name titles
 #'
 #' @description Obtain the title of an ICD-10 chapter, block or code
 #'
 #' @inheritParams make_request
 #' @inheritParams get_token
 #' @inheritParams icd10_release_info
-#' @param chapter (`character`) ICD-10 chapter as a roman numeral
-#' @param block ICD-10 section codes (hyphenated section codes)
-#' @param code (`character`) ICD-10 code
-#' @param validate_code ( `logical`) Apply additional functions to validate that
-#' the ICD-10 code is written as the API needs it.
+#' @param search_val (`character`) ICD-10 chapter, block or code for searching.
 #'
 #' @returns A character with the title of the chapter, block or code
-NULL
-
-#' @rdname titles
 #' @examples
 #' #Assuming that the CLIENT ID and CLIENT SECRET are set up. Substitute accordingly
 #' if (exists("CLIENT_ID") & exists("CLIENT_SECRET")) {
@@ -113,31 +105,51 @@ NULL
 #'   token <- get_token(CLIENT_ID, CLIENT_SECRET)
 #'
 #'   # Get title and url for release
-#'   icd10_chapter_title(token, "XII")
+#'   icd10_title(token, "XII")
+#'
+#'   #Do multiple at once
+#'   icd10_title(token, c("XII","IX","XII","II","D50","D50.1"))
 #' }
 #'
 #' @export
-icd10_chapter_title <- function(token, chapter, release = 2019, language = "en",
-                                auto_update = TRUE) {
+icd10_title <- function(token, search_val, release = 2019, language = "en",
+                                auto_update = TRUE, as_data_frame = TRUE) {
 
-  # Request the release list to entity
-  site_name <- request_WHO(
-    url = paste0("https://id.who.int/icd/release/10/", release, "/", toupper(chapter)),
-    token = token,
-    language = language,
-    auto_update = auto_update,
-    warning_message_404 = paste(
-      "Request not found. Possibly any of release, chapter/block/code or language is not",
-      "available or incorrectly specified."
-    ),
-    post_process_function = function(site_name) {
-      site_name <- unlist(site_name["title"])
-      site_name <- as.character(site_name["title.@value"])
-      return(site_name)
-    }
-  )
 
-  return(site_name)
+  to_search <- unique(search_val)
+  searched  <- c()
+  for (val in to_search){
+
+    # Request the release list to entity
+    site_name <- request_WHO(
+      url = paste0("https://id.who.int/icd/release/10/", release, "/", toupper(val)),
+      token = token,
+      language = language,
+      auto_update = auto_update,
+      warning_message_404 = paste(
+        "Request not found. Possibly any of release, chapter/block/code or language is not",
+        "available or incorrectly specified."
+      ),
+      post_process_function = function(site_name) {
+        site_name <- unlist(site_name["title"])
+        site_name <- as.character(site_name["title.@value"])
+        return(site_name)
+      }
+    )
+
+    searched <- c(searched, site_name)
+  }
+
+  if (as_data_frame){
+    value_searched <- cbind(to_search, data.frame(title = searched))
+    value_searched <- data.frame(searched = search_val) |>
+      merge(value_searched, by.x = "searched", by.y = "to_search", all.x = TRUE, sort = FALSE)
+
+  } else {
+    value_searched <- searched
+  }
+
+  return(value_searched)
 }
 
 #' Chapters of ICD-10
@@ -172,31 +184,6 @@ icd10_chapters <- function(token, release = 2019, language = "en", codes_only = 
 }
 
 
-#' @inheritParams make_request
-#' @inheritParams get_token
-#' @inheritParams icd10_release_info
-#'
-#' @examples
-#' #Assuming that the CLIENT ID and CLIENT SECRET are set up. Substitute accordingly
-#' if (exists("CLIENT_ID") & exists("CLIENT_SECRET")) {
-#'   #Generated token
-#'   token <- get_token(CLIENT_ID, CLIENT_SECRET)
-#'
-#'   # Get title and url for release
-#'   icd10_block_title(token, "L50-L54")
-#' }
-#'
-#' @rdname titles
-#' @export
-icd10_block_title <- function(token, block, release = 2019, language = "en") {
-  icd10_chapter_title(
-    token = token,
-    chapter = block,
-    release = release,
-    language = language,
-  )
-}
-
 #' Block of ICD-10 Chapter
 #'
 #' @description Lists the available sections inside a chapter for an ICD-10
@@ -204,8 +191,9 @@ icd10_block_title <- function(token, block, release = 2019, language = "en") {
 #'
 #' @inheritParams make_request
 #' @inheritParams get_token
-#' @inheritParams icd10_chapter_title
+#' @inheritParams icd10_title
 #' @inheritParams icd10_name_children
+#' @param chapter Roman numeral indicating the chapter of interest to obtain the blocks from.
 #'
 #' @returns Data frame with all the blocks inside a chapter and their
 #' description
@@ -231,38 +219,6 @@ icd10_blocks <- function(token, chapter, release = 2019, language = "en", codes_
   )
 }
 
-#' @inheritParams icd10_block_title
-#' @inheritParams make_request
-#' @inheritParams get_token
-#' @inheritParams icd10_release_info
-#'
-#' @rdname titles
-#'
-#' @examples
-#' #Assuming that the CLIENT ID and CLIENT SECRET are set up. Substitute accordingly
-#' if (exists("CLIENT_ID") & exists("CLIENT_SECRET")) {
-#'   #Generated token
-#'   token <- get_token(CLIENT_ID, CLIENT_SECRET)
-#'
-#'   # Get title and url for release
-#'   icd10_code_title(token, "E14.1")
-#' }
-#'
-#' @export
-icd10_code_title <- function(token, code, release = 2019, language = "en", validate_code = TRUE) {
-  if (validate_code) {
-    code <- icd10_validate_code(code)
-  }
-
-  # Obtain the code
-  icd10_chapter_title(
-    token = token,
-    chapter = code,
-    release = release,
-    language = language
-  )
-}
-
 #' Codes of ICD-10 block
 #'
 #' @description Lists the available codes inside a block for an ICD-10
@@ -270,11 +226,15 @@ icd10_code_title <- function(token, code, release = 2019, language = "en", valid
 #'
 #' @inheritParams make_request
 #' @inheritParams get_token
-#' @inheritParams icd10_block_title
+#' @inheritParams icd10_title
 #' @inheritParams icd10_name_children
 #'
 #' @returns Data frame with all the codes inside a block and their
 #' description
+#'
+#' @param block Character with range of values that conform an ICD-10 code (such as `"I70-I79"`).
+#' Note that not all possible ranges are blocks. See [icd10_blocks()] to list all blocks for a
+#' chapter.
 #'
 #' @examples
 #' #Assuming that the CLIENT ID and CLIENT SECRET are set up. Substitute accordingly
@@ -302,7 +262,9 @@ icd10_codes <- function(token, block, release = 2019, language = "en", codes_onl
 #' Searches for a specific ICD-10 code across different releases and returns
 #' the editions of those releases in which the code appears.
 #' @inheritParams make_request
-#' @inheritParams icd10_code_title
+#' @inheritParams icd10_title
+#' @param code ICD-10 code (can be 3 or 4 digit) to search.
+#' @param validate_code Check that value seems a valid ICD-10 code before querying the API.
 #'
 #' @returns A vector of characters with the ICD-10 releases where you can find
 #' the ICD-10 code

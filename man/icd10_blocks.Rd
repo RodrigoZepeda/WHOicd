@@ -15,7 +15,7 @@ icd10_blocks(
 \arguments{
 \item{token}{(\code{list}) Access token to the API obtained from \code{\link[=get_token]{get_token()}}}
 
-\item{chapter}{(\code{character}) ICD-10 chapter as a roman numeral}
+\item{chapter}{Roman numeral indicating the chapter of interest to obtain the blocks from.}
 
 \item{release}{(\code{character}) ICD-10 release (\code{default = 2019}). Use
 \code{\link[=icd10_releases]{icd10_releases()}} to get all available releases.}

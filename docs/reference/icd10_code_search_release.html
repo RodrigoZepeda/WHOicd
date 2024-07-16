@@ -26,6 +26,9 @@ the editions of those releases in which the code appears."><!-- mathjax --><scri
       <ul class="nav navbar-nav"><li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul><ul class="nav navbar-nav navbar-right"></ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -64,7 +67,7 @@ the editions of those releases in which the code appears.</p>
 
 
 <dt id="arg-code">code<a class="anchor" aria-label="anchor" href="#arg-code"></a></dt>
-<dd><p>(<code>character</code>) ICD-10 code</p></dd>
+<dd><p>ICD-10 code (can be 3 or 4 digit) to search.</p></dd>
 
 
 <dt id="arg-language">language<a class="anchor" aria-label="anchor" href="#arg-language"></a></dt>
@@ -74,8 +77,7 @@ the default is English (<code>language = "en"</code>).</p></dd>
 
 
 <dt id="arg-validate-code">validate_code<a class="anchor" aria-label="anchor" href="#arg-validate-code"></a></dt>
-<dd><p>( <code>logical</code>) Apply additional functions to validate that
-the ICD-10 code is written as the API needs it.</p></dd>
+<dd><p>Check that value seems a valid ICD-10 code before querying the API.</p></dd>
 
 
 <dt id="arg-auto-update">auto_update<a class="anchor" aria-label="anchor" href="#arg-auto-update"></a></dt>

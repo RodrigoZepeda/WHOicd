@@ -35,12 +35,13 @@
     for (val in search_values){
 
       #Get title of current disease
-      title_val <- icd10_chapter_title(
+      title_val <- icd10_title(
         token = token,
-        chapter = val,
+        search_val = val,
         release = release,
         language = language,
-        auto_update = auto_update)
+        auto_update = auto_update,
+        as_data_frame = FALSE)
       titles <- c(titles, title_val)
 
       #Get parents

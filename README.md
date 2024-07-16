@@ -40,177 +40,53 @@ using the `get_token` function:
 
 ``` r
 library(WHOicd)
+
+#Substitute CLIENT_ID and CLIENT_SECRET by your credentials
 token <- get_token(CLIENT_ID, CLIENT_SECRET)
 ```
 
 > **Note** These tokens last for 1 hour and once the hour passes you’ll
-> need to generate a new token. Don’t worry, you’ll receive a
-> notification if you try to use it and its already expired.
+> need to generate a new token. The package will try to auto-generate
+> one for you.
 
 ## ICD-11 examples
 
 ## ICD-10 examples
 
-### Obtaining information on codes and blocks
-
-#### Bottom-up search
-
-##### Search one value
-
-You can obtain all the information from a certain ICD-10 code using the
-`icd10_code_info` function:
+The main function relating to ICD-10 is `icd10_search()` which searches
+for the titles and parents of codes, blocks of chapters. As an example,
+we can search for the following vector and obtain a `data.frame`:
 
 ``` r
-icd10_code_info(token, "M20")
-#>                                                           code 
-#>                                                          "M20" 
-#>                                                     code_title 
-#>                     "Acquired deformities of fingers and toes" 
-#>                                                        block_1 
-#>                                                      "M20-M25" 
-#>                                                  block_title_1 
-#>                                        "Other joint disorders" 
-#>                                                          block 
-#>                                                      "M00-M25" 
-#>                                                    block_title 
-#>                                                "Arthropathies" 
-#>                                                        chapter 
-#>                                                         "XIII" 
-#>                                                  chapter_title 
-#> "Diseases of the musculoskeletal system and connective tissue"
+#Search for code, specific code, chapter and block 
+codes <- c("D60", "IX", "I10-I15")
+icd10_search(token, codes)
+#>   searched code                                          code_title   block
+#> 1      D60  D60 Acquired pure red cell aplasia [erythroblastopenia] D60-D64
+#> 2       IX <NA>                                                <NA>    <NA>
+#> 3  I10-I15 <NA>                                                <NA> I10-I15
+#>                   block_title chapter
+#> 1 Aplastic and other anaemias     III
+#> 2                        <NA>      IX
+#> 3       Hypertensive diseases      IX
+#>                                                                                         chapter_title
+#> 1 Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism
+#> 2                                                                  Diseases of the circulatory system
+#> 3                                                                  Diseases of the circulatory system
 ```
 
-Same information is available for blocks
+If you only want to get the title of the current code/chapter/block you
+can use `icd10_title` which is faster as it requires less requests to
+the API:
 
 ``` r
-icd10_block_info(token, "M00-M25")
-#>                                                          block 
-#>                                                      "M00-M25" 
-#>                                                    block_title 
-#>                                                "Arthropathies" 
-#>                                                        chapter 
-#>                                                         "XIII" 
-#>                                                  chapter_title 
-#> "Diseases of the musculoskeletal system and connective tissue"
-```
-
-and for chapters:
-
-``` r
-icd10_chapter_info(token, chapter = "VI")
-#>                          chapter                    chapter_title 
-#>                             "VI" "Diseases of the nervous system"
-```
-
-##### Search one vector
-
-Vectorized versions of those functions exist which allow the user to
-input a vector of codes and obtain a `data.frame`:
-
-``` r
-icd10_code_info_vectorized(token, codes = c("E10", "M21", "C00.1"))
-#> [1] "Searching code: E10"
-#> [1] "Searching code: M21"
-#> [1] "Searching code: C00.1"
-#>   search_value code                          code_title   block
-#> 1          E10  E10            Type 1 diabetes mellitus E10-E14
-#> 2          M21  M21 Other acquired deformities of limbs M00-M25
-#> 3        C00.1  C00           Malignant neoplasm of lip C00-C97
-#>           block_title chapter
-#> 1   Diabetes mellitus      IV
-#> 2       Arthropathies    XIII
-#> 3 Malignant neoplasms      II
-#>                                                  chapter_title block_1
-#> 1                Endocrine, nutritional and metabolic diseases    <NA>
-#> 2 Diseases of the musculoskeletal system and connective tissue M20-M25
-#> 3                                                    Neoplasms C00-C75
-#>                                                                                                                      block_title_1
-#> 1                                                                                                                             <NA>
-#> 2                                                                                                            Other joint disorders
-#> 3 Malignant neoplasms, stated or presumed to be primary, of specified sites, except of lymphoid, haematopoietic and related tissue
-#>   code_1                           code_title_1 block_2
-#> 1   <NA>                                   <NA>    <NA>
-#> 2   <NA>                                   <NA>    <NA>
-#> 3  C00.1 Malignant neoplasm: External lower lip C00-C14
-#>                                         block_title_2
-#> 1                                                <NA>
-#> 2                                                <NA>
-#> 3 Malignant neoplasms of lip, oral cavity and pharynx
-```
-
-Additionally for blocks and chapters the following are available:
-
-``` r
-# For blocks
-icd10_block_info_vectorized(token, blocks = c("E10-E14", "F10-F19", "C76-C80"))
-
-# For chapters
-icd10_chapter_info_vectorized(token, chapters = c("XII", "II", "V"))
-```
-
-##### Search from a data.frame (tidyverse)
-
-Using the `tidy` functions you can search in a `data.frame` and create
-new columns in the same data.frame.
-
-As an example, consider the following which adds columns to chapters and
-blocks:
-
-``` r
-codes_df <- data.frame(
-  Sex = c("M", "F", "F"),
-  icd10 = c("E14.1", "C80.0", "F14")
-)
-
-codes_df |>
-  icd10_code_info_tidy("icd10", token)
-#> [1] "Searching code: E14.1"
-#> [1] "Searching code: C80.0"
-#> [1] "Searching code: F14"
-#>   Sex icd10 code_1                                        code_title_1 code
-#> 1   M E14.1  E14.1     Unspecified diabetes mellitus with ketoacidosis  E14
-#> 2   F C80.0  C80.0 Malignant neoplasm, primary site unknown, so stated  C80
-#> 3   F   F14   <NA>                                                <NA>  F14
-#>                                               code_title   block
-#> 1                          Unspecified diabetes mellitus E10-E14
-#> 2      Malignant neoplasm, without specification of site C00-C97
-#> 3 Mental and behavioural disorders due to use of cocaine F10-F19
-#>                                                          block_title chapter
-#> 1                                                  Diabetes mellitus      IV
-#> 2                                                Malignant neoplasms      II
-#> 3 Mental and behavioural disorders due to psychoactive substance use       V
-#>                                   chapter_title block_1
-#> 1 Endocrine, nutritional and metabolic diseases    <NA>
-#> 2                                     Neoplasms C76-C80
-#> 3              Mental and behavioural disorders    <NA>
-#>                                                         block_title_1
-#> 1                                                                <NA>
-#> 2 Malignant neoplasms of ill-defined, secondary and unspecified sites
-#> 3                                                                <NA>
-```
-
-Additionally for blocks and chapters the following are available:
-
-``` r
-# For blocks
-codes_df <- data.frame(
-  Sex = c("M", "F", "F"),
-  icd10_blocks = c("C76-C80", "E10-E14", "F10-F19")
-)
-codes_df |>
-  icd10_block_info_tidy("icd10_blocks", token, dry_run = TRUE)
-#> Warning in .icd10_search_vectorized(searchvec = searchvec, searchfun =
-#> searchfun, : No value of `searchvec` was found
-
-# For chapters
-codes_df <- data.frame(
-  Sex = c("M", "F", "F"),
-  icd10_chapters = c("II", "IV", "III")
-)
-codes_df |>
-  icd10_chapter_info_tidy("icd10_chapters", token, dry_run = TRUE)
-#> Warning in .icd10_search_vectorized(searchvec = searchvec, searchfun =
-#> searchfun, : No value of `searchvec` was found
+#Search for code, specific code, chapter and block 
+codes <- c("D60", "IX", "I10-I15")
+icd10_title(token, codes)
+#>   searched                                               title
+#> 1      D60 Acquired pure red cell aplasia [erythroblastopenia]
+#> 2       IX                  Diseases of the circulatory system
+#> 3  I10-I15                               Hypertensive diseases
 ```
 
 #### Top-down search
@@ -260,9 +136,13 @@ code was not in the `2008` release of the ICD-10. Hence if you are using
 that release you will not find it:
 
 ``` r
-icd10_code_info(token, code = "C80.0", release = 2008)
-#> Warning in value[[3L]](cond): ICD-10 code possibly not found
-#> [1] NA
+icd10_search(token, "C80.0", release = 2008)
+#> Warning in value[[3L]](cond): Request not found. Possibly any of release,
+#> chapter/block/code or language is not available or incorrectly specified.
+#> Warning in value[[3L]](cond): Request not found. Possibly any of release,
+#> chapter/block/code or language is not available or incorrectly specified.
+#>   searched chapter chapter_title
+#> 1    C80.0    <NA>          <NA>
 ```
 
 However you can use the `icd10_code_search_release` to search for a
@@ -276,27 +156,15 @@ icd10_code_search_release(token, code = "C80.0")
 and use one of those releases instead:
 
 ``` r
-icd10_code_info(token, code = "C80.0", release = 2016)
-#>                                                                code_1 
-#>                                                               "C80.0" 
-#>                                                          code_title_1 
-#>                 "Malignant neoplasm, primary site unknown, so stated" 
-#>                                                                  code 
-#>                                                                 "C80" 
-#>                                                            code_title 
-#>                   "Malignant neoplasm, without specification of site" 
-#>                                                               block_1 
-#>                                                             "C76-C80" 
-#>                                                         block_title_1 
-#> "Malignant neoplasms of ill-defined, secondary and unspecified sites" 
-#>                                                                 block 
-#>                                                             "C00-C97" 
-#>                                                           block_title 
-#>                                                 "Malignant neoplasms" 
-#>                                                               chapter 
-#>                                                                  "II" 
-#>                                                         chapter_title 
-#>                                                           "Neoplasms"
+icd10_search(token, "C80.0", release = 2016)
+#>   searched level_0                                             title_0 level_1
+#> 1    C80.0   C80.0 Malignant neoplasm, primary site unknown, so stated     C80
+#>                                             title_1 level_2
+#> 1 Malignant neoplasm, without specification of site C76-C80
+#>                                                               title_2 level_3
+#> 1 Malignant neoplasms of ill-defined, secondary and unspecified sites C00-C97
+#>               title_3 level_4   title_4
+#> 1 Malignant neoplasms      II Neoplasms
 ```
 
 ### Additional information on releases

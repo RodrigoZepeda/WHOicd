@@ -1,5 +1,5 @@
 Package: WHOicd
-Title: Retrieve data from the World Health Organization (WHO) International Classification of Diseases (ICD) API
+Title: Retrieve data from the World Health Organization (WHO) International Classification of Diseases (ICD) API version 2
 Version: 0.2.0
 Authors@R: 
     person("Rodrigo", "Zepeda-Tello", , "rzepeda17@gmail.com", role = c("aut", "cre"),

@@ -66,11 +66,12 @@ icd10_name_children <- function(token, site, release = 2019, language = "en", co
     # Loop through all chapters/blocks/codes and create a data.frame
     titles <- rep(NA_character_, length(children))
     for (k in 1:length(children)) {
-      titles[k] <- icd10_chapter_title(
+      titles[k] <- icd10_title(
         token = token,
-        chapter = children[k],
+        search_val = children[k],
         release = release,
-        language = language
+        language = language,
+        as_data_frame = FALSE
       )
     }
 
@@ -187,11 +188,12 @@ icd10_parents <- function(token, site, release = 2019, language = "en", codes_on
 
       # Obtain name of the parent
       if (!codes_only) {
-        name_parent <- icd10_chapter_title(
+        name_parent <- icd10_title(
           token = token,
-          chapter = current_parent,
+          search_val = current_parent,
           release = release,
-          language = language
+          language = language,
+          as_data_frame = FALSE
         )
       } else {
         name_parent <- ""

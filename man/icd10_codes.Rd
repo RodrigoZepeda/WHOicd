@@ -9,7 +9,9 @@ icd10_codes(token, block, release = 2019, language = "en", codes_only = FALSE)
 \arguments{
 \item{token}{(\code{list}) Access token to the API obtained from \code{\link[=get_token]{get_token()}}}
 
-\item{block}{ICD-10 section codes (hyphenated section codes)}
+\item{block}{Character with range of values that conform an ICD-10 code (such as \code{"I70-I79"}).
+Note that not all possible ranges are blocks. See \code{\link[=icd10_blocks]{icd10_blocks()}} to list all blocks for a
+chapter.}
 
 \item{release}{(\code{character}) ICD-10 release (\code{default = 2019}). Use
 \code{\link[=icd10_releases]{icd10_releases()}} to get all available releases.}

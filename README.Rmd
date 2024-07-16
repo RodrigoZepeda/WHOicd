@@ -46,93 +46,32 @@ To interact with the API you'll need to continuously create a token using the `g
 
 ```{r}
 library(WHOicd)
+
+#Substitute CLIENT_ID and CLIENT_SECRET by your credentials
 token <- get_token(CLIENT_ID, CLIENT_SECRET)
 ```
 
-> **Note** These tokens last for 1 hour and once the hour passes you'll need to generate a new token. Don't worry, you'll receive a notification if you try to use it and its already expired. 
+> **Note** These tokens last for 1 hour and once the hour passes you'll need to generate a new token. The package will try to auto-generate one for you. 
 
 ## ICD-11 examples
 
 ## ICD-10 examples
 
-### Obtaining information on codes and blocks
-
-#### Bottom-up search 
-
-##### Search one value 
-
-You can obtain all the information from a certain ICD-10 code using the `icd10_code_info` function:
+The main function relating to ICD-10 is `icd10_search()` which searches for the titles and parents of codes, blocks of chapters. As an example, we can search for the following vector and obtain a `data.frame`: 
 
 ```{r}
-icd10_code_info(token, "M20")
+#Search for code, specific code, chapter and block 
+codes <- c("D60", "IX", "I10-I15")
+icd10_search(token, codes)
 ```
-Same information is available for blocks
+
+If you only want to get the title of the current code/chapter/block you can use `icd10_title` which is faster as it requires less requests to the API:
 
 ```{r}
-icd10_block_info(token, "M00-M25")
+#Search for code, specific code, chapter and block 
+codes <- c("D60", "IX", "I10-I15")
+icd10_title(token, codes)
 ```
-and for chapters:
-
-```{r}
-icd10_chapter_info(token, chapter = "VI")
-```
-
-##### Search one vector
-
-Vectorized versions of those functions exist which allow the user to input a vector of codes
-and obtain a `data.frame`:
-
-```{r, message=FALSE}
-icd10_code_info_vectorized(token, codes = c("E10", "M21", "C00.1"))
-```
-
-Additionally for blocks and chapters the following are available:
-
-```{r, results='hide', message=FALSE}
-# For blocks
-icd10_block_info_vectorized(token, blocks = c("E10-E14", "F10-F19", "C76-C80"))
-
-# For chapters
-icd10_chapter_info_vectorized(token, chapters = c("XII", "II", "V"))
-```
-
-##### Search from a data.frame (tidyverse)
-
-Using the `tidy` functions you can search in a `data.frame` and create new columns
-in the same data.frame.
-
-As an example, consider the following which adds columns to chapters and blocks:
-
-```{r, message=FALSE}
-codes_df <- data.frame(
-  Sex = c("M", "F", "F"),
-  icd10 = c("E14.1", "C80.0", "F14")
-)
-
-codes_df |>
-  icd10_code_info_tidy("icd10", token)
-```
-
-Additionally for blocks and chapters the following are available:
-
-```{r, results='hide', message=FALSE}
-# For blocks
-codes_df <- data.frame(
-  Sex = c("M", "F", "F"),
-  icd10_blocks = c("C76-C80", "E10-E14", "F10-F19")
-)
-codes_df |>
-  icd10_block_info_tidy("icd10_blocks", token, dry_run = TRUE)
-
-# For chapters
-codes_df <- data.frame(
-  Sex = c("M", "F", "F"),
-  icd10_chapters = c("II", "IV", "III")
-)
-codes_df |>
-  icd10_chapter_info_tidy("icd10_chapters", token, dry_run = TRUE)
-```
-
 
 #### Top-down search
 
@@ -158,7 +97,7 @@ icd10_codes(token, block = "D55")
 Not all codes are available across releases. For example, the `C80.0` code was not in the `2008` release of the ICD-10. Hence if you are using that release you will not find it:
 
 ```{r}
-icd10_code_info(token, code = "C80.0", release = 2008)
+icd10_search(token, "C80.0", release = 2008)
 ```
 
 However you can use the `icd10_code_search_release` to search for a release containing that code:
@@ -170,7 +109,7 @@ icd10_code_search_release(token, code = "C80.0")
 and use one of those releases instead:
 
 ```{r}
-icd10_code_info(token, code = "C80.0", release = 2016)
+icd10_search(token, "C80.0", release = 2016)
 ```
 
 ### Additional information on releases
