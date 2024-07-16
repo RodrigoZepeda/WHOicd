@@ -158,3 +158,228 @@ iso_8601 <- function(years = 0, months = 0, weeks = 0, days = 0, hours = 0, minu
          "T", floor(hours), "H", floor(minutes), "M", floor(seconds), "S")
 
 }
+
+#' Recodify sex
+#'
+#' Gives the codification for sex as Male, Female or Unknown according to DORIS rules
+#'
+#' @inheritParams doris
+#'
+#' @return Sex codified as `1`, `2` or `9`
+#' @keywords internal
+codify_sex <- function(sex = c("Males","Females","Unknowns")){
+
+  if (is.null(sex)){
+    return(sex)
+  } else if (is.numeric(sex) && (floor(sex) %in% c(1,2,9))){
+    return(floor(sex))
+  } else if (is.numeric(sex) && !(floor(sex) %in% c(1,2,9))) {
+    stop("Invalid sex. Must be 1 for Males, 2 for Females or 9 for Unknown")
+  } else if (is.character(sex)){
+    sex <- switch(sex,
+                  "Male" = 1,
+                  "Female" = 2,
+                  "Unknown" = 9)
+    return(sex)
+  } else {
+    stop("Invalid sex")
+  }
+}
+
+#' Recodify yes/no
+#'
+#' Gives the codification for a yes/no rule according to DORIS codification
+#'
+#' @param ans Codification for an answer as either numeric or text `0` (No), `1` (Yes) or
+#' `9` (Unknown)
+#'
+#' @return Answer codified as `0` (No), `1` (Yes) or `9` (Unknown)
+#' @keywords internal
+codify_ans <- function(ans = c("No","Yes","Unknowns")){
+
+  if (is.null(ans)){
+    return(ans)
+  } else if (is.numeric(ans) && (floor(ans) %in% c(0,1,9))){
+    return(floor(ans))
+  } else if (is.numeric(ans) && !(floor(ans) %in% c(0,1,9))) {
+    stop("Invalid request, Must be 0 for No, 1 for Yes or 9 for Unknown")
+  } else if (is.character(ans)){
+    ans <- switch(ans,
+                  "No" = 0,
+                  "Yes" = 1,
+                  "Unknown" = 9)
+    return(ans)
+  } else {
+    stop("Invalid ans")
+  }
+}
+
+#' Verify and Convert Manner of Death Code
+#'
+#' This function takes one parameter, which can be a number or a string. If it is a number,
+#' the function verifies it against predefined codes. If it is not one of the codes, it returns an error.
+#' If it is a text, the function returns the number corresponding to the code. If it is NULL,
+#' the function returns NULL.
+#'
+#' @inheritParams doris
+#'
+#' @return The corresponding manner of death code as a number, or an error if the input is invalid.
+#' @keywords internal
+#'
+codify_manner_of_death <- function(manner_of_death) {
+
+  # Define the manner of death codes and their descriptions
+  manner_of_death_codes <- c(
+    "0" = "Disease",
+    "1" = "Accident",
+    "2" = "Intentional self-harm",
+    "3" = "Assault",
+    "4" = "Legal intervention",
+    "5" = "War",
+    "6" = "Could not be determined",
+    "7" = "Pending investigation",
+    "9" = "Unknown"
+  )
+
+  # If input is NULL, return NULL
+  if (is.null(manner_of_death)) {
+    return(NULL)
+  }
+
+  # If input is a number, check if it is a valid code
+  if (is.numeric(manner_of_death)) {
+    if (as.character(manner_of_death) %in% names(manner_of_death_codes)) {
+      return(manner_of_death)
+    } else {
+      stop("Invalid manner of death code")
+    }
+  }
+
+  # If input is a string, find the corresponding code
+  if (is.character(manner_of_death)) {
+    code <- names(manner_of_death_codes)[match(tolower(manner_of_death), tolower(manner_of_death_codes))]
+    if (!is.na(code)) {
+      return(as.numeric(code))
+    } else {
+      stop("Invalid manner of death description")
+    }
+  }
+
+  # If input is neither a number nor a string, return an error
+  stop("Input must be a number, a string or NULL")
+}
+
+
+#' Verify and Convert Maternal Death Time from Pregnancy Code
+#'
+#' This function takes one parameter, which can be a number or a string. If it is a number,
+#' the function verifies it against predefined codes. If it is not one of the codes, it returns an error.
+#' If it is a text, the function returns the number corresponding to the code. If it is NULL,
+#' the function returns NULL.
+#'
+#' @param input Either a number or a string representing the maternal death time from pregnancy code.
+#'
+#' @return The corresponding maternal death time from pregnancy code as a number, or an error
+#' if the input is invalid.
+#' @export
+#'
+#' @examples
+#' code_maternal_death_time_from_pregnancy(3)          # returns 1
+#' code_maternal_death_time_from_pregnancy("Within 42 days before death") # returns 1
+#' code_maternal_death_time_from_pregnancy(NULL)        # returns NULL
+code_maternal_death_time_from_pregnancy <- function(input) {
+  # Define the maternal death time from pregnancy codes and their descriptions
+  maternal_death_time_from_pregnancy_codes <- c(
+    "0" = "At time of death",
+    "1" = "Within 42 days before death",
+    "2" = "Between 43 days and 1 year before death",
+    "3" = "One year or more before death",
+    "9" = "Unknown"
+  )
+
+  # If input is NULL, return NULL
+  if (is.null(input)) {
+    return(NULL)
+  }
+
+  # If input is a number, check if it is a valid code
+  if (is.numeric(input)) {
+    if (as.character(input) %in% names(maternal_death_time_from_pregnancy_codes)) {
+      return(input)
+    } else {
+      stop("Invalid maternal death time from pregnancy code")
+    }
+  }
+
+  # If input is a string, find the corresponding code
+  if (is.character(input)) {
+    code <- names(maternal_death_time_from_pregnancy_codes)[match(tolower(input), tolower(maternal_death_time_from_pregnancy_codes))]
+    if (!is.na(code)) {
+      return(as.numeric(code))
+    } else {
+      stop("Invalid maternal death time from pregnancy description")
+    }
+  }
+
+  # If input is neither a number nor a string, return an error
+  stop("Input must be a number or a string")
+}
+
+#' Verify and Convert Place of Occurrence External Cause Code
+#'
+#' This function takes one parameter, which can be a number or a string. If it is a number,
+#' the function verifies it against predefined codes. If it is not one of the codes, it returns an error.
+#' If it is a text, the function returns the number corresponding to the code. If it is NULL,
+#' the function returns NULL.
+#'
+#' @param input Either a number or a string representing the place of occurrence external cause code.
+#'
+#' @return The corresponding place of occurrence external cause code as a number, or an error if the input is invalid.
+#' @export
+#'
+#' @examples
+#' code_place(1)         # returns 1
+#' code_place("Residential institution") # returns 1
+#' code_place(NULL)       # returns NULL
+code_place <- function(input) {
+  # Define the place of occurrence external cause codes and their descriptions
+  place_of_occurrence_external_cause_codes <- c(
+    "0" = "At home",
+    "1" = "Residential institution",
+    "2" = "School, other institution, public administration area",
+    "3" = "Sports and athletics area",
+    "4" = "Street and highway",
+    "5" = "Trade and service area",
+    "6" = "Industrial and construction area",
+    "7" = "Farm",
+    "8" = "Other place",
+    "9" = "Unknown"
+  )
+
+  # If input is NULL, return NULL
+  if (is.null(input)) {
+    return(NULL)
+  }
+
+  # If input is a number, check if it is a valid code
+  if (is.numeric(input)) {
+    if (as.character(input) %in% names(place_of_occurrence_external_cause_codes)) {
+      return(input)
+    } else {
+      stop("Invalid place of occurrence external cause code")
+    }
+  }
+
+  # If input is a string, find the corresponding code
+  if (is.character(input)) {
+    code <- names(place_of_occurrence_external_cause_codes)[match(tolower(input), tolower(place_of_occurrence_external_cause_codes))]
+    if (!is.na(code)) {
+      return(as.numeric(code))
+    } else {
+      stop("Invalid place of occurrence external cause description")
+    }
+  }
+
+  # If input is neither a number nor a string, return an error
+  stop("Input must be a number or a string")
+}

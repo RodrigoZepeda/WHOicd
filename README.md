@@ -199,7 +199,48 @@ icd10_release_info(token, release = 2016)
 #>                                                                 "http://apps.who.int/classifications/icd10/browse/2016/en"
 ```
 
-## Doris examples
+## DORIS (WHO Digital Open Rule Integrated Cause of Death Selection)
+
+The [Digital Open Rule Integrated Cause of Death
+Selection](https://icd.who.int/doris/en), DORIS, provides a framework
+for obtaining the underlying cause of death from a death certificate.
+DORIS functionality has been implemented in the `doris` function.
+
+The following example considers a 60 year old female whose primary cause
+of death was `2D42`: `Malignant neoplasms of ill-defined sites` due to
+`2E03`: `Malignant neoplasm metastasis in bone or bone marrow` due to
+`CB41.0Z`: `Acute respiratory failure, unspecified`.
+
+``` r
+doris(token, sex = "Female", age = iso_8601(years = 60), cause_of_death_code_a = "2D42",
+      cause_of_death_code_b = "2E03", cause_of_death_code_c = "CB41.0Z")
+#> $`Underlying cause of death (UCOD)`
+#> [1] "2D42"
+#> 
+#> $`UCOD URI`
+#> [1] "http://id.who.int/icd/entity/2023965817"
+#> 
+#> $`UCOD with postcoordinated information (if available)`
+#> [1] "2D42"
+#> 
+#> $`UCOD postcoordinated URI`
+#> [1] "http://id.who.int/icd/release/11/mms/2023965817"
+#> 
+#> $`Detailed explanation (report)`
+#> [1] "SP4: 2E03 is the starting point of the first-mentioned sequence (2D42 due to 2E03), which is selected as the tentative starting point (TSP).\nM1: There is a special instruction on 2E03 reported with mention of 2D42.\nM1: 2D42 is selected as the TUC.\nM3: The tentative underlying cause is not the same as the starting point selected in Steps SP1 to SP8. Repeat steps SP6, M1 and M2.\n\n\nFull report:\nSP1: is not applicable.\nSP2: is not applicable.\nSP3: is not applicable.\nSP4: 2E03 is the starting point of the first-mentioned sequence (2D42 due to 2E03), which is selected as the tentative starting point (TSP).\nSP6: is not applicable.\nSP7: is not applicable.\nSP8: is not applicable.\nM1: There is a special instruction on 2E03 reported with mention of 2D42.\nM1: 2D42 is selected as the TUC.\nM1: There is no special instruction applicable with TUC 2D42.\nM2: is not applicable.\nM3: The tentative underlying cause is not the same as the starting point selected in Steps SP1 to SP8. Repeat steps SP6, M1 and M2.\nSP6: is not applicable.\nSP7: is not applicable.\nSP8: is not applicable.\nM1: There is no special instruction applicable with TUC 2D42.\nM2: is not applicable.\n"
+#> 
+#> $reject
+#> [1] FALSE
+#> 
+#> $error
+#> NULL
+#> 
+#> $warning
+#> NULL
+```
+
+All of the options are available in the function’s help page
+[`doris()`](https://rodrigozepeda.github.io/WHOicd/reference/get_token.html).
 
 ## Obtaining your token
 

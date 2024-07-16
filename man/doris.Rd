@@ -48,7 +48,8 @@ doris(
   maternal_death_pregnancy_contribute = NULL,
   release = "2024-01",
   language = "en",
-  api_version = "v2"
+  api_version = "v2",
+  stop_on_error = FALSE
 )
 }
 \arguments{
@@ -88,15 +89,20 @@ age in the appropriate format.}
 
 \item{cause_of_death_uri_part2}{String. Cause field Part2 classification URIs, comma separated.}
 
-\item{interval_a}{String. Time interval from onset to death for Field A, in ISO 8601 format.}
+\item{interval_a}{Time interval from onset to death for Field A, in ISO 8601 format.
+Use \code{\link[=iso_8601]{iso_8601()}} to construct that duration.}
 
-\item{interval_b}{String. Time interval from onset to death for Field B, in ISO 8601 format.}
+\item{interval_b}{Time interval from onset to death for Field B, in ISO 8601 format.
+Use \code{\link[=iso_8601]{iso_8601()}} to construct that duration.}
 
-\item{interval_c}{String. Time interval from onset to death for Field C, in ISO 8601 format.}
+\item{interval_c}{Time interval from onset to death for Field C, in ISO 8601 format.
+Use \code{\link[=iso_8601]{iso_8601()}} to construct that duration.}
 
-\item{interval_d}{String. Time interval from onset to death for Field D, in ISO 8601 format.}
+\item{interval_d}{Time interval from onset to death for Field D, in ISO 8601 format.
+Use \code{\link[=iso_8601]{iso_8601()}} to construct that duration.}
 
-\item{interval_e}{String. Time interval from onset to death for Field E, in ISO 8601 format.}
+\item{interval_e}{Time interval from onset to death for Field E, in ISO 8601 format.
+Use \code{\link[=iso_8601]{iso_8601()}} to construct that duration.}
 
 \item{surgery_was_performed}{Whether surgery was performed on the individual
 (\code{0} or \code{No}, \code{1} or \code{Yes}, and \code{9} or \code{Unknown})}
@@ -108,17 +114,22 @@ age in the appropriate format.}
 \item{autopsy_was_requested}{Whether an autposy was performed on the individual
 (\code{0} or \code{No}, \code{1} or \code{Yes}, and \code{9} or \code{Unknown})}
 
-\item{autopsy_findings}{(\code{0} or \code{No}, \code{1} or \code{Yes}, and \code{9} or \code{Unknown})}
+\item{autopsy_findings}{Whether findings from the autopsy were used in the
+certification (\code{0} or \code{No}, \code{1} or \code{Yes}, and \code{9} or \code{Unknown}).}
 
-\item{manner_of_death}{Integer. 0: Disease, 1: Accident, 2: Intentional self-harm, 3: Assault,
-4: Legal intervention, 5: War, 6: Could not be determined, 7: Pending investigation, 9: Unknown.}
+\item{manner_of_death}{Either code or word: 0: Disease, 1: Accident, 2: Intentional self-harm,
+3: Assault, 4: Legal intervention, 5: War, 6: Could not be determined,
+7: Pending investigation, 9: Unknown.}
 
-\item{manner_of_death_date_of_external_cause_or_poisoning}{Date of external cause or poisoning of the individual
-if \code{manner_of_death} is \code{1}, \code{2}, \code{3}, \code{4}, \code{5}, \code{6},}
+\item{manner_of_death_date_of_external_cause_or_poisoning}{Date of external cause or poisoning of
+the individual according to \code{manner_of_death}}
 
 \item{manner_of_death_description_external_cause}{String. Description of external cause.}
 
-\item{manner_of_death_place_of_occurrence_external_cause}{Integer. 0: At home, 1: Residential institution, 2: School, other institution, public administration area, 3: Sports and athletics area, 4: Street and highway, 5: Trade and service area, 6: Industrial and construction area, 7: Farm, 8: Other place, 9: Unknown.}
+\item{manner_of_death_place_of_occurrence_external_cause}{Integer. 0: At home, 1: Residential
+institution, 2: School, other institution, public administration area, 3: Sports and athletics
+area, 4: Street and highway, 5: Trade and service area, 6: Industrial and construction area,
+7: Farm, 8: Other place, 9: Unknown.}
 
 \item{fetal_or_infant_death_multiple_pregnancy}{(\code{0} or \code{No}, \code{1} or \code{Yes}, and \code{9} or \code{Unknown})}
 
@@ -137,7 +148,9 @@ if \code{manner_of_death} is \code{1}, \code{2}, \code{3}, \code{4}, \code{5}, \
 \item{maternal_death_was_pregnant}{For women, was the deceased pregnant?
 (\code{0} or \code{No}, \code{1} or \code{Yes}, and \code{9} or \code{Unknown})}
 
-\item{maternal_death_time_from_pregnancy}{Integer. 0: At time of death, 1: Within 42 days before death, 2: Between 43 days and 1 year before death, 3: One year or more before death, 9: Unknown.}
+\item{maternal_death_time_from_pregnancy}{Integer. 0: At time of death,
+1: Within 42 days before death, 2: Between 43 days and 1 year before death,
+3: One year or more before death, 9: Unknown.}
 
 \item{maternal_death_pregnancy_contribute}{Did pregnancy contribute to death?
 (\code{0} or \code{No}, \code{1} or \code{Yes}, and \code{9} or \code{Unknown})}
@@ -152,6 +165,8 @@ the default is English (\code{language = "en"}).}
 
 \item{api_version}{Version of the WHO API you are using. Don't change it unless you know what
 you are doing.}
+
+\item{stop_on_error}{Whether to stop if API throws an error or just throw it as a warning.}
 }
 \value{
 List with the cause of death report
@@ -172,16 +187,26 @@ You don't need to provide causeOfDeathUri fields if you provide causeOfDeathCode
 vice versa
 }
 \examples{
-#Assuming that the CLIENT ID and CLIENT SECRET are set up. Substitute accordingly
+# Assuming that the CLIENT ID and CLIENT SECRET are set up. Substitute accordingly
 if (exists("CLIENT_ID") & exists("CLIENT_SECRET")) {
-
-  #Get the Token
+  # Get the Token
   token <- get_token(CLIENT_ID, CLIENT_SECRET)
 
-  #Check a 25 year old male with immediate cause 1C8Z
-  #due to 1C68.3
-  doris(token, sex = 1, age = iso_8601(years = 25), cause_of_death_code_a = "1C8Z",
-        cause_of_death_code_b = "1C62.3Z")
+  # Check a 25 year old male with immediate cause 1C8Z
+  # due to 1C62.3Z
+  doris(token,
+    sex = "Male", age = iso_8601(years = 25), cause_of_death_code_a = "1C8Z",
+    cause_of_death_code_b = "1C62.3Z"
+  )
 
+  # Check a 52 year old with immediate cause "GB61.Z" due to GB60.Z
+  # due to 5A11 due to BA00.Z with other significant issues contributing to death
+  # being 3A9Z and BC45
+  doris(token,
+    sex = "Male", age = iso_8601(years = 25), cause_of_death_code_a = "GB61.Z",
+    cause_of_death_code_b = "GB60.Z", cause_of_death_code_c = "5A11",
+    cause_of_death_code_d = "BA00.Z", cause_of_death_code_part2 = c("3A9Z", "BC45")
+  )
 }
+
 }

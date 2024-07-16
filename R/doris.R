@@ -51,15 +51,20 @@
 #'
 #' @param cause_of_death_uri_part2 String. Cause field Part2 classification URIs, comma separated.
 #'
-#' @param interval_a String. Time interval from onset to death for Field A, in ISO 8601 format.
+#' @param interval_a Time interval from onset to death for Field A, in ISO 8601 format.
+#' Use [iso_8601()] to construct that duration.
 #'
-#' @param interval_b String. Time interval from onset to death for Field B, in ISO 8601 format.
+#' @param interval_b Time interval from onset to death for Field B, in ISO 8601 format.
+#' Use [iso_8601()] to construct that duration.
 #'
-#' @param interval_c String. Time interval from onset to death for Field C, in ISO 8601 format.
+#' @param interval_c Time interval from onset to death for Field C, in ISO 8601 format.
+#' Use [iso_8601()] to construct that duration.
 #'
-#' @param interval_d String. Time interval from onset to death for Field D, in ISO 8601 format.
+#' @param interval_d Time interval from onset to death for Field D, in ISO 8601 format.
+#' Use [iso_8601()] to construct that duration.
 #'
-#' @param interval_e String. Time interval from onset to death for Field E, in ISO 8601 format.
+#' @param interval_e Time interval from onset to death for Field E, in ISO 8601 format.
+#' Use [iso_8601()] to construct that duration.
 #'
 #' @param surgery_was_performed Whether surgery was performed on the individual
 #' (`0` or `No`, `1` or `Yes`, and `9` or `Unknown`)
@@ -71,17 +76,22 @@
 #' @param autopsy_was_requested Whether an autposy was performed on the individual
 #' (`0` or `No`, `1` or `Yes`, and `9` or `Unknown`)
 #'
-#' @param autopsy_findings (`0` or `No`, `1` or `Yes`, and `9` or `Unknown`)
+#' @param autopsy_findings Whether findings from the autopsy were used in the
+#' certification (`0` or `No`, `1` or `Yes`, and `9` or `Unknown`).
 #'
-#' @param manner_of_death Integer. 0: Disease, 1: Accident, 2: Intentional self-harm, 3: Assault,
-#' 4: Legal intervention, 5: War, 6: Could not be determined, 7: Pending investigation, 9: Unknown.
+#' @param manner_of_death Either code or word: 0: Disease, 1: Accident, 2: Intentional self-harm,
+#' 3: Assault, 4: Legal intervention, 5: War, 6: Could not be determined,
+#' 7: Pending investigation, 9: Unknown.
 #'
-#' @param manner_of_death_date_of_external_cause_or_poisoning Date of external cause or poisoning of the individual
-#' if `manner_of_death` is `1`, `2`, `3`, `4`, `5`, `6`,
+#' @param manner_of_death_date_of_external_cause_or_poisoning Date of external cause or poisoning of
+#' the individual according to `manner_of_death`
 #'
 #' @param manner_of_death_description_external_cause String. Description of external cause.
 #'
-#' @param manner_of_death_place_of_occurrence_external_cause Integer. 0: At home, 1: Residential institution, 2: School, other institution, public administration area, 3: Sports and athletics area, 4: Street and highway, 5: Trade and service area, 6: Industrial and construction area, 7: Farm, 8: Other place, 9: Unknown.
+#' @param manner_of_death_place_of_occurrence_external_cause Integer. 0: At home, 1: Residential
+#' institution, 2: School, other institution, public administration area, 3: Sports and athletics
+#' area, 4: Street and highway, 5: Trade and service area, 6: Industrial and construction area,
+#' 7: Farm, 8: Other place, 9: Unknown.
 #'
 #' @param fetal_or_infant_death_multiple_pregnancy (`0` or `No`, `1` or `Yes`, and `9` or `Unknown`)
 #'
@@ -100,7 +110,9 @@
 #' @param maternal_death_was_pregnant For women, was the deceased pregnant?
 #' (`0` or `No`, `1` or `Yes`, and `9` or `Unknown`)
 #'
-#' @param maternal_death_time_from_pregnancy Integer. 0: At time of death, 1: Within 42 days before death, 2: Between 43 days and 1 year before death, 3: One year or more before death, 9: Unknown.
+#' @param maternal_death_time_from_pregnancy Integer. 0: At time of death,
+#' 1: Within 42 days before death, 2: Between 43 days and 1 year before death,
+#' 3: One year or more before death, 9: Unknown.
 #'
 #' @param maternal_death_pregnancy_contribute Did pregnancy contribute to death?
 #' (`0` or `No`, `1` or `Yes`, and `9` or `Unknown`)
@@ -108,23 +120,35 @@
 #' @param api_version Version of the WHO API you are using. Don't change it unless you know what
 #' you are doing.
 #'
+#' @param stop_on_error Whether to stop if API throws an error or just throw it as a warning.
+#'
 #' @inheritParams request_WHO
 #' @inheritParams get_token
 #' @examples
-#' #Assuming that the CLIENT ID and CLIENT SECRET are set up. Substitute accordingly
+#' # Assuming that the CLIENT ID and CLIENT SECRET are set up. Substitute accordingly
 #' if (exists("CLIENT_ID") & exists("CLIENT_SECRET")) {
-#'
-#'   #Get the Token
+#'   # Get the Token
 #'   token <- get_token(CLIENT_ID, CLIENT_SECRET)
 #'
-#'   #Check a 25 year old male with immediate cause 1C8Z
-#'   #due to 1C68.3
-#'   doris(token, sex = 1, age = iso_8601(years = 25), cause_of_death_code_a = "1C8Z",
-#'         cause_of_death_code_b = "1C62.3Z")
+#'   # Check a 25 year old male with immediate cause 1C8Z
+#'   # due to 1C62.3Z
+#'   doris(token,
+#'     sex = "Male", age = iso_8601(years = 25), cause_of_death_code_a = "1C8Z",
+#'     cause_of_death_code_b = "1C62.3Z"
+#'   )
 #'
+#'   # Check a 52 year old with immediate cause "GB61.Z" due to GB60.Z
+#'   # due to 5A11 due to BA00.Z with other significant issues contributing to death
+#'   # being 3A9Z and BC45
+#'   doris(token,
+#'     sex = "Male", age = iso_8601(years = 25), cause_of_death_code_a = "GB61.Z",
+#'     cause_of_death_code_b = "GB60.Z", cause_of_death_code_c = "5A11",
+#'     cause_of_death_code_d = "BA00.Z", cause_of_death_code_part2 = c("3A9Z", "BC45")
+#'   )
 #' }
-
+#'
 #' @returns List with the cause of death report
+#' @export
 doris <- function(token,
                   sex = NULL,
                   age = NULL,
@@ -168,12 +192,12 @@ doris <- function(token,
                   maternal_death_pregnancy_contribute = NULL,
                   release = "2024-01",
                   language = "en",
-                  api_version = "v2") {
-
-  #Do a request for release
+                  api_version = "v2",
+                  stop_on_error = FALSE) {
+  # Do a request for release
   req <- httr2::request(
     base_url = paste0("https://id.who.int/icd/release/11/", release, "/doris")
-    ) |>
+  ) |>
     httr2::req_headers(
       Authorization = paste(token["token_type"], token["access_token"]),
       Accept = "application/json",
@@ -181,53 +205,73 @@ doris <- function(token,
       `API-Version` = "v2"
     ) |>
     httr2::req_url_query(
-      sex = sex,
+      sex = codify_sex(sex),
       estimatedAge = age,
       dateBirth = date_of_birth,
       dateDeath = date_of_death,
-      causeOfDeathCodeA = cause_of_death_code_a,
-      causeOfDeathCodeB = cause_of_death_code_b,
-      causeOfDeathCodeC = cause_of_death_code_c,
-      causeOfDeathCodeD = cause_of_death_code_d,
-      causeOfDeathCodeE = cause_of_death_code_e,
-      causeOfDeathUriA = cause_of_death_uri_a,
-      causeOfDeathUriB = cause_of_death_uri_b,
-      causeOfDeathUriC = cause_of_death_uri_c,
-      causeOfDeathUriD = cause_of_death_uri_d,
-      causeOfDeathUriE = cause_of_death_uri_e,
-      causeOfDeathCodePart2 = cause_of_death_code_part2,
-      causeOfDeathUriPart2 = cause_of_death_uri_part2,
+      causeOfDeathCodeA = paste0(cause_of_death_code_a, collapse = ", "),
+      causeOfDeathCodeB = paste0(cause_of_death_code_b, collapse = ", "),
+      causeOfDeathCodeC = paste0(cause_of_death_code_c, collapse = ", "),
+      causeOfDeathCodeD = paste0(cause_of_death_code_d, collapse = ", "),
+      causeOfDeathCodeE = paste0(cause_of_death_code_e, collapse = ", "),
+      causeOfDeathUriA = paste0(cause_of_death_uri_a, collapse = ", "),
+      causeOfDeathUriB = paste0(cause_of_death_uri_b, collapse = ", "),
+      causeOfDeathUriC = paste0(cause_of_death_uri_c, collapse = ", "),
+      causeOfDeathUriD = paste0(cause_of_death_uri_d, collapse = ", "),
+      causeOfDeathUriE = paste0(cause_of_death_uri_e, collapse = ", "),
+      causeOfDeathCodePart2 = paste0(cause_of_death_code_part2, collapse = ", "),
+      causeOfDeathUriPart2 = paste0(cause_of_death_uri_part2, collapse = ", "),
       intervalA = interval_a,
       intervalB = interval_b,
       intervalC = interval_c,
       intervalD = interval_d,
       intervalE = interval_e,
-      surgeryWasPerformed = surgery_was_performed,
+      surgeryWasPerformed = codify_ans(surgery_was_performed),
       surgeryDate = surgery_date,
       surgeryReason = surgery_reason,
-      autopsyWasRequested = autopsy_was_requested,
-      autopsyFindings = autopsy_findings,
-      mannerOfDeath = manner_of_death,
+      autopsyWasRequested = codify_ans(autopsy_was_requested),
+      autopsyFindings = codify_ans(autopsy_findings),
+      mannerOfDeath = codify_manner_of_death(manner_of_death),
       mannerOfDeathDateOfExternalCauseOrPoisoning = manner_of_death_date_of_external_cause_or_poisoning,
       mannerOfDeathDescriptionExternalCause = manner_of_death_description_external_cause,
-      mannerOfDeathPlaceOfOccuranceExternalCause = manner_of_death_place_of_occurrence_external_cause,
-      fetalOrInfantDeathMultiplePregnancy = fetal_or_infant_death_multiple_pregnancy,
-      fetalOrInfantDeathStillborn = fetal_or_infant_death_stillborn,
+      mannerOfDeathPlaceOfOccuranceExternalCause = code_place(manner_of_death_place_of_occurrence_external_cause),
+      fetalOrInfantDeathMultiplePregnancy = codify_ans(fetal_or_infant_death_multiple_pregnancy),
+      fetalOrInfantDeathStillborn = codify_ans(fetal_or_infant_death_stillborn),
       fetalOrInfantDeathWithin24h = fetal_or_infant_death_within_24h,
       fetalOrInfantDeathBirthWeight = fetal_or_infant_death_birth_weight,
       fetalOrInfantDeathPregnancyWeeks = fetal_or_infant_death_pregnancy_weeks,
       fetalOrInfantDeathAgeMother = fetal_or_infant_death_age_mother,
       fetalOrInfantDeathPerinatalDescription = fetal_or_infant_death_perinatal_description,
-      maternalDeathWasPregnant = maternal_death_was_pregnant,
-      maternalDeathTimeFromPregnancy = maternal_death_time_from_pregnancy,
-      maternalDeathPregnancyContribute = maternal_death_pregnancy_contribute
+      maternalDeathWasPregnant = codify_ans(maternal_death_was_pregnant),
+      maternalDeathTimeFromPregnancy = code_maternal_death_time_from_pregnancy(maternal_death_time_from_pregnancy),
+      maternalDeathPregnancyContribute = codify_ans(maternal_death_pregnancy_contribute)
     )
 
-  #Perform the request
+  # Perform the request
   request <- httr2::req_perform(req = req)
 
   report <- request |> resp_body_json()
 
-  #Return the report
+  # Check for report's warnings and errors
+  warning_msn <- unlist(report["warning"])
+  if (!is.null(warning_msn)) {
+    warning(warning_msn)
+  }
+
+  error_msn <- unlist(report["error"])
+  if (stop_on_error & !is.null(error_msn)) {
+    stop(error_msn)
+  } else if (!is.null(error_msn)) {
+    warning(error_msn)
+  }
+
+  # Change the names according to doris website
+  names(report)[which(names(report) == "stemCode")] <- "Underlying cause of death (UCOD)"
+  names(report)[which(names(report) == "stemURI")] <- "UCOD URI"
+  names(report)[which(names(report) == "code")] <- "UCOD with postcoordinated information (if available)"
+  names(report)[which(names(report) == "uri")] <- "UCOD postcoordinated URI"
+  names(report)[which(names(report) == "report")] <- "Detailed explanation (report)"
+
+  # Return the report
   return(report)
 }

@@ -206,8 +206,37 @@
 </div>
 </div>
 <div class="section level2">
-<h2 id="doris-examples">Doris examples<a class="anchor" aria-label="anchor" href="#doris-examples"></a>
+<h2 id="doris-who-digital-open-rule-integrated-cause-of-death-selection">DORIS (WHO Digital Open Rule Integrated Cause of Death Selection)<a class="anchor" aria-label="anchor" href="#doris-who-digital-open-rule-integrated-cause-of-death-selection"></a>
 </h2>
+<p>The <a href="https://icd.who.int/doris/en" class="external-link">Digital Open Rule Integrated Cause of Death Selection</a>, DORIS, provides a framework for obtaining the underlying cause of death from a death certificate. DORIS functionality has been implemented in the <code>doris</code> function.</p>
+<p>The following example considers a 60 year old female whose primary cause of death was <code>2D42</code>: <code>Malignant neoplasms of ill-defined sites</code> due to <code>2E03</code>: <code>Malignant neoplasm metastasis in bone or bone marrow</code> due to <code>CB41.0Z</code>: <code>Acute respiratory failure, unspecified</code>.</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/doris.html">doris</a></span><span class="op">(</span><span class="va">token</span>, sex <span class="op">=</span> <span class="st">"Female"</span>, age <span class="op">=</span> <span class="fu"><a href="reference/iso_8601.html">iso_8601</a></span><span class="op">(</span>years <span class="op">=</span> <span class="fl">60</span><span class="op">)</span>, cause_of_death_code_a <span class="op">=</span> <span class="st">"2D42"</span>,</span>
+<span>      cause_of_death_code_b <span class="op">=</span> <span class="st">"2E03"</span>, cause_of_death_code_c <span class="op">=</span> <span class="st">"CB41.0Z"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $`Underlying cause of death (UCOD)`</span></span>
+<span><span class="co">#&gt; [1] "2D42"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $`UCOD URI`</span></span>
+<span><span class="co">#&gt; [1] "http://id.who.int/icd/entity/2023965817"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $`UCOD with postcoordinated information (if available)`</span></span>
+<span><span class="co">#&gt; [1] "2D42"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $`UCOD postcoordinated URI`</span></span>
+<span><span class="co">#&gt; [1] "http://id.who.int/icd/release/11/mms/2023965817"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $`Detailed explanation (report)`</span></span>
+<span><span class="co">#&gt; [1] "SP4: 2E03 is the starting point of the first-mentioned sequence (2D42 due to 2E03), which is selected as the tentative starting point (TSP).\nM1: There is a special instruction on 2E03 reported with mention of 2D42.\nM1: 2D42 is selected as the TUC.\nM3: The tentative underlying cause is not the same as the starting point selected in Steps SP1 to SP8. Repeat steps SP6, M1 and M2.\n\n\nFull report:\nSP1: is not applicable.\nSP2: is not applicable.\nSP3: is not applicable.\nSP4: 2E03 is the starting point of the first-mentioned sequence (2D42 due to 2E03), which is selected as the tentative starting point (TSP).\nSP6: is not applicable.\nSP7: is not applicable.\nSP8: is not applicable.\nM1: There is a special instruction on 2E03 reported with mention of 2D42.\nM1: 2D42 is selected as the TUC.\nM1: There is no special instruction applicable with TUC 2D42.\nM2: is not applicable.\nM3: The tentative underlying cause is not the same as the starting point selected in Steps SP1 to SP8. Repeat steps SP6, M1 and M2.\nSP6: is not applicable.\nSP7: is not applicable.\nSP8: is not applicable.\nM1: There is no special instruction applicable with TUC 2D42.\nM2: is not applicable.\n"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $reject</span></span>
+<span><span class="co">#&gt; [1] FALSE</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $error</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $warning</span></span>
+<span><span class="co">#&gt; NULL</span></span></code></pre></div>
+<p>All of the options are available in the function’s help page <a href="https://rodrigozepeda.github.io/WHOicd/reference/get_token.html" class="external-link"><code>doris()</code></a>.</p>
 </div>
 <div class="section level2">
 <h2 id="obtaining-your-token">Obtaining your token<a class="anchor" aria-label="anchor" href="#obtaining-your-token"></a>
@@ -268,6 +297,7 @@ Image of API website indicating where is the button to View the API access keys
 <li><a href="https://CRAN.R-project.org/package=WHOicd" class="external-link"><img src="https://www.r-pkg.org/badges/version/WHOicd" alt="CRAN status"></a></li>
 <li><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
 <li><a href="https://app.codecov.io/gh/RodrigoZepeda/WHOicd?branch=main" class="external-link"><img src="https://codecov.io/gh/RodrigoZepeda/WHOicd/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
+<li><a href="https://github.com/RodrigoZepeda/WHOicd/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/RodrigoZepeda/WHOicd/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
 </ul>
 </div>
 
