@@ -4,7 +4,7 @@
 \alias{icd10_releases}
 \title{Request releases for ICD-10 from WHO API v2}
 \usage{
-icd10_releases(token, language = "en", auto_update = TRUE, dry_run = FALSE)
+icd10_releases(token, language = "en", auto_update = TRUE)
 }
 \arguments{
 \item{token}{(\code{list}) Access token to the API obtained from \code{\link[=get_token]{get_token()}}}
@@ -14,9 +14,6 @@ listed in \url{https://icd.who.int/docs/icd-api/SupportedClassifications/}
 the default is English (\code{language = "en"}).}
 
 \item{auto_update}{Attempts to update token automatically}
-
-\item{dry_run}{(\code{logical}) If \code{TRUE} will create the request and generate an empty token. This
-function is mostly for development.}
 }
 \value{
 Character vector with the ICD-10 releases available.
@@ -25,9 +22,13 @@ Character vector with the ICD-10 releases available.
 Obtains a character vector of all of the ICD-10 releases registered in the API.
 }
 \examples{
-# Change `dry_run = FALSE` to run the example with your token
-token <- get_token("your_id", "your_secret", dry_run = TRUE)
+#Assuming that the CLIENT ID and CLIENT SECRET are set up. Substitute accordingly
+if (exists("CLIENT_ID") & exists("CLIENT_SECRET")) {
+  #Generated token
+  token <- get_token(CLIENT_ID, CLIENT_SECRET)
 
-# Search for ICD-10 releases
-icd10_releases(token, dry_run = TRUE)
+  # Search for ICD-10 releases
+  icd10_releases(token)
+}
+
 }

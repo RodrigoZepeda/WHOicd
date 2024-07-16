@@ -4,15 +4,12 @@
 \alias{get_token}
 \title{Request an access token from ICD API}
 \usage{
-get_token(client_id, client_secret, dry_run = FALSE)
+get_token(client_id, client_secret)
 }
 \arguments{
 \item{client_id}{(\code{character}) The client ID as provided by the WHO website (see \strong{Generating credentials}).}
 
 \item{client_secret}{(\code{character}) The client secret key as provided by the WHO API website (see \strong{Generating credentials}).}
-
-\item{dry_run}{(\code{logical}) If \code{TRUE} will create the request and generate an empty token. This
-function is mostly for development.}
 }
 \value{
 Access token for the WHO API. \strong{Don't share this token!!}
@@ -36,7 +33,9 @@ required to use the WHO API.
 
 \examples{
 # Substitute CLIENT_ID and CLIENT_SECRET for your ID and secret
-CLIENT_ID <- Sys.getenv("CLIENT_ID")
-CLIENT_SECRET <- Sys.getenv("CLIENT_SECRET")
-token <- get_token(CLIENT_ID, CLIENT_SECRET, dry_run = TRUE)
+if (Sys.getenv("CLIENT_ID") != "" & Sys.getenv("CLIENT_SECRET") != ""){
+  CLIENT_ID <- Sys.getenv("CLIENT_ID")
+  CLIENT_SECRET <- Sys.getenv("CLIENT_SECRET")
+  token <- get_token(CLIENT_ID, CLIENT_SECRET)
+}
 }

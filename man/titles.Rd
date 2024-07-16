@@ -12,23 +12,16 @@ icd10_chapter_title(
   chapter,
   release = 2019,
   language = "en",
-  dry_run = FALSE
+  auto_update = TRUE
 )
 
-icd10_block_title(
-  token,
-  block,
-  release = 2019,
-  language = "en",
-  dry_run = FALSE
-)
+icd10_block_title(token, block, release = 2019, language = "en")
 
 icd10_code_title(
   token,
   code,
   release = 2019,
   language = "en",
-  dry_run = FALSE,
   validate_code = TRUE
 )
 }
@@ -44,8 +37,7 @@ icd10_code_title(
 listed in \url{https://icd.who.int/docs/icd-api/SupportedClassifications/}
 the default is English (\code{language = "en"}).}
 
-\item{dry_run}{(\code{logical}) If \code{TRUE} will create the request and generate an empty token. This
-function is mostly for development.}
+\item{auto_update}{Attempts to update token automatically}
 
 \item{block}{ICD-10 section codes (hyphenated section codes)}
 
@@ -61,16 +53,31 @@ A character with the title of the chapter, block or code
 Obtain the title of an ICD-10 chapter, block or code
 }
 \examples{
-# Change `dry_run = FALSE` to run the example
-token <- get_token("123", "123", dry_run = TRUE)
-icd10_chapter_title(token, "XII", dry_run = TRUE)
+#Assuming that the CLIENT ID and CLIENT SECRET are set up. Substitute accordingly
+if (exists("CLIENT_ID") & exists("CLIENT_SECRET")) {
+  #Generated token
+  token <- get_token(CLIENT_ID, CLIENT_SECRET)
 
-# Change `dry_run = FALSE` to run the example
-token <- get_token("123", "123", dry_run = TRUE)
-icd10_block_title(token, "L50-L54", dry_run = TRUE)
+  # Get title and url for release
+  icd10_chapter_title(token, "XII")
+}
 
-# Change `dry_run = FALSE` to run the example
-token <- get_token("123", "123", dry_run = TRUE)
-icd10_code_title(token, "E14.1", dry_run = TRUE)
+#Assuming that the CLIENT ID and CLIENT SECRET are set up. Substitute accordingly
+if (exists("CLIENT_ID") & exists("CLIENT_SECRET")) {
+  #Generated token
+  token <- get_token(CLIENT_ID, CLIENT_SECRET)
+
+  # Get title and url for release
+  icd10_block_title(token, "L50-L54")
+}
+
+#Assuming that the CLIENT ID and CLIENT SECRET are set up. Substitute accordingly
+if (exists("CLIENT_ID") & exists("CLIENT_SECRET")) {
+  #Generated token
+  token <- get_token(CLIENT_ID, CLIENT_SECRET)
+
+  # Get title and url for release
+  icd10_code_title(token, "E14.1")
+}
 
 }

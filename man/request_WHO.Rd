@@ -9,7 +9,6 @@ request_WHO(
   token = NULL,
   language = "en",
   auto_update = TRUE,
-  dry_run = FALSE,
   warning_message_404 = "url for request not found",
   post_process_function = function(x) {
      x
@@ -31,22 +30,24 @@ the default is English (\code{language = "en"}).}
 obtaining a response.}
 }
 \value{
-Either the response from the request or \code{NULL} if \code{dry_run} is \code{TRUE}
+The response's body from the request
 }
 \description{
 This is the main function for development. Creates a request for the API using \code{make_request}
-and then performs the request using \code{run_request}. Finally it obtains the body of the
+and then performs the request using \code{httr2::req_perform}. Finally it obtains the body of the
 response and returns to user.
 }
 \examples{
+if (exists("CLIENT_ID") & exists("CLIENT_SECRET")) {
 
-#Get the URL
-url <- "https://id.who.int/icd/release/10"
+  #Get the URL
+  url <- "https://id.who.int/icd/release/10"
 
-#Obtain your token using your id and secret
-token <- get_token("123", "123", dry_run = TRUE)
+  #Generated token
+  token <- get_token(CLIENT_ID, CLIENT_SECRET)
 
-#Run the request
-request_WHO("https://id.who.int/icd/release/10", token, dry_run = TRUE)
+  # Get title and url for release
+  request_WHO(url, token = token)
+}
 }
 \keyword{internal}

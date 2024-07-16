@@ -8,7 +8,6 @@ icd10_code_search_release(
   token,
   code,
   language = "en",
-  dry_run = FALSE,
   validate_code = TRUE,
   auto_update = TRUE
 )
@@ -22,9 +21,6 @@ icd10_code_search_release(
 listed in \url{https://icd.who.int/docs/icd-api/SupportedClassifications/}
 the default is English (\code{language = "en"}).}
 
-\item{dry_run}{(\code{logical}) If \code{TRUE} will create the request and generate an empty token. This
-function is mostly for development.}
-
 \item{validate_code}{( \code{logical}) Apply additional functions to validate that
 the ICD-10 code is written as the API needs it.}
 
@@ -33,15 +29,20 @@ the ICD-10 code is written as the API needs it.}
 \value{
 A vector of characters with the ICD-10 releases where you can find
 the ICD-10 code
-
-#Change \code{dry_run = FALSE} to run the example
-token <- get_token("123","123", dry_run = TRUE)
-icd10_code_search_release(token, "I70", dry_run = TRUE)
-
-#Invalid ICD-10 codes should return NULL
-icd10_code_search_release(token, "NOT-A-CODE")
 }
 \description{
 Searches for a specific ICD-10 code across different releases and returns
 the editions of those releases in which the code appears.
+}
+\examples{
+# Assuming that the CLIENT ID and CLIENT SECRET are set up. Substitute accordingly
+if (exists("CLIENT_ID") & exists("CLIENT_SECRET")) {
+  #Generated token
+  token <- get_token(CLIENT_ID, CLIENT_SECRET)
+
+  # Get title and url for release
+  icd10_code_search_release(token, "I70")
+
+}
+
 }

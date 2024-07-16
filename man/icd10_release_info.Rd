@@ -4,13 +4,7 @@
 \alias{icd10_release_info}
 \title{Request information on a certain ICD-10 release}
 \usage{
-icd10_release_info(
-  token,
-  release = 2019,
-  language = "en",
-  dry_run = FALSE,
-  auto_update = TRUE
-)
+icd10_release_info(token, release = 2019, language = "en", auto_update = TRUE)
 }
 \arguments{
 \item{token}{(\code{list}) Access token to the API obtained from \code{\link[=get_token]{get_token()}}}
@@ -22,9 +16,6 @@ icd10_release_info(
 listed in \url{https://icd.who.int/docs/icd-api/SupportedClassifications/}
 the default is English (\code{language = "en"}).}
 
-\item{dry_run}{(\code{logical}) If \code{TRUE} will create the request and generate an empty token. This
-function is mostly for development.}
-
 \item{auto_update}{Attempts to update token automatically}
 }
 \value{
@@ -35,9 +26,13 @@ Obtains publishing information available for a specific
 release of the International Classification of Diseases ICD-10.
 }
 \examples{
-# Change `dry_run = FALSE` to run the example
-token <- get_token("123", "123", dry_run = TRUE)
+#Assuming that the CLIENT ID and CLIENT SECRET are set up. Substitute accordingly
+if (exists("CLIENT_ID") & exists("CLIENT_SECRET")) {
+  #Generated token
+  token <- get_token(CLIENT_ID, CLIENT_SECRET)
 
-# Get title and url for release
-icd10_release_info(token, release = 2016, dry_run = TRUE)
+  # Get title and url for release
+  icd10_release_info(token, release = 2016)
+}
+
 }

@@ -9,7 +9,6 @@ icd10_name_children(
   site,
   release = 2019,
   language = "en",
-  dry_run = FALSE,
   codes_only = FALSE
 )
 }
@@ -25,9 +24,6 @@ icd10_name_children(
 \item{language}{(\code{character}) Language for the request. Available languages are
 listed in \url{https://icd.who.int/docs/icd-api/SupportedClassifications/}
 the default is English (\code{language = "en"}).}
-
-\item{dry_run}{(\code{logical}) If \code{TRUE} will create the request and generate an empty token. This
-function is mostly for development.}
 
 \item{codes_only}{Return only the codes without the titles. This option
 is faster as it realizes less requests.}

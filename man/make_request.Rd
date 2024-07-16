@@ -4,7 +4,7 @@
 \alias{make_request}
 \title{Make a request for the WHO API v2}
 \usage{
-make_request(url, token, language = "en", auto_update = TRUE, dry_run = FALSE)
+make_request(url, token, language = "en", auto_update = TRUE)
 }
 \arguments{
 \item{url}{(\code{character}) Address for the request}
@@ -25,13 +25,17 @@ Builds a request to the \code{url} using the \code{token} obtained
 from the \code{\link[=get_token]{get_token()}} function.
 }
 \examples{
-# Make a request
-res <- make_request(
-    url = 'https://id.who.int/icd/release/10/E14.1',
-    token = token,
-)
-#Use that request with the API:
-res |> req_perform()
+if (exists("CLIENT_ID") & exists("CLIENT_SECRET")) {
+  #Generated token
+  token <- get_token(CLIENT_ID, CLIENT_SECRET)
+
+  res <- make_request(
+      url = 'https://id.who.int/icd/release/10/E14.1',
+      token = token,
+  )
+  #Use that request with the API:
+  res |> req_perform()
+ }
 
 }
 \keyword{internal}

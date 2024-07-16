@@ -16,8 +16,8 @@
 #' @returns A vector with all the children node codes available on `site`.
 #'
 #' @keywords internal
-icd10_request_children <- function(token, site, release = 2019, language = "en",
-                                    dry_run = FALSE, auto_update = TRUE) {
+icd10_request_children <- function(token, site, release = 2019,
+                                   language = "en", auto_update = TRUE){
 
   # Request the release list to entity
   children <- request_WHO(
@@ -25,7 +25,6 @@ icd10_request_children <- function(token, site, release = 2019, language = "en",
     token = token,
     language = language,
     auto_update = auto_update,
-    dry_run = dry_run,
     warning_message_404 = paste(
       "Request not found. Possibly any of release, chapter/block/code or language is not",
       "available or incorrectly specified."
@@ -54,13 +53,13 @@ icd10_request_children <- function(token, site, release = 2019, language = "en",
 #' available at `site` as well as their codes (column `code`).
 #'
 #' @keywords internal
-icd10_name_children <- function(token, site, release = 2019, language = "en",
-                                 dry_run = FALSE, codes_only = FALSE) {
+icd10_name_children <- function(token, site, release = 2019, language = "en", codes_only = FALSE) {
 
   children <- icd10_request_children(
-    token = token, site = site,
-    release = release, language = language,
-    dry_run = dry_run
+    token = token,
+    site = site,
+    release = release,
+    language = language
   )
 
   if (length(children) > 0 & !codes_only) {
@@ -71,8 +70,7 @@ icd10_name_children <- function(token, site, release = 2019, language = "en",
         token = token,
         chapter = children[k],
         release = release,
-        language = language,
-        dry_run = dry_run
+        language = language
       )
     }
 
@@ -126,8 +124,7 @@ icd10_validate_code <- function(code) {
 #' @returns A character containing the `site` of the parent node.
 #'
 #' @keywords internal
-icd10_parent <- function(token, site, release = 2019, language = "en",
-                          dry_run = FALSE, codes_only = FALSE,
+icd10_parent <- function(token, site, release = 2019, language = "en", codes_only = FALSE,
                           auto_update = TRUE) {
 
   # Request the release list to entity
@@ -136,17 +133,19 @@ icd10_parent <- function(token, site, release = 2019, language = "en",
     token = token,
     language = language,
     auto_update = auto_update,
-    dry_run = dry_run,
     warning_message_404 = paste(
       "Request not found. Possibly any of release, chapter/block/code or language is not",
       "available or incorrectly specified."
     ),
-    post_process_function = function(releases){
+    post_process_function = function(parent_name){
       parent_name <- unlist(parent_name["parent"])
       parent_name <- as.character(parent_name)
       parent_name <- gsub(paste0(".*release/10/", release, "/?"), "", parent_name)
-      parent_name <- ifelse(nchar(parent_name) == 0, NULL, parent_name)
-      return(parent_name)
+      if (nchar(parent_name) != 0){
+        return(parent_name)
+      } else {
+        return(NA_character_)
+      }
     }
   )
 
@@ -164,22 +163,24 @@ icd10_parent <- function(token, site, release = 2019, language = "en",
 #' @returns A named vector containing all the parents for the current site
 #'
 #' @keywords internal
-icd10_parents <- function(token, site, release = 2019, language = "en",
-                           dry_run = FALSE, codes_only = FALSE) {
-  parents <- c()
+icd10_parents <- function(token, site, release = 2019, language = "en", codes_only = FALSE) {
+
+  #Set the parents
+  parents         <- c()
   site_has_parent <- TRUE
-  current_parent <- site
+  current_parent  <- site
 
   while (site_has_parent) {
     # Get the parents of the site
     current_parent <- icd10_parent(
-      token = token, site = current_parent,
-      release = release, language = language,
-      dry_run = dry_run
+      token = token,
+      site = current_parent,
+      release = release,
+      language = language
     )
 
     # Indicate whether the parents exist
-    site_has_parent <- !is.na(current_parent)
+    site_has_parent <- !is.na(current_parent) & !is.null(current_parent)
 
     if (site_has_parent) {
       parents <- c(parents, "code" = current_parent)
@@ -187,9 +188,10 @@ icd10_parents <- function(token, site, release = 2019, language = "en",
       # Obtain name of the parent
       if (!codes_only) {
         name_parent <- icd10_chapter_title(
-          token = token, site = current_parent,
-          release = release, language = language,
-          dry_run = dry_run
+          token = token,
+          chapter = current_parent,
+          release = release,
+          language = language
         )
       } else {
         name_parent <- ""
@@ -197,116 +199,11 @@ icd10_parents <- function(token, site, release = 2019, language = "en",
 
       # Add name of parent to list of names
       parents <- c(parents, "title" = name_parent)
-    }
-  }
 
-  if (!dry_run) {
-    names(parents) <- make.unique(names(parents))
-  } else {
-    parents <- NULL
+      #Get names of the parents
+      names(parents) <- make.unique(names(parents))
+    }
   }
 
   return(parents)
-}
-
-#' Search info in a vectorized way
-#'
-#' @description
-#' Searches for chapter, block or code in a vectorized fashion
-#'
-#' @param searchvec Vector to be searched
-#' @param searchfun Search function to be utilized
-#' @param ... Additional parameters to pass to `searchfun`
-#' @inheritParams icd10_parents
-#'
-#' @returns A data frame containing all the parent nodes for the block/code/chapter
-#' @keywords internal
-.icd10_search_vectorized <- function(searchvec, searchfun, token, release = 2019,
-                                     language = "en", dry_run = FALSE,
-                                     codes_only = FALSE, ...) {
-  # Obtain unique entries of the code vector
-  uniquevec <- unique(searchvec)
-  uniquevec <- uniquevec[!is.na(uniquevec)]
-#FIXME: Try and fix this version
-  # Loop through all entries
-  res <- lapply(uniquevec, function(x) {
-    print(paste0("Searching code: ", x))
-    codeinfo <- searchfun(token, x,
-      release = release, language = language,
-      dry_run = dry_run, codes_only = codes_only,
-      ...
-    )
-    if (!dry_run && any(!is.na(codeinfo))) {
-      codeinfo <- c(codeinfo, "search_value" = x)
-    } else {
-      codeinfo <- NULL
-    }
-    return(codeinfo)
-  })
-
-  # Convert each list to a dataframe and bind them together
-  dbf <- dplyr::bind_rows(res)
-
-  # Check that it has rows
-  if (nrow(dbf) > 0) {
-    # Join the dataframe
-    dbf <- data.frame("search_value" = searchvec) |>
-      dplyr::left_join(
-        dbf,
-        by = "search_value"
-      ) |>
-      dplyr::select(as.symbol("search_value"), dplyr::everything())
-  } else {
-    warning("No value of `searchvec` was found")
-    dbf <- data.frame(search_value = searchvec)
-  }
-
-  return(dbf)
-}
-
-#' Search info in a tidy way
-#'
-#' @description
-#' Searches for chapter, block or code in a vectorized fashion and returns
-#' into a tidy object (as a `mutate` would)
-#'
-#' @param .data A `data.frame` or a `data.frame`extension such as a `tibble`.
-#' @param colname (`character`) Name of the `data.frame` column with the ICD-10 code/block or chapter
-#' to search
-#' @inheritParams .icd10_search_vectorized
-#'
-#' @returns A data frame containing all the parent nodes for the block/code/chapter
-#' as well as the original dataframe
-#' @keywords internal
-.icd10_search_tidy <- function(.data, colname, searchfun, token, release,
-                               language, dry_run, codes_only, ...) {
-
-  #FIXME: Try and fix this version
-  if (!(colname %in% colnames(.data))) {
-    stop(paste0(
-      "Column ", colname, " could not be found. Please rename it or",
-      " make sure it exists in data"
-    ))
-  }
-
-  # Get the column
-  searchvec <- unlist(.data[colname])
-
-  # Use vectorized search
-  dbf <- .icd10_search_vectorized(
-    searchvec = searchvec, searchfun = searchfun,
-    token = token, release = release,
-    language = language, dry_run = dry_run,
-    codes_only = codes_only, ...
-  )
-
-  # Finalize by joining
-  if (!dry_run && nrow(dbf) > 0) {
-    matchvector <- c("search_value")
-    names(matchvector) <- colname
-    .data <- .data |>
-      dplyr::left_join(dbf, by = matchvector)
-  }
-
-  return(.data)
 }
