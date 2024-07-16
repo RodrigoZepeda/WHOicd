@@ -26,6 +26,8 @@ listed in \url{https://icd.who.int/docs/icd-api/SupportedClassifications/}
 the default is English (\code{language = "en"}).}
 
 \item{auto_update}{Attempts to update token automatically}
+
+\item{as_data_frame}{Whether to return the result as a \code{data.frame} or as a vector.}
 }
 \value{
 A character with the title of the chapter, block or code

@@ -19,6 +19,7 @@ knitr::opts_chunk$set(
 [![CRAN status](https://www.r-pkg.org/badges/version/WHOicd)](https://CRAN.R-project.org/package=WHOicd)
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![Codecov test coverage](https://codecov.io/gh/RodrigoZepeda/WHOicd/branch/main/graph/badge.svg)](https://app.codecov.io/gh/RodrigoZepeda/WHOicd?branch=main)
+[![R-CMD-check](https://github.com/RodrigoZepeda/WHOicd/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/RodrigoZepeda/WHOicd/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 Access the World Health Organization's (WHO) International Classification of Diseases (ICD) [API](https://icd.who.int/icdapi). This allows you to use ICD-10 and ICD-11 codes, encode text directly into ICD-11, search for diseases in ICD-10, and detect underlying causes of death using the [DORIS system](https://icd.who.int/doris). 

@@ -11,6 +11,7 @@ status](https://www.r-pkg.org/badges/version/WHOicd)](https://CRAN.R-project.org
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![Codecov test
 coverage](https://codecov.io/gh/RodrigoZepeda/WHOicd/branch/main/graph/badge.svg)](https://app.codecov.io/gh/RodrigoZepeda/WHOicd?branch=main)
+[![R-CMD-check](https://github.com/RodrigoZepeda/WHOicd/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/RodrigoZepeda/WHOicd/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 Access the World Health Organization’s (WHO) International

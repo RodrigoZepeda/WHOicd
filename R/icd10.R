@@ -96,7 +96,7 @@ icd10_release_info <- function(token, release = 2019, language = "en", auto_upda
 #' @inheritParams get_token
 #' @inheritParams icd10_release_info
 #' @param search_val (`character`) ICD-10 chapter, block or code for searching.
-#'
+#' @param as_data_frame Whether to return the result as a `data.frame` or as a vector.
 #' @returns A character with the title of the chapter, block or code
 #' @examples
 #' #Assuming that the CLIENT ID and CLIENT SECRET are set up. Substitute accordingly
