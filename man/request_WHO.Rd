@@ -9,6 +9,7 @@ request_WHO(
   token = NULL,
   language = "en",
   auto_update = TRUE,
+  req_body = NULL,
   warning_message_404 = "url for request not found",
   post_process_function = function(x) {
      x

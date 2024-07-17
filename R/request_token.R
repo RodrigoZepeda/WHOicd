@@ -113,7 +113,7 @@ check_token_expiration_time <- function(token, auto_update = TRUE) {
 #'   res |> req_perform()
 #'  }
 #'
-make_request <- function(url, token, language = "en", auto_update = TRUE) {
+make_request <- function(url, token, language = "en", auto_update = TRUE, req_body = NULL) {
 
   # Check whether the token will expire soon or has expired
   token <- check_token_expiration_time(token, auto_update = auto_update)
@@ -158,6 +158,7 @@ request_WHO <-  function(url,
                          token = NULL,
                          language = "en",
                          auto_update = TRUE,
+                         req_body = NULL,
                          warning_message_404 = "url for request not found",
                          post_process_function = function(x){x}){
 
@@ -173,6 +174,11 @@ request_WHO <-  function(url,
           language = language,
           auto_update = auto_update
         )
+
+        if (!is.null(req_body)){
+          req <- do.call(httr2::req_url_query, append(list(.req = req), req_body))
+        }
+
         httr2::req_perform(req = req)
       },
 
@@ -189,7 +195,7 @@ request_WHO <-  function(url,
       req <- post_process_function(req)
     }
   } else {
-    warning("No Internet connection detected. Returning `NULL`.")
+    warning("No Internet connection detected. Returning `NA`.")
     req <- NA_character_
   }
 

@@ -49,7 +49,8 @@ doris(
   release = "2024-01",
   language = "en",
   api_version = "v2",
-  stop_on_error = FALSE
+  stop_on_error = FALSE,
+  auto_update = TRUE
 )
 }
 \arguments{
@@ -167,6 +168,8 @@ the default is English (\code{language = "en"}).}
 you are doing.}
 
 \item{stop_on_error}{Whether to stop if API throws an error or just throw it as a warning.}
+
+\item{auto_update}{Attempts to update token automatically}
 }
 \value{
 List with the cause of death report

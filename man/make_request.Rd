@@ -4,7 +4,7 @@
 \alias{make_request}
 \title{Make a request for the WHO API v2}
 \usage{
-make_request(url, token, language = "en", auto_update = TRUE)
+make_request(url, token, language = "en", auto_update = TRUE, req_body = NULL)
 }
 \arguments{
 \item{url}{(\code{character}) Address for the request}

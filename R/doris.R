@@ -193,18 +193,17 @@ doris <- function(token,
                   release = "2024-01",
                   language = "en",
                   api_version = "v2",
-                  stop_on_error = FALSE) {
+                  stop_on_error = FALSE,
+                  auto_update = TRUE) {
+
   # Do a request for release
-  req <- httr2::request(
-    base_url = paste0("https://id.who.int/icd/release/11/", release, "/doris")
-  ) |>
-    httr2::req_headers(
-      Authorization = paste(token["token_type"], token["access_token"]),
-      Accept = "application/json",
-      `Accept-Language` = "en",
-      `API-Version` = "v2"
-    ) |>
-    httr2::req_url_query(
+  report <- request_WHO(
+    url = paste0("https://id.who.int/icd/release/11/", release, "/doris"),
+    token = token,
+    language = language,
+    auto_update = auto_update,
+    warning_message_404 = "Release for request not found",
+    req_body = list(
       sex = codify_sex(sex),
       estimatedAge = age,
       dateBirth = date_of_birth,
@@ -246,11 +245,7 @@ doris <- function(token,
       maternalDeathTimeFromPregnancy = code_maternal_death_time_from_pregnancy(maternal_death_time_from_pregnancy),
       maternalDeathPregnancyContribute = codify_ans(maternal_death_pregnancy_contribute)
     )
-
-  # Perform the request
-  request <- httr2::req_perform(req = req)
-
-  report <- request |> resp_body_json()
+  )
 
   # Check for report's warnings and errors
   warning_msn <- unlist(report["warning"])
