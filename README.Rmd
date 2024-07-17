@@ -41,7 +41,7 @@ CLIENT_SECRET <- Sys.getenv("CLIENT_SECRET")
 ```
 
 For the examples we'll assume you already have a `CLIENT_ID` and `CLIENT_SECRET`
-for the WHO API as obtained in the [**Obtaining your token**](#obtaining-your-token) section. 
+for the WHO API as obtained in the [**Generaring your token**](/articles/Generating-your-token.html) article. 
 
 To interact with the API you'll need to continuously create a token using the `get_token` function:
 
@@ -53,6 +53,28 @@ token <- get_token(CLIENT_ID, CLIENT_SECRET)
 ```
 
 > **Note** These tokens last for 1 hour and once the hour passes you'll need to generate a new token. The package will try to auto-generate one for you. 
+
+There are three main objectives for this package:
+
+1. Use of the DORIS system to obtain underlying cause of death.
+2. Use of ICD-11 to codify causes of death.
+3. Use of ICD-10 to codify causes of death.
+
+## DORIS (WHO Digital Open Rule Integrated Cause of Death Selection)
+
+The [Digital Open Rule Integrated Cause of Death Selection](https://icd.who.int/doris/en), DORIS, 
+provides a framework for obtaining the underlying cause of death from a death certificate. DORIS
+functionality has been implemented in the `doris` function. 
+
+The following example considers a 60 year old female whose primary cause of death was `2D42`: 
+`Malignant neoplasms of ill-defined sites` due to `2E03`: `Malignant neoplasm metastasis in bone or bone marrow` due to `CB41.0Z`: `Acute respiratory failure, unspecified`. 
+
+```{r}
+doris(token, sex = "Female", age = iso_8601(years = 60), cause_of_death_code_a = "2D42",
+      cause_of_death_code_b = "2E03", cause_of_death_code_c = "CB41.0Z")
+```
+
+All of the options are available in the function's help page [`doris()`](https://rodrigozepeda.github.io/WHOicd/reference/doris.html). 
 
 ## ICD-11 examples
 
@@ -130,47 +152,8 @@ icd10_release_info(token, release = 2016)
 ```
 
 
-## DORIS (WHO Digital Open Rule Integrated Cause of Death Selection)
 
-The [Digital Open Rule Integrated Cause of Death Selection](https://icd.who.int/doris/en), DORIS, 
-provides a framework for obtaining the underlying cause of death from a death certificate. DORIS
-functionality has been implemented in the `doris` function. 
 
-The following example considers a 60 year old female whose primary cause of death was `2D42`: 
-`Malignant neoplasms of ill-defined sites` due to `2E03`: `Malignant neoplasm metastasis in bone or bone marrow` due to `CB41.0Z`: `Acute respiratory failure, unspecified`. 
-
-```{r}
-doris(token, sex = "Female", age = iso_8601(years = 60), cause_of_death_code_a = "2D42",
-      cause_of_death_code_b = "2E03", cause_of_death_code_c = "CB41.0Z")
-```
-
-All of the options are available in the function's help page [`doris()`](https://rodrigozepeda.github.io/WHOicd/reference/get_token.html). 
-
-## Obtaining your token
-
-Go to the WHO ICD API website at [https://icd.who.int/icdapi](https://icd.who.int/icdapi)
-and click on `Register` inside the `API Access` section:
-
-![Image of the ICD API website indicating where the Register button for the API lies](man/figures/api1.png)
-
-Fill out your information and verify your email. 
-
-![Image of the API website with the register form](man/figures/api2.png)
-
-Once your email is verified go to the `Login` page. Enter your email and password:
-
-![API login page requesting the user for email and password](man/figures/api2_5.png)
-
-Read and accept the terms and conditions for the API
-
-![Image of API website indicating where is the button to accept terms and conditions](man/figures/api3.png)
-
-Under **API Access** click on `View API access key(s)`
-
-![Image of API website indicating where is the button to View the API access keys](man/figures/api4.png)
-Your client id and secret will be required by the `WHOicd` library. Copy them, they are the equivalent to a user and password for this API. You'll need them to interact with the WHO ICD. **Don't share them!!**
-
-![Image of API website indicating where is the button to View the API access keys](man/figures/api5.png)
 
 ## Support
 

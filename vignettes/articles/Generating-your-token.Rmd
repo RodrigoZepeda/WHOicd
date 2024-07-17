@@ -1,0 +1,53 @@
+---
+title: "Generating your token"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+CLIENT_ID <- Sys.getenv("CLIENT_ID")
+CLIENT_SECRET <- Sys.getenv("CLIENT_SECRET")
+```
+
+To be able to use the package you'll need a `CLIENT_ID` and `CLIENT_SECRET` from the WHO website. Follow these instructions to obtain it: 
+
+1. Go to the WHO ICD API website at [https://icd.who.int/icdapi](https://icd.who.int/icdapi)
+and click on `Register` inside the `API Access` section:
+
+![Image of the ICD API website indicating where the Register button for the API lies](figures/api1.png)
+
+2. Fill out your information and verify your email. 
+
+![Image of the API website with the register form](figures/api2.png)
+
+3. Once your email is verified go to the `Login` page. Enter your email and password:
+
+![API login page requesting the user for email and password](figures/api2_5.png)
+
+4. Read and accept the terms and conditions for the API
+
+![Image of API website indicating where is the button to accept terms and conditions](figures/api3.png)
+
+5. Under **API Access** click on `View API access key(s)`
+
+![Image of API website indicating where is the button to View the API access keys](figures/api4.png)
+
+6. Your client id and secret will be required by the `WHOicd` library. Copy them, they are the equivalent to a user and password for this API. You'll need them to interact with the WHO ICD. **Don't share them!!**
+
+![Image of API website indicating where is the button to View the API access keys](figures/api5.png)
+
+
+7. Now go back to R and use them!
+
+```{r setup}
+library(WHOicd)
+
+#Substitute for your ID and SECRET
+token <- get_token(CLIENT_ID, CLIENT_SECRET)
+
+#Check that they work by searching all ICD-10 releases
+icd10_releases(token)
+```

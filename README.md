@@ -33,8 +33,8 @@ remotes::install_github("RodrigoZepeda/WHOicd")
 ## Setup
 
 For the examples we’ll assume you already have a `CLIENT_ID` and
-`CLIENT_SECRET` for the WHO API as obtained in the [**Obtaining your
-token**](#obtaining-your-token) section.
+`CLIENT_SECRET` for the WHO API as obtained in the [**Generaring your
+token**](/articles/Generating-your-token.html) article.
 
 To interact with the API you’ll need to continuously create a token
 using the `get_token` function:
@@ -49,6 +49,55 @@ token <- get_token(CLIENT_ID, CLIENT_SECRET)
 > **Note** These tokens last for 1 hour and once the hour passes you’ll
 > need to generate a new token. The package will try to auto-generate
 > one for you.
+
+There are three main objectives for this package:
+
+1.  Use of the DORIS system to obtain underlying cause of death.
+2.  Use of ICD-11 to codify causes of death.
+3.  Use of ICD-10 to codify causes of death.
+
+## DORIS (WHO Digital Open Rule Integrated Cause of Death Selection)
+
+The [Digital Open Rule Integrated Cause of Death
+Selection](https://icd.who.int/doris/en), DORIS, provides a framework
+for obtaining the underlying cause of death from a death certificate.
+DORIS functionality has been implemented in the `doris` function.
+
+The following example considers a 60 year old female whose primary cause
+of death was `2D42`: `Malignant neoplasms of ill-defined sites` due to
+`2E03`: `Malignant neoplasm metastasis in bone or bone marrow` due to
+`CB41.0Z`: `Acute respiratory failure, unspecified`.
+
+``` r
+doris(token, sex = "Female", age = iso_8601(years = 60), cause_of_death_code_a = "2D42",
+      cause_of_death_code_b = "2E03", cause_of_death_code_c = "CB41.0Z")
+#> $`Underlying cause of death (UCOD)`
+#> [1] "2D42"
+#> 
+#> $`UCOD URI`
+#> [1] "http://id.who.int/icd/entity/2023965817"
+#> 
+#> $`UCOD with postcoordinated information (if available)`
+#> [1] "2D42"
+#> 
+#> $`UCOD postcoordinated URI`
+#> [1] "http://id.who.int/icd/release/11/mms/2023965817"
+#> 
+#> $`Detailed explanation (report)`
+#> [1] "SP4: 2E03 is the starting point of the first-mentioned sequence (2D42 due to 2E03), which is selected as the tentative starting point (TSP).\nM1: There is a special instruction on 2E03 reported with mention of 2D42.\nM1: 2D42 is selected as the TUC.\nM3: The tentative underlying cause is not the same as the starting point selected in Steps SP1 to SP8. Repeat steps SP6, M1 and M2.\n\n\nFull report:\nSP1: is not applicable.\nSP2: is not applicable.\nSP3: is not applicable.\nSP4: 2E03 is the starting point of the first-mentioned sequence (2D42 due to 2E03), which is selected as the tentative starting point (TSP).\nSP6: is not applicable.\nSP7: is not applicable.\nSP8: is not applicable.\nM1: There is a special instruction on 2E03 reported with mention of 2D42.\nM1: 2D42 is selected as the TUC.\nM1: There is no special instruction applicable with TUC 2D42.\nM2: is not applicable.\nM3: The tentative underlying cause is not the same as the starting point selected in Steps SP1 to SP8. Repeat steps SP6, M1 and M2.\nSP6: is not applicable.\nSP7: is not applicable.\nSP8: is not applicable.\nM1: There is no special instruction applicable with TUC 2D42.\nM2: is not applicable.\n"
+#> 
+#> $reject
+#> [1] FALSE
+#> 
+#> $error
+#> NULL
+#> 
+#> $warning
+#> NULL
+```
+
+All of the options are available in the function’s help page
+[`doris()`](https://rodrigozepeda.github.io/WHOicd/reference/doris.html).
 
 ## ICD-11 examples
 
@@ -198,104 +247,6 @@ icd10_release_info(token, release = 2016)
 #>                                                                                                                 browserUrl 
 #>                                                                 "http://apps.who.int/classifications/icd10/browse/2016/en"
 ```
-
-## DORIS (WHO Digital Open Rule Integrated Cause of Death Selection)
-
-The [Digital Open Rule Integrated Cause of Death
-Selection](https://icd.who.int/doris/en), DORIS, provides a framework
-for obtaining the underlying cause of death from a death certificate.
-DORIS functionality has been implemented in the `doris` function.
-
-The following example considers a 60 year old female whose primary cause
-of death was `2D42`: `Malignant neoplasms of ill-defined sites` due to
-`2E03`: `Malignant neoplasm metastasis in bone or bone marrow` due to
-`CB41.0Z`: `Acute respiratory failure, unspecified`.
-
-``` r
-doris(token, sex = "Female", age = iso_8601(years = 60), cause_of_death_code_a = "2D42",
-      cause_of_death_code_b = "2E03", cause_of_death_code_c = "CB41.0Z")
-#> $`Underlying cause of death (UCOD)`
-#> [1] "2D42"
-#> 
-#> $`UCOD URI`
-#> [1] "http://id.who.int/icd/entity/2023965817"
-#> 
-#> $`UCOD with postcoordinated information (if available)`
-#> [1] "2D42"
-#> 
-#> $`UCOD postcoordinated URI`
-#> [1] "http://id.who.int/icd/release/11/mms/2023965817"
-#> 
-#> $`Detailed explanation (report)`
-#> [1] "SP4: 2E03 is the starting point of the first-mentioned sequence (2D42 due to 2E03), which is selected as the tentative starting point (TSP).\nM1: There is a special instruction on 2E03 reported with mention of 2D42.\nM1: 2D42 is selected as the TUC.\nM3: The tentative underlying cause is not the same as the starting point selected in Steps SP1 to SP8. Repeat steps SP6, M1 and M2.\n\n\nFull report:\nSP1: is not applicable.\nSP2: is not applicable.\nSP3: is not applicable.\nSP4: 2E03 is the starting point of the first-mentioned sequence (2D42 due to 2E03), which is selected as the tentative starting point (TSP).\nSP6: is not applicable.\nSP7: is not applicable.\nSP8: is not applicable.\nM1: There is a special instruction on 2E03 reported with mention of 2D42.\nM1: 2D42 is selected as the TUC.\nM1: There is no special instruction applicable with TUC 2D42.\nM2: is not applicable.\nM3: The tentative underlying cause is not the same as the starting point selected in Steps SP1 to SP8. Repeat steps SP6, M1 and M2.\nSP6: is not applicable.\nSP7: is not applicable.\nSP8: is not applicable.\nM1: There is no special instruction applicable with TUC 2D42.\nM2: is not applicable.\n"
-#> 
-#> $reject
-#> [1] FALSE
-#> 
-#> $error
-#> NULL
-#> 
-#> $warning
-#> NULL
-```
-
-All of the options are available in the function’s help page
-[`doris()`](https://rodrigozepeda.github.io/WHOicd/reference/get_token.html).
-
-## Obtaining your token
-
-Go to the WHO ICD API website at <https://icd.who.int/icdapi> and click
-on `Register` inside the `API Access` section:
-
-<figure>
-<img src="man/figures/api1.png"
-alt="Image of the ICD API website indicating where the Register button for the API lies" />
-<figcaption aria-hidden="true">Image of the ICD API website indicating
-where the Register button for the API lies</figcaption>
-</figure>
-
-Fill out your information and verify your email.
-
-<figure>
-<img src="man/figures/api2.png"
-alt="Image of the API website with the register form" />
-<figcaption aria-hidden="true">Image of the API website with the
-register form</figcaption>
-</figure>
-
-Once your email is verified go to the `Login` page. Enter your email and
-password:
-
-<figure>
-<img src="man/figures/api2_5.png"
-alt="API login page requesting the user for email and password" />
-<figcaption aria-hidden="true">API login page requesting the user for
-email and password</figcaption>
-</figure>
-
-Read and accept the terms and conditions for the API
-
-<figure>
-<img src="man/figures/api3.png"
-alt="Image of API website indicating where is the button to accept terms and conditions" />
-<figcaption aria-hidden="true">Image of API website indicating where is
-the button to accept terms and conditions</figcaption>
-</figure>
-
-Under **API Access** click on `View API access key(s)`
-
-![Image of API website indicating where is the button to View the API
-access keys](man/figures/api4.png) Your client id and secret will be
-required by the `WHOicd` library. Copy them, they are the equivalent to
-a user and password for this API. You’ll need them to interact with the
-WHO ICD. **Don’t share them!!**
-
-<figure>
-<img src="man/figures/api5.png"
-alt="Image of API website indicating where is the button to View the API access keys" />
-<figcaption aria-hidden="true">Image of API website indicating where is
-the button to View the API access keys</figcaption>
-</figure>
 
 ## Support
 

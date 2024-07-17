@@ -2,6 +2,8 @@
 <url><loc>/404.html</loc></url>
 <url><loc>/LICENSE-text.html</loc></url>
 <url><loc>/LICENSE.html</loc></url>
+<url><loc>/articles/Generating-your-token.html</loc></url>
+<url><loc>/articles/index.html</loc></url>
 <url><loc>/authors.html</loc></url>
 <url><loc>/index.html</loc></url>
 <url><loc>/news/index.html</loc></url>
@@ -21,7 +23,6 @@
 <url><loc>/reference/icd10_codes.html</loc></url>
 <url><loc>/reference/icd10_name_children.html</loc></url>
 <url><loc>/reference/icd10_parent.html</loc></url>
-<url><loc>/reference/icd10_parents.html</loc></url>
 <url><loc>/reference/icd10_release_info.html</loc></url>
 <url><loc>/reference/icd10_releases.html</loc></url>
 <url><loc>/reference/icd10_request_children.html</loc></url>
