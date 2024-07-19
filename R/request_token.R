@@ -72,7 +72,7 @@ check_token_expiration_time <- function(token, auto_update = TRUE) {
   time_since_creation <- difftime(Sys.time(), token$creation_time, units = "secs") |> as.numeric()
 
   #Check if token will expire
-  if (abs(time_since_creation - token$expires_in) < 3 * 60) {
+  if (abs(time_since_creation - token$expires_in) > 3 * 60) {
     if (auto_update) {
       token <- get_token(
         client_id     = unlist(token["client_id"]),
@@ -176,13 +176,16 @@ request_WHO <-  function(url,
           auto_update = auto_update
         )
 
-        req <- req |> httr2::req_method("GET")
+        req <- req |> httr2::req_method(method)
 
         if (!is.null(req_body)){
-          req <- do.call(httr2::req_url_query, append(list(.req = req), req_body))
+            req <- do.call(httr2::req_url_query, append(list(.req = req), req_body))
+          #} else {
+          #  req <- req |> req_body_json(req_body)
+          #}
         }
 
-        httr2::req_perform(req = req)
+        req |> httr2::req_perform()
       },
 
       # Return NULL if not found anywhere

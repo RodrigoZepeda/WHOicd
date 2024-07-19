@@ -1,10 +1,10 @@
 Package: WHOicd
 Title: Retrieve data from the World Health Organization (WHO) International Classification of Diseases (ICD) API version 2
-Version: 0.4.1
+Version: 0.5.0
 Authors@R: 
     person("Rodrigo", "Zepeda-Tello", , "rzepeda17@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-4471-5270"))
-Description: Interface to the World Health Organization (WHO) International Classification of Diseases (ICD) API. It allows users to search the reference codes for diseases, codify plain text causes of death, and obtain additional information for reference codes. Currently available for ICD10 and ICD11.
+Description: Interface to the World Health Organization (WHO) International Classification of Diseases (ICD) API. It allows users to search the reference codes for diseases, codify plain text causes of death, identify causes of death, and obtain additional information for reference codes. Currently available for ICD10, ICD11 and the DORIS system.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

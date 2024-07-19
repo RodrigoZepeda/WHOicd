@@ -1,3 +1,9 @@
+# WHOicd 0.5.0
+
+* Changed `icd_search()` method to POST. 
+* Removed the code validation step from ICD-10 as it might introduce bugs down the line. 
+* Completed the first batch of `icd_11` functions
+
 # WHOicd 0.4.1
 
 * Fixed minor errors on the website.

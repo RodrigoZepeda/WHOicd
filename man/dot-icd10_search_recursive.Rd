@@ -40,9 +40,6 @@ if (exists("CLIENT_ID") & exists("CLIENT_SECRET")) {
 
   # Search multiple titles
   dbf <- .icd10_search_recursive(token, c("D50.1","I14","XII","D50","D60","D673845"))
-  dbf <- .icd10_search_recursive(token, c("XI","XII", NA_character_))
-  dbf <- .icd10_search_recursive(token, c("D50-D53", "D50-D53", NA_character_, "D60-D64"))
-
 }
 }
 \keyword{internal}

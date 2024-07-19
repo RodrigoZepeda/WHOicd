@@ -177,9 +177,9 @@ codify_sex <- function(sex = c("Males","Females","Unknowns")){
     stop("Invalid sex. Must be 1 for Males, 2 for Females or 9 for Unknown")
   } else if (is.character(sex)){
     sex <- switch(sex,
-                  "Male" = 1,
-                  "Female" = 2,
-                  "Unknown" = 9)
+                  "Male" = "1",
+                  "Female" = "2",
+                  "Unknown" = "9")
     return(sex)
   } else {
     stop("Invalid sex")
@@ -205,9 +205,9 @@ codify_ans <- function(ans = c("No","Yes","Unknowns")){
     stop("Invalid request, Must be 0 for No, 1 for Yes or 9 for Unknown")
   } else if (is.character(ans)){
     ans <- switch(ans,
-                  "No" = 0,
-                  "Yes" = 1,
-                  "Unknown" = 9)
+                  "No" = "0",
+                  "Yes" = "1",
+                  "Unknown" = "9")
     return(ans)
   } else {
     stop("Invalid ans")

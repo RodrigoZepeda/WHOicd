@@ -42,7 +42,7 @@ icd11_search2(
 \arguments{
 \item{token}{(\code{list}) Access token to the API obtained from \code{\link[=get_token]{get_token()}}}
 
-\item{text}{(stirng) String to autocode with ICD-11}
+\item{text}{The text component to search in ICD-11.}
 
 \item{release}{Release version as listed in
 \url{https://icd.who.int/docs/icd-api/SupportedClassifications/#supported-classifications-and-versions}

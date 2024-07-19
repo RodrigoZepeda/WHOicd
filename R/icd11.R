@@ -176,6 +176,7 @@ icd11_autocode2 <- function(token, text, release = "2024-01", subtrees_filter = 
 #'
 #' Searches the foundation component of the ICD-11.
 #'
+#' @param text The text component to search in ICD-11.
 #' @inheritParams autocode
 #' @inheritParams doris
 #'
@@ -256,6 +257,7 @@ icd11_search <- function(token,
     language = language,
     auto_update = auto_update,
     warning_message_404 = "Release or linearization for request not found",
+    method = "POST",
     req_body = list(
       q = text,
       subtreesFilter = paste0(subtrees_filter, collapse = ", "),
@@ -303,6 +305,7 @@ icd11_search2 <- function(token, text,
     language = language,
     auto_update = auto_update,
     warning_message_404 = "Release for request not found",
+    method = "POST",
     req_body = list(
       q = text,
       subtreesFilter = paste0(subtrees_filter, collapse = ", "),
@@ -331,6 +334,16 @@ icd11_search2 <- function(token, text,
 #'
 #' @returns Character vector with the ICD-11 URI and its characteristics
 #'
+#' @details `icd_id()` Searches for a specific URI across a specific `linearization` an `release`.
+#' `icd_id2()`  searches for a URI across a specific release regardless of linearization. Finally,
+#' `icd_id3` searches for the URI across all ICD-11 releases.
+#'
+#' @name id
+#'
+NULL
+
+#' @rdname id
+#'
 #' @examples
 #' # Assuming that the CLIENT ID and CLIENT SECRET are set up. Substitute accordingly
 #' if (exists("CLIENT_ID") & exists("CLIENT_SECRET")) {
@@ -342,14 +355,55 @@ icd11_search2 <- function(token, text,
 #'
 #'   # Search for ICD-11 URI with parents and diagnostic criteria
 #'   icd11_id(token,
-#'     id = "http://id.who.int/icd/entity/455013390",
+#'     id = "http://id.who.int/icd/entity/1442995018",
 #'     include = c("ancestor", "diagnosticCriteria")
 #'   )
 #' }
-#'
 #' @export
-icd11_id <- function(token, id, release = "2024-01", include = NULL, language = "en",
-                     auto_update = TRUE) {
+icd11_id <- function(token, id, linearization = "mms", release = "2024-01", include = NULL, language = "en",
+                      auto_update = TRUE) {
+
+  # Preprocess ID if URI is provided to keep only last digits
+  parts <- strsplit(id, "/")[[1]]
+  id    <- utils::tail(parts, n = 1)
+
+  autocode <- request_WHO(
+    url = paste0("https://id.who.int/icd/release/11/", release, "/", linearization, "/", id),
+    token = token,
+    language = language,
+    auto_update = auto_update,
+    warning_message_404 = "Release for request not found",
+    req_body = list(
+      include = paste0(include, collapse = ", ")
+    )
+  )
+
+  return(autocode)
+}
+
+
+#' @rdname id
+#'
+#' @examples
+#' # Assuming that the CLIENT ID and CLIENT SECRET are set up. Substitute accordingly
+#' if (exists("CLIENT_ID") & exists("CLIENT_SECRET")) {
+#'   # Generated token
+#'   token <- get_token(CLIENT_ID, CLIENT_SECRET)
+#'
+#'   # Search for ICD-11 URI across all linearizations in a specific release
+#'   icd11_id2(token, id = "http://id.who.int/icd/entity/1442995018")
+#'
+#'   # Search for ICD-11 URI with parents and diagnostic criteria across all linearizations
+#'   #  in a specific release
+#'   icd11_id2(token,
+#'     id = "http://id.who.int/icd/entity/1442995018",
+#'     include = c("ancestor", "diagnosticCriteria")
+#'   )
+#' }
+#' @export
+icd11_id2 <- function(token, id, release = "2024-01", include = NULL, language = "en",
+                      auto_update = TRUE) {
+
   # Preprocess ID if URI is provided to keep only last digits
   parts <- strsplit(id, "/")[[1]]
   id    <- utils::tail(parts, n = 1)
@@ -368,3 +422,244 @@ icd11_id <- function(token, id, release = "2024-01", include = NULL, language = 
 
   return(autocode)
 }
+
+#' @rdname id
+#'
+#' @examples
+#' # Assuming that the CLIENT ID and CLIENT SECRET are set up. Substitute accordingly
+#' if (exists("CLIENT_ID") & exists("CLIENT_SECRET")) {
+#'   # Generated token
+#'   token <- get_token(CLIENT_ID, CLIENT_SECRET)
+#'
+#'   # Search for ICD-11 URI across multiple releases
+#'   icd11_id3(token, id = "http://id.who.int/icd/entity/1442995018")
+#'
+#' }
+#'
+#' @export
+icd11_id3 <- function(token, id, linearization = "mms", language = "en", auto_update = TRUE) {
+
+  parts <- strsplit(id, "/")[[1]]
+  id    <- utils::tail(parts, n = 1)
+
+  autocode <- request_WHO(
+    url = paste0("https://id.who.int/icd/release/11/",linearization,"/", id),
+    token = token,
+    language = language,
+    auto_update = auto_update,
+    warning_message_404 = "Release for request not found"
+  )
+
+  return(autocode)
+}
+
+#' Code info
+#'
+#' Returns information on a certain code.
+#'
+#' @param code The code or code combination that will be looked up. (The & and / characters need
+#' to be URL encoded)
+#'
+#' @param flexible_mode Normally, `icd11_codeinfo` returns an error when the provided code combination
+#' includes codes that are not in the predefined suggested value sets of the entity. If the
+#' `flexible_mode` is set to `TRUE`, it will return a result even when some of the postcoordination
+#' values are not in these defined value sets. In this case, the codes whose postcoordination axis
+#' cannot be detected ('/' postcoordination) will be placed under otherPostcoordination rubric.
+#'
+#' @param convert_2_terminal by default it is `FALSE`, if set to `TRUE`, the codes will be changed
+#' to use the terminal codes (leaf nodes in the hierarchy). In most cases this is done by changing
+#' the code to the unspecified residual child
+#'
+#' @details Users should prefer `icd11_codeinfo()` while `icd11_codeinfo2` is for developers
+#' of additional applications as it is directly the result from the API. The `icd11_codeinfo()`
+#' makes two requests to identify the code in terms of a URI and then return information on
+#' the URI
+#'
+#' @inheritParams icd11_autocode
+#' @inheritParams icd11_id
+#'
+#' @name code_info
+NULL
+
+#' @rdname code_info
+#' @examples
+#' # Assuming that the CLIENT ID and CLIENT SECRET are set up. Substitute accordingly
+#' if (exists("CLIENT_ID") & exists("CLIENT_SECRET")) {
+#'   # Generated token
+#'   token <- get_token(CLIENT_ID, CLIENT_SECRET)
+#'
+#'   # Search for ICD-11 URI across multiple releases
+#'   code_info <- icd11_codeinfo(token, code = "8B20")
+#'
+#'   #Use retrieve function to obtain more information
+#'   code_info |> retrieve("title")
+#'   code_info |> retrieve("definition")
+#' }
+#'
+#' @export
+icd11_codeinfo <- function(token, code, release = "2024-01", linearization = "mms",
+                            convert_2_terminal = FALSE, include = NULL,
+                            language = "en", auto_update = TRUE) {
+
+
+  autocode <- icd11_codeinfo2(token = token, code = code, release = release,
+                              linearization = linearization, flexible_mode = FALSE,
+                              convert_2_terminal = convert_2_terminal,
+                              language = language, auto_update = auto_update)
+
+
+  icd11_id(token = token, id = autocode$stemId, linearization = linearization,
+           release = release, language = language, auto_update = auto_update,
+           include = include)
+}
+
+#' @rdname code_info
+#' @examples
+#' # Assuming that the CLIENT ID and CLIENT SECRET are set up. Substitute accordingly
+#' if (exists("CLIENT_ID") & exists("CLIENT_SECRET")) {
+#'   # Generated token
+#'   token <- get_token(CLIENT_ID, CLIENT_SECRET)
+#'
+#'   # Search for ICD-11 URI across multiple releases
+#'   icd11_codeinfo2(token, code = "8B20")
+#' }
+#'
+#' @export
+icd11_codeinfo2 <- function(token, code, release = "2024-01", linearization = "mms",
+                           flexible_mode = FALSE, convert_2_terminal = FALSE,
+                           language = "en", auto_update = TRUE) {
+
+
+  autocode <- request_WHO(
+    url = paste0("https://id.who.int/icd/release/11/",release, "/", linearization,"/codeinfo/", code),
+    token = token,
+    language = language,
+    auto_update = auto_update,
+    warning_message_404 = "Release for request or code not found",
+    req_body = list(
+      flexiblemode = flexible_mode,
+      convertToTerminalCodes = convert_2_terminal
+    )
+  )
+
+  return(autocode)
+}
+
+#' Looks up a foundation entity within a linearization
+#'
+#' Looks up a foundation entity within a linearization and returns where that entity is coded
+#' in this linearization.
+#'
+#' @inheritParams icd11_id
+#'
+#' @note This function is mostly for development of extensions. End-users should refer to
+#' `icd_search()`.
+#'
+#' @examples
+#' # Assuming that the CLIENT ID and CLIENT SECRET are set up. Substitute accordingly
+#' if (exists("CLIENT_ID") & exists("CLIENT_SECRET")) {
+#'   # Generated token
+#'   token <- get_token(CLIENT_ID, CLIENT_SECRET)
+#'
+#'   # Search for ICD-11 URI across multiple releases
+#'   icd11_lookup(token, id = "http://id.who.int/icd/entity/1442995018")
+#' }
+#'
+#' @export
+icd11_lookup <- function(token, id, release = "2024-01", linearization = "mms",
+                         language = "en", auto_update = TRUE) {
+
+
+  autocode <- request_WHO(
+    url = paste0("https://id.who.int/icd/release/11/",release, "/", linearization,"/lookup"),
+    token = token,
+    language = language,
+    auto_update = auto_update,
+    warning_message_404 = "Release for request or code not found",
+    req_body = list(
+      foundationUri = id
+    )
+  )
+
+  return(autocode)
+}
+
+
+#' Residual
+#'
+#' Returns the residual from a URI
+#'
+#' @inheritParams icd11_autocode
+#' @inheritParams icd11_id
+#' @param residual For residual categories: - this could be 'other' for other specified residual
+#' category - or 'unspecified' for the unspecified residual category
+#'
+#' @name residual
+NULL
+
+#' @rdname residual
+#' @examples
+#' # Assuming that the CLIENT ID and CLIENT SECRET are set up. Substitute accordingly
+#' if (exists("CLIENT_ID") & exists("CLIENT_SECRET")) {
+#'   # Generated token
+#'   token <- get_token(CLIENT_ID, CLIENT_SECRET)
+#'
+#'   # Search for ICD-11 URI across multiple releases
+#'   icd11_residual(token, id = "1442995018")
+#'
+#'}
+#' @export
+icd11_residual <- function(token, id, residual = "", linearization = "mms", release = "2024-01", include = NULL,
+                           language = "en", auto_update = TRUE) {
+
+  # Preprocess ID if URI is provided to keep only last digits
+  parts <- strsplit(id, "/")[[1]]
+  id    <- utils::tail(parts, n = 1)
+
+  autocode <- request_WHO(
+    url = paste0("https://id.who.int/icd/release/11/", release, "/", linearization, "/", id, "/", residual),
+    token = token,
+    language = language,
+    auto_update = auto_update,
+    warning_message_404 = "Residual not found on release for id",
+    req_body = list(
+      include = paste0(include, collapse = ", ")
+    )
+  )
+
+  return(autocode)
+}
+
+#' @rdname residual
+#' @examples
+#' # Assuming that the CLIENT ID and CLIENT SECRET are set up. Substitute accordingly
+#' if (exists("CLIENT_ID") & exists("CLIENT_SECRET")) {
+#'   # Generated token
+#'   token <- get_token(CLIENT_ID, CLIENT_SECRET)
+#'
+#'   # Search for ICD-11 URI across multiple releases
+#'   icd11_residual2(token, id = "1442995018")
+#'
+#'}
+#' @export
+icd11_residual2 <- function(token, id, residual = "", linearization = "mms", include = NULL,
+                           language = "en", auto_update = TRUE) {
+
+  # Preprocess ID if URI is provided to keep only last digits
+  parts <- strsplit(id, "/")[[1]]
+  id    <- utils::tail(parts, n = 1)
+
+  autocode <- request_WHO(
+    url = paste0("https://id.who.int/icd/release/11/", linearization, "/", id, "/", residual),
+    token = token,
+    language = language,
+    auto_update = auto_update,
+    warning_message_404 = "Residual not found on release for id",
+    req_body = list(
+      include = paste0(include, collapse = ", ")
+    )
+  )
+
+  return(autocode)
+}
+

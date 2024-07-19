@@ -276,10 +276,6 @@ icd10_codes <- function(token, block, release = 2019, language = "en", codes_onl
 #' @export
 icd10_code_search_release <- function(token, code, language = "en", validate_code = TRUE,
                                       auto_update = TRUE) {
-  if (validate_code) {
-    code <- icd10_validate_code(code)
-  }
-
   # Request the release list to entity
   releases <- request_WHO(
     url = paste0("https://id.who.int/icd/release/10/", code),
@@ -318,9 +314,7 @@ icd10_code_search_release <- function(token, code, language = "en", validate_cod
 #'   token <- get_token(CLIENT_ID, CLIENT_SECRET)
 #'
 #'   # Search multiple titles
-#'   dbf <- icd10_search(token, c("D50.1","I14","XII","D50","D60","HEY", "D50-D53", NA_character_))
-#'   dbf <- icd10_search(token, c("XI","XII", NA_character_))
-#'   dbf <- icd10_search(token, c("D50-D53", "D50-D53", NA_character_, "D60-D64"))
+#'   dbf <- icd10_search(token, c("D50.1","I14","XII","D50","D60","D50-D53"))
 #'
 #' }
 #' @export
@@ -361,9 +355,6 @@ icd10_search <- function(token, search_vals, release = 2019, language = "en", au
 #'
 #'   # Search multiple titles
 #'   dbf <- .icd10_search_recursive(token, c("D50.1","I14","XII","D50","D60","D673845"))
-#'   dbf <- .icd10_search_recursive(token, c("XI","XII", NA_character_))
-#'   dbf <- .icd10_search_recursive(token, c("D50-D53", "D50-D53", NA_character_, "D60-D64"))
-#'
 #' }
 #' @keywords internal
 .icd10_search_recursive <- function(token, search_vals, release = 2019, language = "en",

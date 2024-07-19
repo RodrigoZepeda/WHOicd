@@ -129,7 +129,7 @@ diagnostic text and returns the best matching code either in *MMS* or
 *ICF*
 
 ``` r
-#Look for Dementia and HIV stage 4
+#Auto code a diagnostic text such as `cerebrovascular accident`
 code_results <- icd11_autocode(token, "Patient with cerebrovascular accident")
 
 #Recover the code that matched

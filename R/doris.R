@@ -199,6 +199,7 @@ doris <- function(token,
     language = language,
     auto_update = auto_update,
     warning_message_404 = "Release for request not found",
+    method = "GET",
     req_body = list(
       sex = codify_sex(sex),
       estimatedAge = age,

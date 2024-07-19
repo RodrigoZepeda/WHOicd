@@ -93,7 +93,7 @@ search_results |> retrieve("title")
 Another function of importance is `autocode` which reads plain-text diagnostic text and returns the best matching code either in  _MMS_ or _ICF_ 
 
 ```{r}
-#Look for Dementia and HIV stage 4
+#Auto code a diagnostic text such as `cerebrovascular accident`
 code_results <- icd11_autocode(token, "Patient with cerebrovascular accident")
 
 #Recover the code that matched

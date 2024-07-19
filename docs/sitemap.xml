@@ -11,6 +11,7 @@
 <url><loc>/reference/autocode.html</loc></url>
 <url><loc>/reference/check_names.html</loc></url>
 <url><loc>/reference/check_token_expiration_time.html</loc></url>
+<url><loc>/reference/code_info.html</loc></url>
 <url><loc>/reference/code_maternal_death_time_from_pregnancy.html</loc></url>
 <url><loc>/reference/code_place.html</loc></url>
 <url><loc>/reference/codify_ans.html</loc></url>
@@ -30,16 +31,17 @@
 <url><loc>/reference/icd10_request_children.html</loc></url>
 <url><loc>/reference/icd10_search.html</loc></url>
 <url><loc>/reference/icd10_title.html</loc></url>
-<url><loc>/reference/icd10_validate_code.html</loc></url>
-<url><loc>/reference/icd11_id.html</loc></url>
 <url><loc>/reference/icd11_linearization_info.html</loc></url>
+<url><loc>/reference/icd11_lookup.html</loc></url>
 <url><loc>/reference/icd11_release_info.html</loc></url>
+<url><loc>/reference/id.html</loc></url>
 <url><loc>/reference/index.html</loc></url>
 <url><loc>/reference/iso_8601.html</loc></url>
 <url><loc>/reference/make_request.html</loc></url>
 <url><loc>/reference/name_df.html</loc></url>
 <url><loc>/reference/order_columns.html</loc></url>
 <url><loc>/reference/request_WHO.html</loc></url>
+<url><loc>/reference/residual.html</loc></url>
 <url><loc>/reference/retrieve.html</loc></url>
 <url><loc>/reference/right_align_df.html</loc></url>
 <url><loc>/reference/search.html</loc></url>
