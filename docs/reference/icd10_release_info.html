@@ -18,7 +18,7 @@ release of the International Classification of Diseases ICD-10."><!-- mathjax --
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">WHOicd</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.0</span>
       </span>
     </div>
 
@@ -100,6 +100,94 @@ the default is English (<code>language = "en"</code>).</p></dd>
 <span class="r-in"><span>  <span class="co"># Get title and url for release</span></span></span>
 <span class="r-in"><span>  <span class="fu">icd10_release_info</span><span class="op">(</span><span class="va">token</span>, release <span class="op">=</span> <span class="fl">2016</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`@context`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/contexts/contextForTopLevel.json"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`@id`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/10/2016"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $title</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $title$`@language`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "en"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $title$`@value`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "International Statistical Classification of Diseases and Related Health Problems 10th Revision (ICD-10) Version for 2016"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $releaseDate</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "2016-11-01"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $child</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $child[[1]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/10/2016/I"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $child[[2]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/10/2016/II"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $child[[3]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/10/2016/III"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $child[[4]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/10/2016/IV"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $child[[5]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/10/2016/V"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $child[[6]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/10/2016/VI"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $child[[7]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/10/2016/VII"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $child[[8]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/10/2016/VIII"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $child[[9]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/10/2016/IX"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $child[[10]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/10/2016/X"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $child[[11]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/10/2016/XI"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $child[[12]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/10/2016/XII"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $child[[13]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/10/2016/XIII"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $child[[14]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/10/2016/XIV"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $child[[15]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/10/2016/XV"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $child[[16]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/10/2016/XVI"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $child[[17]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/10/2016/XVII"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $child[[18]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/10/2016/XVIII"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $child[[19]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/10/2016/XIX"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $child[[20]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/10/2016/XX"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $child[[21]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/10/2016/XXI"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $child[[22]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/10/2016/XXII"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $browserUrl</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://apps.who.int/classifications/icd10/browse/2016/en"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

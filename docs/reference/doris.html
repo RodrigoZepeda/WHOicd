@@ -19,7 +19,7 @@ rules of the Doris system. The fields provided are fields of a standard death ce
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">WHOicd</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.0</span>
       </span>
     </div>
 
@@ -105,8 +105,8 @@ rules of the Doris system. The fields provided are fields of a standard death ce
 <span>  maternal_death_pregnancy_contribute <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  release <span class="op">=</span> <span class="st">"2024-01"</span>,</span>
 <span>  language <span class="op">=</span> <span class="st">"en"</span>,</span>
-<span>  api_version <span class="op">=</span> <span class="st">"v2"</span>,</span>
-<span>  stop_on_error <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  stop_on_error <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  auto_update <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -310,13 +310,12 @@ listed in <a href="https://icd.who.int/docs/icd-api/SupportedClassifications/" c
 the default is English (<code>language = "en"</code>).</p></dd>
 
 
-<dt id="arg-api-version">api_version<a class="anchor" aria-label="anchor" href="#arg-api-version"></a></dt>
-<dd><p>Version of the WHO API you are using. Don't change it unless you know what
-you are doing.</p></dd>
-
-
 <dt id="arg-stop-on-error">stop_on_error<a class="anchor" aria-label="anchor" href="#arg-stop-on-error"></a></dt>
 <dd><p>Whether to stop if API throws an error or just throw it as a warning.</p></dd>
+
+
+<dt id="arg-auto-update">auto_update<a class="anchor" aria-label="anchor" href="#arg-auto-update"></a></dt>
+<dd><p>Attempts to update token automatically</p></dd>
 
 </dl></div>
     <div id="value">
@@ -359,6 +358,30 @@ vice versa</p>
 <span class="r-in"><span>    cause_of_death_code_d <span class="op">=</span> <span class="st">"BA00.Z"</span>, cause_of_death_code_part2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"3A9Z"</span>, <span class="st">"BC45"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`Underlying cause of death (UCOD)`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "5A11"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`UCOD URI`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/entity/119724091"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`UCOD with postcoordinated information (if available)`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "5A11/BA00.Z"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`UCOD postcoordinated URI`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/11/mms/119724091 / http://id.who.int/icd/release/11/mms/761947693/unspecified"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`Detailed explanation (report)`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "SP4: 5A11 is the starting point of the first-mentioned sequence (GB61.Z due to GB60.Z due to 5A11), which is selected as the tentative starting point (TSP).\nGB61.Z, GB60.Z, BA00.Z, BC45 is a manifestation of the selected underlying cause of death 5A11/BA00.Z and it is added as a postcoordination.\n\n\nFull report:\nSP1: is not applicable.\nSP2: is not applicable.\nSP3: is not applicable.\nSP4: 5A11 is the starting point of the first-mentioned sequence (GB61.Z due to GB60.Z due to 5A11), which is selected as the tentative starting point (TSP).\nSP6: is not applicable.\nSP7: is not applicable.\nSP8: is not applicable.\nM1: There is no special instruction applicable with TUC 5A11.\nM2: is not applicable.\nM3: The tentative underlying cause is the same as the starting point selected in Steps SP1 to SP8.\nGB61.Z, GB60.Z, BA00.Z, BC45 is a manifestation of the selected underlying cause of death 5A11/BA00.Z and it is added as a postcoordination.\n"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $reject</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $error</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $warning</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

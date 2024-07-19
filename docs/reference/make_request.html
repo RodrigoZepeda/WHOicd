@@ -18,7 +18,7 @@ from the get_token() function."><!-- mathjax --><script src="https://cdnjs.cloud
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">WHOicd</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.0</span>
       </span>
     </div>
 
@@ -59,7 +59,7 @@ from the <code><a href="get_token.html">get_token()</a></code> function.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">make_request</span><span class="op">(</span><span class="va">url</span>, <span class="va">token</span>, language <span class="op">=</span> <span class="st">"en"</span>, auto_update <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">make_request</span><span class="op">(</span><span class="va">url</span>, <span class="va">token</span>, language <span class="op">=</span> <span class="st">"en"</span>, auto_update <span class="op">=</span> <span class="cn">TRUE</span>, req_body <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -102,6 +102,7 @@ the default is English (<code>language = "en"</code>).</p></dd>
 <span class="r-in"><span>  <span class="co">#Use that request with the API:</span></span></span>
 <span class="r-in"><span>  <span class="va">res</span> <span class="op">|&gt;</span> <span class="fu">req_perform</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span> <span class="op">}</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in make_request(url = "https://id.who.int/icd/release/10/E14.1",     token = token, ):</span> could not find function "make_request"</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
