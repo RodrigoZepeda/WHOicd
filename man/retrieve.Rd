@@ -7,16 +7,22 @@
 retrieve(list_val, val)
 }
 \arguments{
-\item{lname}{Name of the list entry to recover as a vector}
+\item{list_val}{List to extract the entry \code{val} from}
+
+\item{val}{Name of the list entry to recover as a vector}
 }
 \value{
-A
+The entry \code{val} from \code{list_val} as vector
 }
 \description{
 Function that retrieves a list of function
 }
 \examples{
-val <- "title"
-search_results <- icd11_search(token, "HIV stage 4")
-search_results |> retrieve("title")
+if (exists("CLIENT_ID") & exists("CLIENT_SECRET")) {
+  # Generated token
+  token <- get_token(CLIENT_ID, CLIENT_SECRET)
+  val <- "title"
+  search_results <- icd11_search(token, "HIV stage 4")
+  search_results |> retrieve("title")
+}
 }

@@ -388,15 +388,24 @@ code_place <- function(input) {
 #'
 #' Function that retrieves a list of function
 #'
-#' @param lname Name of the list entry to recover as a vector
-#' @return A
+#' @param list_val List to extract the entry `val` from
+#' @param val Name of the list entry to recover as a vector
+#' @return The entry `val` from `list_val` as vector
 #' @examples
-#' val <- "title"
-#' search_results <- icd11_search(token, "HIV stage 4")
-#' search_results |> retrieve("title")
+#' if (exists("CLIENT_ID") & exists("CLIENT_SECRET")) {
+#'   # Generated token
+#'   token <- get_token(CLIENT_ID, CLIENT_SECRET)
+#'   val <- "title"
+#'   search_results <- icd11_search(token, "HIV stage 4")
+#'   search_results |> retrieve("title")
+#' }
 #' @export
 retrieve <- function(list_val, val){
-  vec <- unlist(sapply(list_val$destinationEntities, function(entity) entity[val]))
+  if (val %in% names(list_val)){
+    vec <- unlist(list_val[val])
+  } else {
+    vec <- unlist(sapply(list_val$destinationEntities, function(entity) entity[val]))
+  }
   names(vec) <- NULL
   return(vec)
 }

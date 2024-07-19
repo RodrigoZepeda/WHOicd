@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">WHOicd</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.1</span>
       </span>
     </div>
 
@@ -67,20 +67,28 @@
     <h2>Arguments</h2>
 
 
-<dl><dt id="arg-lname">lname<a class="anchor" aria-label="anchor" href="#arg-lname"></a></dt>
+<dl><dt id="arg-list-val">list_val<a class="anchor" aria-label="anchor" href="#arg-list-val"></a></dt>
+<dd><p>List to extract the entry <code>val</code> from</p></dd>
+
+
+<dt id="arg-val">val<a class="anchor" aria-label="anchor" href="#arg-val"></a></dt>
 <dd><p>Name of the list entry to recover as a vector</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A</p>
+    <p>The entry <code>val</code> from <code>list_val</code> as vector</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">val</span> <span class="op">&lt;-</span> <span class="st">"title"</span></span></span>
-<span class="r-in"><span><span class="va">search_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="search.html">icd11_search</a></span><span class="op">(</span><span class="va">token</span>, <span class="st">"HIV stage 4"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">search_results</span> <span class="op">|&gt;</span> <span class="fu">retrieve</span><span class="op">(</span><span class="st">"title"</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/exists.html" class="external-link">exists</a></span><span class="op">(</span><span class="st">"CLIENT_ID"</span><span class="op">)</span> <span class="op">&amp;</span> <span class="fu"><a href="https://rdrr.io/r/base/exists.html" class="external-link">exists</a></span><span class="op">(</span><span class="st">"CLIENT_SECRET"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="co"># Generated token</span></span></span>
+<span class="r-in"><span>  <span class="va">token</span> <span class="op">&lt;-</span> <span class="fu"><a href="get_token.html">get_token</a></span><span class="op">(</span><span class="va">CLIENT_ID</span>, <span class="va">CLIENT_SECRET</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">val</span> <span class="op">&lt;-</span> <span class="st">"title"</span></span></span>
+<span class="r-in"><span>  <span class="va">search_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="search.html">icd11_search</a></span><span class="op">(</span><span class="va">token</span>, <span class="st">"HIV stage 4"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">search_results</span> <span class="op">|&gt;</span> <span class="fu">retrieve</span><span class="op">(</span><span class="st">"title"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "HIV disease clinical stage 4 associated with tuberculosis, unspecified"                                                                </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [2] "Other specified HIV disease clinical stage 4 associated with tuberculosis"                                                             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [3] "HIV disease clinical stage 4 associated with malaria, unspecified"                                                                     </span>

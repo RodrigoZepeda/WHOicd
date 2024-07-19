@@ -97,7 +97,7 @@ Another function of importance is `autocode` which reads plain-text diagnostic t
 code_results <- icd11_autocode(token, "Patient with cerebrovascular accident")
 
 #Recover the code that matched
-code_results |> retrieve("title")
+code_results |> retrieve("theCode")
 ```
 
 

@@ -1,3 +1,7 @@
+# WHOicd 0.4.1
+
+* Fixed minor errors on the website.
+
 # WHOicd 0.4.0
 
 * `doris` now allows for multiple languages beyond English

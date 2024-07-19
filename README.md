@@ -133,8 +133,8 @@ diagnostic text and returns the best matching code either in *MMS* or
 code_results <- icd11_autocode(token, "Patient with cerebrovascular accident")
 
 #Recover the code that matched
-code_results |> retrieve("title")
-#> NULL
+code_results |> retrieve("theCode")
+#> [1] "8B20"
 ```
 
 ## ICD-10 examples
