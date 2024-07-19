@@ -117,9 +117,6 @@
 #' @param maternal_death_pregnancy_contribute Did pregnancy contribute to death?
 #' (`0` or `No`, `1` or `Yes`, and `9` or `Unknown`)
 #'
-#' @param api_version Version of the WHO API you are using. Don't change it unless you know what
-#' you are doing.
-#'
 #' @param stop_on_error Whether to stop if API throws an error or just throw it as a warning.
 #'
 #' @inheritParams request_WHO
@@ -192,7 +189,6 @@ doris <- function(token,
                   maternal_death_pregnancy_contribute = NULL,
                   release = "2024-01",
                   language = "en",
-                  api_version = "v2",
                   stop_on_error = FALSE,
                   auto_update = TRUE) {
 

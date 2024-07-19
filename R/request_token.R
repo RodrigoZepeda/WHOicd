@@ -160,6 +160,7 @@ request_WHO <-  function(url,
                          auto_update = TRUE,
                          req_body = NULL,
                          warning_message_404 = "url for request not found",
+                         method = "GET",
                          post_process_function = function(x){x}){
 
   if (curl::has_internet()){
@@ -174,6 +175,8 @@ request_WHO <-  function(url,
           language = language,
           auto_update = auto_update
         )
+
+        req <- req |> httr2::req_method("GET")
 
         if (!is.null(req_body)){
           req <- do.call(httr2::req_url_query, append(list(.req = req), req_body))
@@ -191,7 +194,7 @@ request_WHO <-  function(url,
 
     # Obtain the request of the body
     if (any(!is.na(req))) {
-      req <- req |> resp_body_json()
+      req <- req |> httr2::resp_body_json()
       req <- post_process_function(req)
     }
   } else {

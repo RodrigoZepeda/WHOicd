@@ -48,7 +48,6 @@ doris(
   maternal_death_pregnancy_contribute = NULL,
   release = "2024-01",
   language = "en",
-  api_version = "v2",
   stop_on_error = FALSE,
   auto_update = TRUE
 )
@@ -163,9 +162,6 @@ the default is \code{2024-01}.}
 \item{language}{(\code{character}) Language for the request. Available languages are
 listed in \url{https://icd.who.int/docs/icd-api/SupportedClassifications/}
 the default is English (\code{language = "en"}).}
-
-\item{api_version}{Version of the WHO API you are using. Don't change it unless you know what
-you are doing.}
 
 \item{stop_on_error}{Whether to stop if API throws an error or just throw it as a warning.}
 

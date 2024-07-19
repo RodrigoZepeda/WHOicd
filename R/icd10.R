@@ -75,13 +75,7 @@ icd10_release_info <- function(token, release = 2019, language = "en", auto_upda
     warning_message_404 = paste(
       "Request not found. Possibly release is not",
       "available for the language requested or incorrectly specified."
-    ),
-    post_process_function = function(releases) {
-      releases <- releases[!grepl("child|parent", names(releases))]
-      releases <- unlist(releases)
-      names(releases) <- gsub("@", "", names(releases))
-      return(releases)
-    }
+    )
   )
 
   return(releases)

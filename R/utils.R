@@ -383,3 +383,5 @@ code_place <- function(input) {
   # If input is neither a number nor a string, return an error
   stop("Input must be a number or a string")
 }
+
+

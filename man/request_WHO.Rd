@@ -11,6 +11,7 @@ request_WHO(
   auto_update = TRUE,
   req_body = NULL,
   warning_message_404 = "url for request not found",
+  method = "GET",
   post_process_function = function(x) {
      x
  }
