@@ -1,0 +1,96 @@
+---
+title: "ICD-10"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+CLIENT_ID <- Sys.getenv("CLIENT_ID")
+CLIENT_SECRET <- Sys.getenv("CLIENT_SECRET")
+```
+
+To interact with ICD-10 you should first get your token:
+
+```{r}
+library(WHOicd)
+
+#Substitute CLIENT_ID and CLIENT_SECRET by your credentials
+token <- get_token(CLIENT_ID, CLIENT_SECRET)
+```
+
+## Searching given a code 
+
+The main function relating to ICD-10 is `icd10_search()` which searches for the titles and parents of codes, blocks of chapters. As an example, we can search for the following vector and obtain a `data.frame`: 
+
+```{r}
+#Search for code, specific code, chapter and block 
+codes <- c("D60", "IX", "I10-I15")
+icd10_search(token, codes)
+```
+
+If you only want to get the title of the current code/chapter/block you can use `icd10_title` which is faster as it requires less requests to the API:
+
+```{r}
+#Search for code, specific code, chapter and block 
+codes <- c("D60", "IX", "I10-I15")
+icd10_title(token, codes)
+```
+
+## Top-down search
+
+Given a chapter you can also list all the blocks in a chapter
+
+```{r}
+icd10_blocks(token, chapter = "III")
+```
+
+As well as all of the chapters in a block:
+
+```{r}
+icd10_codes(token, block = "D55-D59")
+```
+The same command allows you to search inside a code:
+
+```{r}
+icd10_codes(token, block = "D55")
+```
+
+## Search for code in releases
+
+Not all codes are available across releases. For example, the `C80.0` code was not in the `2008` release of the ICD-10. Hence if you are using that release you will not find it:
+
+```{r}
+icd10_search(token, "C80.0", release = 2008)
+```
+
+However you can use the `icd10_code_search_release` to search for a release containing that code:
+
+```{r}
+icd10_code_search_release(token, code = "C80.0")
+```
+
+and use one of those releases instead:
+
+```{r}
+icd10_search(token, "C80.0", release = 2016)
+```
+
+## Additional information on releases
+
+The `icd10_releases` function lists all available ICD-10 releases
+
+```{r}
+icd10_releases(token)
+```
+
+The default is 2019. You can change it with the `release` parameter across all functions. 
+
+To obtain the complete information on a certain release you can use the `icd10_release_info` function:
+
+```{r}
+icd10_release_info(token, release = 2016)
+```
+

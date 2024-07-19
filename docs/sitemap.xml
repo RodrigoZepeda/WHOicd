@@ -3,6 +3,7 @@
 <url><loc>/LICENSE-text.html</loc></url>
 <url><loc>/LICENSE.html</loc></url>
 <url><loc>/articles/Generating-your-token.html</loc></url>
+<url><loc>/articles/ICD-10.html</loc></url>
 <url><loc>/articles/index.html</loc></url>
 <url><loc>/authors.html</loc></url>
 <url><loc>/index.html</loc></url>
@@ -39,6 +40,7 @@
 <url><loc>/reference/name_df.html</loc></url>
 <url><loc>/reference/order_columns.html</loc></url>
 <url><loc>/reference/request_WHO.html</loc></url>
+<url><loc>/reference/retrieve.html</loc></url>
 <url><loc>/reference/right_align_df.html</loc></url>
 <url><loc>/reference/search.html</loc></url>
 </urlset>

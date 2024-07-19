@@ -36,6 +36,9 @@ response and returns to user."><!-- mathjax --><script src="https://cdnjs.cloudf
   <ul class="dropdown-menu" role="menu"><li>
       <a href="../articles/Generating-your-token.html">Generating your token</a>
     </li>
+    <li>
+      <a href="../articles/ICD-10.html">ICD-10</a>
+    </li>
   </ul></li>
 <li>
   <a href="../news/index.html">Changelog</a>
@@ -120,7 +123,37 @@ obtaining a response.</p></dd>
 <span class="r-in"><span>  <span class="co"># Get title and url for release</span></span></span>
 <span class="r-in"><span>  <span class="fu">request_WHO</span><span class="op">(</span><span class="va">url</span>, token <span class="op">=</span> <span class="va">token</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in request_WHO(url, token = token):</span> could not find function "request_WHO"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`@context`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/contexts/contextForMultiVersion.json"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`@id`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/10"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $title</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $title$`@language`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "en"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $title$`@value`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "International Statistical Classification of Diseases and Related Health Problems 10th Revision (ICD-10)"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $latestRelease</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/10/2019"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $release</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $release[[1]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/10/2019"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $release[[2]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/10/2016"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $release[[3]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/10/2010"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $release[[4]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/10/2008"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>
   </div>

@@ -17,7 +17,7 @@ icd11_search(
   chapter_filter = NULL,
   use_flexisearch = FALSE,
   flat_results = NULL,
-  highlighting_enabled = TRUE,
+  highlighting_enabled = FALSE,
   medical_coding_mode = TRUE,
   properties_to_be_searched = NULL,
   language = "en",
@@ -33,7 +33,7 @@ icd11_search2(
   chapter_filter = NULL,
   use_flexisearch = FALSE,
   flat_results = NULL,
-  highlighting_enabled = TRUE,
+  highlighting_enabled = FALSE,
   properties_to_be_searched = NULL,
   language = "en",
   auto_update = TRUE
@@ -71,8 +71,8 @@ When provided, the search will be performed only on these chapters.}
 \item{flat_results}{Boolean. Optional parameter. If set to true the search result entities are
 provided in a nested data structure representing the ICD-11 hierarchy. Default value: true.}
 
-\item{highlighting_enabled}{Boolean. Optional. If set to false the search result highlighting
-is turned off. Default value: \code{TRUE}}
+\item{highlighting_enabled}{Boolean. Optional. If set to \code{FALSE} the search result highlighting
+is turned off. Default value: \code{FALSE}. Highlighting is in html format.}
 
 \item{medical_coding_mode}{Boolean. This mode is the default and should be used when searching
 the classification for medical coding purposes. Default value: \code{TRUE}.}

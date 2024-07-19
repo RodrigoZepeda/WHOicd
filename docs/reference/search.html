@@ -34,6 +34,9 @@
   <ul class="dropdown-menu" role="menu"><li>
       <a href="../articles/Generating-your-token.html">Generating your token</a>
     </li>
+    <li>
+      <a href="../articles/ICD-10.html">ICD-10</a>
+    </li>
   </ul></li>
 <li>
   <a href="../news/index.html">Changelog</a>
@@ -68,7 +71,7 @@
 <span>  chapter_filter <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  use_flexisearch <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  flat_results <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  highlighting_enabled <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  highlighting_enabled <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  medical_coding_mode <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  properties_to_be_searched <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  language <span class="op">=</span> <span class="st">"en"</span>,</span>
@@ -84,7 +87,7 @@
 <span>  chapter_filter <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  use_flexisearch <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  flat_results <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  highlighting_enabled <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  highlighting_enabled <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  properties_to_be_searched <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  language <span class="op">=</span> <span class="st">"en"</span>,</span>
 <span>  auto_update <span class="op">=</span> <span class="cn">TRUE</span></span>
@@ -146,8 +149,8 @@ provided in a nested data structure representing the ICD-11 hierarchy. Default v
 
 
 <dt id="arg-highlighting-enabled">highlighting_enabled<a class="anchor" aria-label="anchor" href="#arg-highlighting-enabled"></a></dt>
-<dd><p>Boolean. Optional. If set to false the search result highlighting
-is turned off. Default value: <code>TRUE</code></p></dd>
+<dd><p>Boolean. Optional. If set to <code>FALSE</code> the search result highlighting
+is turned off. Default value: <code>FALSE</code>. Highlighting is in html format.</p></dd>
 
 
 <dt id="arg-medical-coding-mode">medical_coding_mode<a class="anchor" aria-label="anchor" href="#arg-medical-coding-mode"></a></dt>
@@ -215,7 +218,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $uniqueSearchId</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "c0e35406-99c2-4faf-be80-87093d1e2b01"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "27eeea51-34de-4ad2-a0b3-a76066922ce9"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $words</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
@@ -226,7 +229,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/11/2024-01/mms/1280139157/unspecified"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[1]]$title</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "&lt;em class='found'&gt;HIV&lt;/em&gt; disease clinical &lt;em class='found'&gt;stage&lt;/em&gt; &lt;em class='found'&gt;4&lt;/em&gt; associated with tuberculosis, unspecified"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "HIV disease clinical stage 4 associated with tuberculosis, unspecified"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[1]]$stemId</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/11/2024-01/mms/1280139157/unspecified"</span>
@@ -252,7 +255,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Synonym"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[1]]$matchingPVs[[1]]$label</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "&lt;em class='found'&gt;HIV&lt;/em&gt; disease clinical &lt;em class='found'&gt;stage&lt;/em&gt; &lt;em class='found'&gt;4&lt;/em&gt; associated with TB"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "HIV disease clinical stage 4 associated with TB"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[1]]$matchingPVs[[1]]$score</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.501157</span>
@@ -272,7 +275,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "TitleOfOtherEntity"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[1]]$matchingPVs[[2]]$label</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "&lt;em class='found'&gt;HIV&lt;/em&gt; disease clinical &lt;em class='found'&gt;stage&lt;/em&gt; &lt;em class='found'&gt;4&lt;/em&gt; associated with tuberculosis"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "HIV disease clinical stage 4 associated with tuberculosis"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[1]]$matchingPVs[[2]]$score</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.326967</span>
@@ -327,7 +330,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/11/2024-01/mms/1280139157/other"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[2]]$title</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Other specified &lt;em class='found'&gt;HIV&lt;/em&gt; disease clinical &lt;em class='found'&gt;stage&lt;/em&gt; &lt;em class='found'&gt;4&lt;/em&gt; associated with tuberculosis"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Other specified HIV disease clinical stage 4 associated with tuberculosis"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[2]]$stemId</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/11/2024-01/mms/1280139157/other"</span>
@@ -389,7 +392,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/11/2024-01/mms/97626683/unspecified"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[3]]$title</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "&lt;em class='found'&gt;HIV&lt;/em&gt; disease clinical &lt;em class='found'&gt;stage&lt;/em&gt; &lt;em class='found'&gt;4&lt;/em&gt; associated with malaria, unspecified"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "HIV disease clinical stage 4 associated with malaria, unspecified"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[3]]$stemId</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/11/2024-01/mms/97626683/unspecified"</span>
@@ -415,7 +418,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "TitleOfOtherEntity"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[3]]$matchingPVs[[1]]$label</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "&lt;em class='found'&gt;HIV&lt;/em&gt; disease clinical &lt;em class='found'&gt;stage&lt;/em&gt; &lt;em class='found'&gt;4&lt;/em&gt; associated with malaria"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "HIV disease clinical stage 4 associated with malaria"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[3]]$matchingPVs[[1]]$score</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1622578</span>
@@ -470,7 +473,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/11/2024-01/mms/97626683/other"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[4]]$title</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Other specified &lt;em class='found'&gt;HIV&lt;/em&gt; disease clinical &lt;em class='found'&gt;stage&lt;/em&gt; &lt;em class='found'&gt;4&lt;/em&gt; associated with malaria"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Other specified HIV disease clinical stage 4 associated with malaria"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[4]]$stemId</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/11/2024-01/mms/97626683/other"</span>
@@ -532,7 +535,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/11/2024-01/mms/1858812010/unspecified"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[5]]$title</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "&lt;em class='found'&gt;HIV&lt;/em&gt; disease clinical &lt;em class='found'&gt;stage&lt;/em&gt; &lt;em class='found'&gt;4&lt;/em&gt; without mention of tuberculosis or malaria, unspecified"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "HIV disease clinical stage 4 without mention of tuberculosis or malaria, unspecified"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[5]]$stemId</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/11/2024-01/mms/1858812010/unspecified"</span>
@@ -558,7 +561,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Synonym"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[5]]$matchingPVs[[1]]$label</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "&lt;em class='found'&gt;HIV&lt;/em&gt; disease clinical &lt;em class='found'&gt;stage&lt;/em&gt; &lt;em class='found'&gt;4&lt;/em&gt; without tuberculosis or malaria"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "HIV disease clinical stage 4 without tuberculosis or malaria"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[5]]$matchingPVs[[1]]$score</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.249582</span>
@@ -578,7 +581,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "TitleOfOtherEntity"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[5]]$matchingPVs[[2]]$label</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "&lt;em class='found'&gt;HIV&lt;/em&gt; disease clinical &lt;em class='found'&gt;stage&lt;/em&gt; &lt;em class='found'&gt;4&lt;/em&gt; without mention of tuberculosis or malaria"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "HIV disease clinical stage 4 without mention of tuberculosis or malaria"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[5]]$matchingPVs[[2]]$score</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.4095458</span>
@@ -633,7 +636,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/11/2024-01/mms/1173624218 / http://id.who.int/icd/release/11/2024-01/mms/1280139157/unspecified"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[6]]$title</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Dementia due to &lt;em class='found'&gt;human&lt;/em&gt; immunodeficiency &lt;em class='found'&gt;virus&lt;/em&gt; [&lt;em class='found'&gt;HIV&lt;/em&gt; disease clinical &lt;em class='found'&gt;stage&lt;/em&gt; &lt;em class='found'&gt;4&lt;/em&gt; associated with tuberculosis, unspecified]"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Dementia due to human immunodeficiency virus [HIV disease clinical stage 4 associated with tuberculosis, unspecified]"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[6]]$stemId</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/11/2024-01/mms/1173624218"</span>
@@ -659,7 +662,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Title"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[6]]$matchingPVs[[1]]$label</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Dementia due to &lt;em class='found'&gt;human&lt;/em&gt; immunodeficiency &lt;em class='found'&gt;virus&lt;/em&gt; [&lt;em class='found'&gt;HIV&lt;/em&gt; disease clinical &lt;em class='found'&gt;stage&lt;/em&gt; &lt;em class='found'&gt;4&lt;/em&gt; associated with TB]"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Dementia due to human immunodeficiency virus[HIV disease clinical stage 4 associated with TB]"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[6]]$matchingPVs[[1]]$score</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.3301043</span>
@@ -679,7 +682,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Synonym"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[6]]$matchingPVs[[2]]$label</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "&lt;em class='found'&gt;HIV&lt;/em&gt; - [&lt;em class='found'&gt;human&lt;/em&gt; immunodeficiency &lt;em class='found'&gt;virus&lt;/em&gt;] dementia [&lt;em class='found'&gt;HIV&lt;/em&gt; disease clinical &lt;em class='found'&gt;stage&lt;/em&gt; &lt;em class='found'&gt;4&lt;/em&gt; associated with TB]"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "HIV - [human immunodeficiency virus] dementia[HIV disease clinical stage 4 associated with TB]"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[6]]$matchingPVs[[2]]$score</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.3301043</span>
@@ -699,7 +702,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Synonym"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[6]]$matchingPVs[[3]]$label</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "&lt;em class='found'&gt;HIV&lt;/em&gt;- [&lt;em class='found'&gt;human&lt;/em&gt; immunodeficiency &lt;em class='found'&gt;virus&lt;/em&gt;] associated cognitive motor complex [&lt;em class='found'&gt;HIV&lt;/em&gt; disease clinical &lt;em class='found'&gt;stage&lt;/em&gt; &lt;em class='found'&gt;4&lt;/em&gt; associated with TB]"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "HIV- [human immunodeficiency virus] associated cognitive motor complex[HIV disease clinical stage 4 associated with TB]"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[6]]$matchingPVs[[3]]$score</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.334101</span>
@@ -719,7 +722,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Synonym"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[6]]$matchingPVs[[4]]$label</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "&lt;em class='found'&gt;HIV&lt;/em&gt; - [&lt;em class='found'&gt;human&lt;/em&gt; immunodeficiency &lt;em class='found'&gt;virus&lt;/em&gt;] dementia [&lt;em class='found'&gt;HIV&lt;/em&gt; disease clinical &lt;em class='found'&gt;stage&lt;/em&gt; &lt;em class='found'&gt;4&lt;/em&gt; associated with tuberculosis, unspecified]"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "HIV - [human immunodeficiency virus] dementia[HIV disease clinical stage 4 associated with tuberculosis, unspecified]"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[6]]$matchingPVs[[4]]$score</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.4520373</span>
@@ -739,7 +742,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Synonym"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[6]]$matchingPVs[[5]]$label</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "&lt;em class='found'&gt;HIV&lt;/em&gt;- [&lt;em class='found'&gt;human&lt;/em&gt; immunodeficiency &lt;em class='found'&gt;virus&lt;/em&gt;] associated cognitive motor complex [&lt;em class='found'&gt;HIV&lt;/em&gt; disease clinical &lt;em class='found'&gt;stage&lt;/em&gt; &lt;em class='found'&gt;4&lt;/em&gt; associated with tuberculosis, unspecified]"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "HIV- [human immunodeficiency virus] associated cognitive motor complex[HIV disease clinical stage 4 associated with tuberculosis, unspecified]"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[6]]$matchingPVs[[5]]$score</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.4560341</span>
@@ -759,7 +762,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Synonym"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[6]]$matchingPVs[[6]]$label</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "&lt;em class='found'&gt;HIV&lt;/em&gt;- [&lt;em class='found'&gt;human&lt;/em&gt; immunodeficiency &lt;em class='found'&gt;virus&lt;/em&gt;] associated dementia complex [&lt;em class='found'&gt;HIV&lt;/em&gt; disease clinical &lt;em class='found'&gt;stage&lt;/em&gt; &lt;em class='found'&gt;4&lt;/em&gt; associated with TB]"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "HIV- [human immunodeficiency virus] associated dementia complex[HIV disease clinical stage 4 associated with TB]"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[6]]$matchingPVs[[6]]$score</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.5083954</span>
@@ -779,7 +782,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Synonym"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[6]]$matchingPVs[[7]]$label</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "&lt;em class='found'&gt;HIV&lt;/em&gt;- [&lt;em class='found'&gt;human&lt;/em&gt; immunodeficiency &lt;em class='found'&gt;virus&lt;/em&gt;] associated dementia complex [&lt;em class='found'&gt;HIV&lt;/em&gt; disease clinical &lt;em class='found'&gt;stage&lt;/em&gt; &lt;em class='found'&gt;4&lt;/em&gt; associated with tuberculosis, unspecified]"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "HIV- [human immunodeficiency virus] associated dementia complex[HIV disease clinical stage 4 associated with tuberculosis, unspecified]"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[6]]$matchingPVs[[7]]$score</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.6303284</span>
@@ -834,7 +837,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/11/2024-01/mms/1858812010/other"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[7]]$title</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Other specified &lt;em class='found'&gt;HIV&lt;/em&gt; disease clinical &lt;em class='found'&gt;stage&lt;/em&gt; &lt;em class='found'&gt;4&lt;/em&gt; without mention of tuberculosis or malaria"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Other specified HIV disease clinical stage 4 without mention of tuberculosis or malaria"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[7]]$stemId</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/11/2024-01/mms/1858812010/other"</span>
@@ -896,7 +899,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/11/2024-01/mms/1173624218 / http://id.who.int/icd/release/11/2024-01/mms/1280139157/other"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[8]]$title</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Dementia due to &lt;em class='found'&gt;human&lt;/em&gt; immunodeficiency &lt;em class='found'&gt;virus&lt;/em&gt; [Other specified &lt;em class='found'&gt;HIV&lt;/em&gt; disease clinical &lt;em class='found'&gt;stage&lt;/em&gt; &lt;em class='found'&gt;4&lt;/em&gt; associated with tuberculosis]"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Dementia due to human immunodeficiency virus [Other specified HIV disease clinical stage 4 associated with tuberculosis]"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[8]]$stemId</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/11/2024-01/mms/1173624218"</span>
@@ -922,7 +925,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Synonym"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[8]]$matchingPVs[[1]]$label</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "&lt;em class='found'&gt;HIV&lt;/em&gt; - [&lt;em class='found'&gt;human&lt;/em&gt; immunodeficiency &lt;em class='found'&gt;virus&lt;/em&gt;] dementia [Other specified &lt;em class='found'&gt;HIV&lt;/em&gt; disease clinical &lt;em class='found'&gt;stage&lt;/em&gt; &lt;em class='found'&gt;4&lt;/em&gt; associated with tuberculosis]"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "HIV - [human immunodeficiency virus] dementia[Other specified HIV disease clinical stage 4 associated with tuberculosis]"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[8]]$matchingPVs[[1]]$score</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.5037882</span>
@@ -942,7 +945,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Synonym"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[8]]$matchingPVs[[2]]$label</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "&lt;em class='found'&gt;HIV&lt;/em&gt;- [&lt;em class='found'&gt;human&lt;/em&gt; immunodeficiency &lt;em class='found'&gt;virus&lt;/em&gt;] associated cognitive motor complex [Other specified &lt;em class='found'&gt;HIV&lt;/em&gt; disease clinical &lt;em class='found'&gt;stage&lt;/em&gt; &lt;em class='found'&gt;4&lt;/em&gt; associated with tuberculosis]"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "HIV- [human immunodeficiency virus] associated cognitive motor complex[Other specified HIV disease clinical stage 4 associated with tuberculosis]"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[8]]$matchingPVs[[2]]$score</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.507785</span>
@@ -962,7 +965,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Synonym"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[8]]$matchingPVs[[3]]$label</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "&lt;em class='found'&gt;HIV&lt;/em&gt;- [&lt;em class='found'&gt;human&lt;/em&gt; immunodeficiency &lt;em class='found'&gt;virus&lt;/em&gt;] associated dementia complex [Other specified &lt;em class='found'&gt;HIV&lt;/em&gt; disease clinical &lt;em class='found'&gt;stage&lt;/em&gt; &lt;em class='found'&gt;4&lt;/em&gt; associated with tuberculosis]"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "HIV- [human immunodeficiency virus] associated dementia complex[Other specified HIV disease clinical stage 4 associated with tuberculosis]"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[8]]$matchingPVs[[3]]$score</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.6820793</span>
@@ -1017,7 +1020,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/11/2024-01/mms/1173624218 / http://id.who.int/icd/release/11/2024-01/mms/97626683/unspecified"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[9]]$title</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Dementia due to &lt;em class='found'&gt;human&lt;/em&gt; immunodeficiency &lt;em class='found'&gt;virus&lt;/em&gt; [&lt;em class='found'&gt;HIV&lt;/em&gt; disease clinical &lt;em class='found'&gt;stage&lt;/em&gt; &lt;em class='found'&gt;4&lt;/em&gt; associated with malaria, unspecified]"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Dementia due to human immunodeficiency virus [HIV disease clinical stage 4 associated with malaria, unspecified]"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[9]]$stemId</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/11/2024-01/mms/1173624218"</span>
@@ -1043,7 +1046,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Synonym"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[9]]$matchingPVs[[1]]$label</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "&lt;em class='found'&gt;HIV&lt;/em&gt; - [&lt;em class='found'&gt;human&lt;/em&gt; immunodeficiency &lt;em class='found'&gt;virus&lt;/em&gt;] dementia [&lt;em class='found'&gt;HIV&lt;/em&gt; disease clinical &lt;em class='found'&gt;stage&lt;/em&gt; &lt;em class='found'&gt;4&lt;/em&gt; associated with malaria, unspecified]"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "HIV - [human immunodeficiency virus] dementia[HIV disease clinical stage 4 associated with malaria, unspecified]"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[9]]$matchingPVs[[1]]$score</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.5673337</span>
@@ -1063,7 +1066,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Synonym"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[9]]$matchingPVs[[2]]$label</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "&lt;em class='found'&gt;HIV&lt;/em&gt;- [&lt;em class='found'&gt;human&lt;/em&gt; immunodeficiency &lt;em class='found'&gt;virus&lt;/em&gt;] associated cognitive motor complex [&lt;em class='found'&gt;HIV&lt;/em&gt; disease clinical &lt;em class='found'&gt;stage&lt;/em&gt; &lt;em class='found'&gt;4&lt;/em&gt; associated with malaria, unspecified]"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "HIV- [human immunodeficiency virus] associated cognitive motor complex[HIV disease clinical stage 4 associated with malaria, unspecified]"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[9]]$matchingPVs[[2]]$score</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.5713305</span>
@@ -1083,7 +1086,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Synonym"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[9]]$matchingPVs[[3]]$label</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "&lt;em class='found'&gt;HIV&lt;/em&gt;- [&lt;em class='found'&gt;human&lt;/em&gt; immunodeficiency &lt;em class='found'&gt;virus&lt;/em&gt;] associated dementia complex [&lt;em class='found'&gt;HIV&lt;/em&gt; disease clinical &lt;em class='found'&gt;stage&lt;/em&gt; &lt;em class='found'&gt;4&lt;/em&gt; associated with malaria, unspecified]"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "HIV- [human immunodeficiency virus] associated dementia complex[HIV disease clinical stage 4 associated with malaria, unspecified]"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[9]]$matchingPVs[[3]]$score</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.7456249</span>
@@ -1138,7 +1141,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/11/2024-01/mms/1173624218 / http://id.who.int/icd/release/11/2024-01/mms/97626683/other"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[10]]$title</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Dementia due to &lt;em class='found'&gt;human&lt;/em&gt; immunodeficiency &lt;em class='found'&gt;virus&lt;/em&gt; [Other specified &lt;em class='found'&gt;HIV&lt;/em&gt; disease clinical &lt;em class='found'&gt;stage&lt;/em&gt; &lt;em class='found'&gt;4&lt;/em&gt; associated with malaria]"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Dementia due to human immunodeficiency virus [Other specified HIV disease clinical stage 4 associated with malaria]"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[10]]$stemId</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/11/2024-01/mms/1173624218"</span>
@@ -1164,7 +1167,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Synonym"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[10]]$matchingPVs[[1]]$label</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "&lt;em class='found'&gt;HIV&lt;/em&gt; - [&lt;em class='found'&gt;human&lt;/em&gt; immunodeficiency &lt;em class='found'&gt;virus&lt;/em&gt;] dementia [Other specified &lt;em class='found'&gt;HIV&lt;/em&gt; disease clinical &lt;em class='found'&gt;stage&lt;/em&gt; &lt;em class='found'&gt;4&lt;/em&gt; associated with malaria]"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "HIV - [human immunodeficiency virus] dementia[Other specified HIV disease clinical stage 4 associated with malaria]"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[10]]$matchingPVs[[1]]$score</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.6190847</span>
@@ -1184,7 +1187,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Synonym"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[10]]$matchingPVs[[2]]$label</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "&lt;em class='found'&gt;HIV&lt;/em&gt;- [&lt;em class='found'&gt;human&lt;/em&gt; immunodeficiency &lt;em class='found'&gt;virus&lt;/em&gt;] associated cognitive motor complex [Other specified &lt;em class='found'&gt;HIV&lt;/em&gt; disease clinical &lt;em class='found'&gt;stage&lt;/em&gt; &lt;em class='found'&gt;4&lt;/em&gt; associated with malaria]"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "HIV- [human immunodeficiency virus] associated cognitive motor complex[Other specified HIV disease clinical stage 4 associated with malaria]"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[10]]$matchingPVs[[2]]$score</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.6230814</span>
@@ -1204,7 +1207,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Synonym"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[10]]$matchingPVs[[3]]$label</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "&lt;em class='found'&gt;HIV&lt;/em&gt;- [&lt;em class='found'&gt;human&lt;/em&gt; immunodeficiency &lt;em class='found'&gt;virus&lt;/em&gt;] associated dementia complex [Other specified &lt;em class='found'&gt;HIV&lt;/em&gt; disease clinical &lt;em class='found'&gt;stage&lt;/em&gt; &lt;em class='found'&gt;4&lt;/em&gt; associated with malaria]"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "HIV- [human immunodeficiency virus] associated dementia complex[Other specified HIV disease clinical stage 4 associated with malaria]"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[10]]$matchingPVs[[3]]$score</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.7973758</span>
@@ -1259,7 +1262,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/11/2024-01/mms/1173624218 / http://id.who.int/icd/release/11/2024-01/mms/1858812010/unspecified"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[11]]$title</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Dementia due to &lt;em class='found'&gt;human&lt;/em&gt; immunodeficiency &lt;em class='found'&gt;virus&lt;/em&gt; [&lt;em class='found'&gt;HIV&lt;/em&gt; disease clinical &lt;em class='found'&gt;stage&lt;/em&gt; &lt;em class='found'&gt;4&lt;/em&gt; without mention of tuberculosis or malaria, unspecified]"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Dementia due to human immunodeficiency virus [HIV disease clinical stage 4 without mention of tuberculosis or malaria, unspecified]"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[11]]$stemId</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/11/2024-01/mms/1173624218"</span>
@@ -1285,7 +1288,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Title"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[11]]$matchingPVs[[1]]$label</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Dementia due to &lt;em class='found'&gt;human&lt;/em&gt; immunodeficiency &lt;em class='found'&gt;virus&lt;/em&gt; [&lt;em class='found'&gt;HIV&lt;/em&gt; disease clinical &lt;em class='found'&gt;stage&lt;/em&gt; &lt;em class='found'&gt;4&lt;/em&gt; without tuberculosis or malaria]"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Dementia due to human immunodeficiency virus[HIV disease clinical stage 4 without tuberculosis or malaria]"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[11]]$matchingPVs[[1]]$score</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.8556216</span>
@@ -1305,7 +1308,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Synonym"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[11]]$matchingPVs[[2]]$label</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "&lt;em class='found'&gt;HIV&lt;/em&gt; - [&lt;em class='found'&gt;human&lt;/em&gt; immunodeficiency &lt;em class='found'&gt;virus&lt;/em&gt;] dementia [&lt;em class='found'&gt;HIV&lt;/em&gt; disease clinical &lt;em class='found'&gt;stage&lt;/em&gt; &lt;em class='found'&gt;4&lt;/em&gt; without tuberculosis or malaria]"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "HIV - [human immunodeficiency virus] dementia[HIV disease clinical stage 4 without tuberculosis or malaria]"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[11]]$matchingPVs[[2]]$score</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.8556216</span>
@@ -1325,7 +1328,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Synonym"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[11]]$matchingPVs[[3]]$label</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "&lt;em class='found'&gt;HIV&lt;/em&gt;- [&lt;em class='found'&gt;human&lt;/em&gt; immunodeficiency &lt;em class='found'&gt;virus&lt;/em&gt;] associated cognitive motor complex [&lt;em class='found'&gt;HIV&lt;/em&gt; disease clinical &lt;em class='found'&gt;stage&lt;/em&gt; &lt;em class='found'&gt;4&lt;/em&gt; without tuberculosis or malaria]"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "HIV- [human immunodeficiency virus] associated cognitive motor complex[HIV disease clinical stage 4 without tuberculosis or malaria]"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[11]]$matchingPVs[[3]]$score</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.9194379</span>
@@ -1345,7 +1348,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Synonym"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[11]]$matchingPVs[[4]]$label</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "&lt;em class='found'&gt;HIV&lt;/em&gt; - [&lt;em class='found'&gt;human&lt;/em&gt; immunodeficiency &lt;em class='found'&gt;virus&lt;/em&gt;] dementia [&lt;em class='found'&gt;HIV&lt;/em&gt; disease clinical &lt;em class='found'&gt;stage&lt;/em&gt; &lt;em class='found'&gt;4&lt;/em&gt; without mention of tuberculosis or malaria, unspecified]"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "HIV - [human immunodeficiency virus] dementia[HIV disease clinical stage 4 without mention of tuberculosis or malaria, unspecified]"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[11]]$matchingPVs[[4]]$score</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.9675963</span>
@@ -1365,7 +1368,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Synonym"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[11]]$matchingPVs[[5]]$label</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "&lt;em class='found'&gt;HIV&lt;/em&gt;- [&lt;em class='found'&gt;human&lt;/em&gt; immunodeficiency &lt;em class='found'&gt;virus&lt;/em&gt;] associated cognitive motor complex [&lt;em class='found'&gt;HIV&lt;/em&gt; disease clinical &lt;em class='found'&gt;stage&lt;/em&gt; &lt;em class='found'&gt;4&lt;/em&gt; without mention of tuberculosis or malaria, unspecified]"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "HIV- [human immunodeficiency virus] associated cognitive motor complex[HIV disease clinical stage 4 without mention of tuberculosis or malaria, unspecified]"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[11]]$matchingPVs[[5]]$score</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] -1.031413</span>
@@ -1385,7 +1388,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Synonym"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[11]]$matchingPVs[[6]]$label</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "&lt;em class='found'&gt;HIV&lt;/em&gt;- [&lt;em class='found'&gt;human&lt;/em&gt; immunodeficiency &lt;em class='found'&gt;virus&lt;/em&gt;] associated dementia complex [&lt;em class='found'&gt;HIV&lt;/em&gt; disease clinical &lt;em class='found'&gt;stage&lt;/em&gt; &lt;em class='found'&gt;4&lt;/em&gt; without tuberculosis or malaria]"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "HIV- [human immunodeficiency virus] associated dementia complex[HIV disease clinical stage 4 without tuberculosis or malaria]"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[11]]$matchingPVs[[6]]$score</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] -1.093732</span>
@@ -1405,7 +1408,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Synonym"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[11]]$matchingPVs[[7]]$label</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "&lt;em class='found'&gt;HIV&lt;/em&gt;- [&lt;em class='found'&gt;human&lt;/em&gt; immunodeficiency &lt;em class='found'&gt;virus&lt;/em&gt;] associated dementia complex [&lt;em class='found'&gt;HIV&lt;/em&gt; disease clinical &lt;em class='found'&gt;stage&lt;/em&gt; &lt;em class='found'&gt;4&lt;/em&gt; without mention of tuberculosis or malaria, unspecified]"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "HIV- [human immunodeficiency virus] associated dementia complex[HIV disease clinical stage 4 without mention of tuberculosis or malaria, unspecified]"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[11]]$matchingPVs[[7]]$score</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] -1.205707</span>
@@ -1460,7 +1463,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/11/2024-01/mms/1173624218 / http://id.who.int/icd/release/11/2024-01/mms/1858812010/other"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[12]]$title</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Dementia due to &lt;em class='found'&gt;human&lt;/em&gt; immunodeficiency &lt;em class='found'&gt;virus&lt;/em&gt; [Other specified &lt;em class='found'&gt;HIV&lt;/em&gt; disease clinical &lt;em class='found'&gt;stage&lt;/em&gt; &lt;em class='found'&gt;4&lt;/em&gt; without mention of tuberculosis or malaria]"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Dementia due to human immunodeficiency virus [Other specified HIV disease clinical stage 4 without mention of tuberculosis or malaria]"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[12]]$stemId</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/release/11/2024-01/mms/1173624218"</span>
@@ -1486,7 +1489,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Synonym"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[12]]$matchingPVs[[1]]$label</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "&lt;em class='found'&gt;HIV&lt;/em&gt; - [&lt;em class='found'&gt;human&lt;/em&gt; immunodeficiency &lt;em class='found'&gt;virus&lt;/em&gt;] dementia [Other specified &lt;em class='found'&gt;HIV&lt;/em&gt; disease clinical &lt;em class='found'&gt;stage&lt;/em&gt; &lt;em class='found'&gt;4&lt;/em&gt; without mention of tuberculosis or malaria]"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "HIV - [human immunodeficiency virus] dementia[Other specified HIV disease clinical stage 4 without mention of tuberculosis or malaria]"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[12]]$matchingPVs[[1]]$score</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] -1.019347</span>
@@ -1506,7 +1509,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Synonym"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[12]]$matchingPVs[[2]]$label</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "&lt;em class='found'&gt;HIV&lt;/em&gt;- [&lt;em class='found'&gt;human&lt;/em&gt; immunodeficiency &lt;em class='found'&gt;virus&lt;/em&gt;] associated cognitive motor complex [Other specified &lt;em class='found'&gt;HIV&lt;/em&gt; disease clinical &lt;em class='found'&gt;stage&lt;/em&gt; &lt;em class='found'&gt;4&lt;/em&gt; without mention of tuberculosis or malaria]"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "HIV- [human immunodeficiency virus] associated cognitive motor complex[Other specified HIV disease clinical stage 4 without mention of tuberculosis or malaria]"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[12]]$matchingPVs[[2]]$score</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] -1.083163</span>
@@ -1526,7 +1529,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Synonym"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[12]]$matchingPVs[[3]]$label</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "&lt;em class='found'&gt;HIV&lt;/em&gt;- [&lt;em class='found'&gt;human&lt;/em&gt; immunodeficiency &lt;em class='found'&gt;virus&lt;/em&gt;] associated dementia complex [Other specified &lt;em class='found'&gt;HIV&lt;/em&gt; disease clinical &lt;em class='found'&gt;stage&lt;/em&gt; &lt;em class='found'&gt;4&lt;/em&gt; without mention of tuberculosis or malaria]"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "HIV- [human immunodeficiency virus] associated dementia complex[Other specified HIV disease clinical stage 4 without mention of tuberculosis or malaria]"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[12]]$matchingPVs[[3]]$score</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] -1.257458</span>
@@ -1602,7 +1605,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $uniqueSearchId</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "bf794765-9b80-4c4f-85ee-c7b9bcea5de2"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "040b1644-5052-462b-8e9f-451583919d98"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $words</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
@@ -1639,7 +1642,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Synonym"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[1]]$matchingPVs[[1]]$label</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "&lt;em class='found'&gt;cerebrovascular&lt;/em&gt; &lt;em class='found'&gt;accident&lt;/em&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "cerebrovascular accident"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[1]]$matchingPVs[[1]]$score</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1</span>
@@ -1659,7 +1662,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Synonym"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[1]]$matchingPVs[[2]]$label</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "acute &lt;em class='found'&gt;cerebrovascular&lt;/em&gt; &lt;em class='found'&gt;accident&lt;/em&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "acute cerebrovascular accident"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[1]]$matchingPVs[[2]]$score</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.7785942</span>
@@ -1679,7 +1682,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Synonym"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[1]]$matchingPVs[[3]]$label</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "massive &lt;em class='found'&gt;cerebrovascular&lt;/em&gt; &lt;em class='found'&gt;accident&lt;/em&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "massive cerebrovascular accident"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[1]]$matchingPVs[[3]]$score</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5094063</span>
@@ -1699,7 +1702,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Synonym"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[1]]$matchingPVs[[4]]$label</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "CVA - [&lt;em class='found'&gt;cerebrovascular&lt;/em&gt; &lt;em class='found'&gt;accident&lt;/em&gt;]"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "CVA - [cerebrovascular accident]"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[1]]$matchingPVs[[4]]$score</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.3315121</span>
@@ -1780,7 +1783,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Synonym"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[2]]$matchingPVs[[1]]$label</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "ischaemic &lt;em class='found'&gt;cerebrovascular&lt;/em&gt; &lt;em class='found'&gt;accident&lt;/em&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "ischaemic cerebrovascular accident"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[2]]$matchingPVs[[1]]$score</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.6584358</span>
@@ -1861,7 +1864,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Synonym"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[3]]$matchingPVs[[1]]$label</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "old &lt;em class='found'&gt;cerebrovascular&lt;/em&gt; &lt;em class='found'&gt;accident&lt;/em&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "old cerebrovascular accident"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[3]]$matchingPVs[[1]]$score</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5563917</span>
@@ -1881,7 +1884,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Synonym"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[3]]$matchingPVs[[2]]$label</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "past &lt;em class='found'&gt;cerebrovascular&lt;/em&gt; &lt;em class='found'&gt;accident&lt;/em&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "past cerebrovascular accident"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[3]]$matchingPVs[[2]]$score</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5527899</span>
@@ -1901,7 +1904,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Synonym"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[3]]$matchingPVs[[3]]$label</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "previous &lt;em class='found'&gt;cerebrovascular&lt;/em&gt; &lt;em class='found'&gt;accident&lt;/em&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "previous cerebrovascular accident"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[3]]$matchingPVs[[3]]$score</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5289606</span>
@@ -1921,7 +1924,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Synonym"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[3]]$matchingPVs[[4]]$label</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "old CVA - [&lt;em class='found'&gt;cerebrovascular&lt;/em&gt; &lt;em class='found'&gt;accident&lt;/em&gt;]"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "old CVA - [cerebrovascular accident]"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[3]]$matchingPVs[[4]]$score</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.1120962</span>
@@ -2002,7 +2005,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Synonym"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[4]]$matchingPVs[[1]]$label</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "haemorrhagic &lt;em class='found'&gt;cerebrovascular&lt;/em&gt; &lt;em class='found'&gt;accident&lt;/em&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "haemorrhagic cerebrovascular accident"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[4]]$matchingPVs[[1]]$score</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1609707</span>
@@ -2057,7 +2060,7 @@ as <code>icd11_search2</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/entity/209094863"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[5]]$title</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Observation for suspected &lt;em class='found'&gt;cerebrovascular&lt;/em&gt; &lt;em class='found'&gt;accident&lt;/em&gt;, ruled out"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Observation for suspected cerebrovascular accident, ruled out"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $destinationEntities[[5]]$stemId</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://id.who.int/icd/entity/209094863"</span>

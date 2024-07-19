@@ -196,8 +196,8 @@ icd11_autocode2 <- function(token, text, release = "2024-01", subtrees_filter = 
 #' @param flat_results Boolean. Optional parameter. If set to true the search result entities are
 #' provided in a nested data structure representing the ICD-11 hierarchy. Default value: true.
 #'
-#' @param highlighting_enabled Boolean. Optional. If set to false the search result highlighting
-#' is turned off. Default value: `TRUE`
+#' @param highlighting_enabled Boolean. Optional. If set to `FALSE` the search result highlighting
+#' is turned off. Default value: `FALSE`. Highlighting is in html format.
 #'
 #' @param medical_coding_mode Boolean. This mode is the default and should be used when searching
 #' the classification for medical coding purposes. Default value: `TRUE`.
@@ -244,7 +244,7 @@ icd11_search <- function(token,
                          chapter_filter = NULL,
                          use_flexisearch = FALSE,
                          flat_results = NULL,
-                         highlighting_enabled = TRUE,
+                         highlighting_enabled = FALSE,
                          medical_coding_mode = TRUE,
                          properties_to_be_searched = NULL,
                          language = "en",
@@ -292,7 +292,7 @@ icd11_search2 <- function(token, text,
                           chapter_filter = NULL,
                           use_flexisearch = FALSE,
                           flat_results = NULL,
-                          highlighting_enabled = TRUE,
+                          highlighting_enabled = FALSE,
                           properties_to_be_searched = NULL,
                           language = "en",
                           auto_update = TRUE) {

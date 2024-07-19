@@ -101,6 +101,42 @@ All of the options are available in the function’s help page
 
 ## ICD-11 examples
 
+The main functions relating to ICD-11 are `icd11_search()` and
+`icd11_autocode()`. The first one allows you to search for a specific
+diagnosis using keywords inside `ICD-11` either in the *Mortality and
+Morbidity Statistics (MMS)* or in the *International Classification of
+Functioning, Disability and Health (ICF)*.
+
+The following example searches for any coding related to Dementia
+related to HIV stage 4
+
+``` r
+#Look for Dementia and HIV stage 4
+search_results <- icd11_search(token, "Dementia HIV stage 4")
+
+#Recover all of the titles matched
+search_results |> retrieve("title")
+#> [1] "Dementia due to human immunodeficiency virus [HIV disease clinical stage 4 associated with tuberculosis, unspecified]"                 
+#> [2] "Dementia due to human immunodeficiency virus [Other specified HIV disease clinical stage 4 associated with tuberculosis]"              
+#> [3] "Dementia due to human immunodeficiency virus [HIV disease clinical stage 4 associated with malaria, unspecified]"                      
+#> [4] "Dementia due to human immunodeficiency virus [Other specified HIV disease clinical stage 4 associated with malaria]"                   
+#> [5] "Dementia due to human immunodeficiency virus [HIV disease clinical stage 4 without mention of tuberculosis or malaria, unspecified]"   
+#> [6] "Dementia due to human immunodeficiency virus [Other specified HIV disease clinical stage 4 without mention of tuberculosis or malaria]"
+```
+
+Another function of importance is `autocode` which reads plain-text
+diagnostic text and returns the best matching code either in *MMS* or
+*ICF*
+
+``` r
+#Look for Dementia and HIV stage 4
+code_results <- icd11_autocode(token, "Patient with cerebrovascular accident")
+
+#Recover the code that matched
+code_results |> retrieve("title")
+#> NULL
+```
+
 ## ICD-10 examples
 
 The main function relating to ICD-10 is `icd10_search()` which searches
@@ -139,114 +175,8 @@ icd10_title(token, codes)
 #> 3  I10-I15                               Hypertensive diseases
 ```
 
-#### Top-down search
-
-Given a chapter you can also list all the blocks in a chapter
-
-``` r
-icd10_blocks(token, chapter = "III")
-#>     codes                                                          title
-#> 1 D50-D53                                           Nutritional anaemias
-#> 2 D55-D59                                            Haemolytic anaemias
-#> 3 D60-D64                                    Aplastic and other anaemias
-#> 4 D65-D69 Coagulation defects, purpura and other haemorrhagic conditions
-#> 5 D70-D77               Other diseases of blood and blood-forming organs
-#> 6 D80-D89               Certain disorders involving the immune mechanism
-```
-
-As well as all of the chapters in a block:
-
-``` r
-icd10_codes(token, block = "D55-D59")
-#>   codes                                title
-#> 1   D55      Anaemia due to enzyme disorders
-#> 2   D56                         Thalassaemia
-#> 3   D57                Sickle-cell disorders
-#> 4   D58 Other hereditary haemolytic anaemias
-#> 5   D59          Acquired haemolytic anaemia
-```
-
-The same command allows you to search inside a code:
-
-``` r
-icd10_codes(token, block = "D55")
-#>   codes                                                              title
-#> 1 D55.0 Anaemia due to glucose-6-phosphate dehydrogenase [G6PD] deficiency
-#> 2 D55.1           Anaemia due to other disorders of glutathione metabolism
-#> 3 D55.2                     Anaemia due to disorders of glycolytic enzymes
-#> 4 D55.3                  Anaemia due to disorders of nucleotide metabolism
-#> 5 D55.8                             Other anaemias due to enzyme disorders
-#> 6 D55.9                        Anaemia due to enzyme disorder, unspecified
-```
-
-### Search for code in releases
-
-Not all codes are available across releases. For example, the `C80.0`
-code was not in the `2008` release of the ICD-10. Hence if you are using
-that release you will not find it:
-
-``` r
-icd10_search(token, "C80.0", release = 2008)
-#> Warning in value[[3L]](cond): Request not found. Possibly any of release,
-#> chapter/block/code or language is not available or incorrectly specified.
-#> Warning in value[[3L]](cond): Request not found. Possibly any of release,
-#> chapter/block/code or language is not available or incorrectly specified.
-#>   searched chapter chapter_title
-#> 1    C80.0    <NA>          <NA>
-```
-
-However you can use the `icd10_code_search_release` to search for a
-release containing that code:
-
-``` r
-icd10_code_search_release(token, code = "C80.0")
-#> [1] "2019" "2016" "2010"
-```
-
-and use one of those releases instead:
-
-``` r
-icd10_search(token, "C80.0", release = 2016)
-#>   searched level_0                                             title_0 level_1
-#> 1    C80.0   C80.0 Malignant neoplasm, primary site unknown, so stated     C80
-#>                                             title_1 level_2
-#> 1 Malignant neoplasm, without specification of site C76-C80
-#>                                                               title_2 level_3
-#> 1 Malignant neoplasms of ill-defined, secondary and unspecified sites C00-C97
-#>               title_3 level_4   title_4
-#> 1 Malignant neoplasms      II Neoplasms
-```
-
-### Additional information on releases
-
-The `icd10_releases` function lists all available ICD-10 releases
-
-``` r
-icd10_releases(token)
-#> [1] "2019" "2016" "2010" "2008"
-```
-
-The default is 2019. You can change it with the `release` parameter
-across all functions.
-
-To obtain the complete information on a certain release you can use the
-`icd10_release_info` function:
-
-``` r
-icd10_release_info(token, release = 2016)
-#>                                                                                                                    context 
-#>                                                                   "http://id.who.int/icd/contexts/contextForTopLevel.json" 
-#>                                                                                                                         id 
-#>                                                                                    "http://id.who.int/icd/release/10/2016" 
-#>                                                                                                             title.language 
-#>                                                                                                                       "en" 
-#>                                                                                                                title.value 
-#> "International Statistical Classification of Diseases and Related Health Problems 10th Revision (ICD-10) Version for 2016" 
-#>                                                                                                                releaseDate 
-#>                                                                                                               "2016-11-01" 
-#>                                                                                                                 browserUrl 
-#>                                                                 "http://apps.who.int/classifications/icd10/browse/2016/en"
-```
+Additional information on ICD-10 can be found in the [ICD-10
+article](https://rodrigozepeda.github.io/WHOicd/articles/ICD-10.html)
 
 ## Support
 

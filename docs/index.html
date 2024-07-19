@@ -52,6 +52,9 @@
 <li>
       <a href="articles/Generating-your-token.html">Generating your token</a>
     </li>
+    <li>
+      <a href="articles/ICD-10.html">ICD-10</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -140,12 +143,34 @@
 <div class="section level2">
 <h2 id="icd-11-examples">ICD-11 examples<a class="anchor" aria-label="anchor" href="#icd-11-examples"></a>
 </h2>
+<p>The main functions relating to ICD-11 are <code><a href="reference/search.html">icd11_search()</a></code> and <code><a href="reference/autocode.html">icd11_autocode()</a></code>. The first one allows you to search for a specific diagnosis using keywords inside <code>ICD-11</code> either in the <em>Mortality and Morbidity Statistics (MMS)</em> or in the <em>International Classification of Functioning, Disability and Health (ICF)</em>.</p>
+<p>The following example searches for any coding related to Dementia related to HIV stage 4</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#Look for Dementia and HIV stage 4</span></span>
+<span><span class="va">search_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/search.html">icd11_search</a></span><span class="op">(</span><span class="va">token</span>, <span class="st">"Dementia HIV stage 4"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#Recover all of the titles matched</span></span>
+<span><span class="va">search_results</span> <span class="op">|&gt;</span> <span class="fu"><a href="reference/retrieve.html">retrieve</a></span><span class="op">(</span><span class="st">"title"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "Dementia due to human immunodeficiency virus [HIV disease clinical stage 4 associated with tuberculosis, unspecified]"                 </span></span>
+<span><span class="co">#&gt; [2] "Dementia due to human immunodeficiency virus [Other specified HIV disease clinical stage 4 associated with tuberculosis]"              </span></span>
+<span><span class="co">#&gt; [3] "Dementia due to human immunodeficiency virus [HIV disease clinical stage 4 associated with malaria, unspecified]"                      </span></span>
+<span><span class="co">#&gt; [4] "Dementia due to human immunodeficiency virus [Other specified HIV disease clinical stage 4 associated with malaria]"                   </span></span>
+<span><span class="co">#&gt; [5] "Dementia due to human immunodeficiency virus [HIV disease clinical stage 4 without mention of tuberculosis or malaria, unspecified]"   </span></span>
+<span><span class="co">#&gt; [6] "Dementia due to human immunodeficiency virus [Other specified HIV disease clinical stage 4 without mention of tuberculosis or malaria]"</span></span></code></pre></div>
+<p>Another function of importance is <code>autocode</code> which reads plain-text diagnostic text and returns the best matching code either in <em>MMS</em> or <em>ICF</em></p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#Look for Dementia and HIV stage 4</span></span>
+<span><span class="va">code_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/autocode.html">icd11_autocode</a></span><span class="op">(</span><span class="va">token</span>, <span class="st">"Patient with cerebrovascular accident"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#Recover the code that matched</span></span>
+<span><span class="va">code_results</span> <span class="op">|&gt;</span> <span class="fu"><a href="reference/retrieve.html">retrieve</a></span><span class="op">(</span><span class="st">"title"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; NULL</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="icd-10-examples">ICD-10 examples<a class="anchor" aria-label="anchor" href="#icd-10-examples"></a>
 </h2>
 <p>The main function relating to ICD-10 is <code><a href="reference/icd10_search.html">icd10_search()</a></code> which searches for the titles and parents of codes, blocks of chapters. As an example, we can search for the following vector and obtain a <code>data.frame</code>:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#Search for code, specific code, chapter and block </span></span>
 <span><span class="va">codes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"D60"</span>, <span class="st">"IX"</span>, <span class="st">"I10-I15"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/icd10_search.html">icd10_search</a></span><span class="op">(</span><span class="va">token</span>, <span class="va">codes</span><span class="op">)</span></span>
@@ -162,7 +187,7 @@
 <span><span class="co">#&gt; 2                                                                  Diseases of the circulatory system</span></span>
 <span><span class="co">#&gt; 3                                                                  Diseases of the circulatory system</span></span></code></pre></div>
 <p>If you only want to get the title of the current code/chapter/block you can use <code>icd10_title</code> which is faster as it requires less requests to the API:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#Search for code, specific code, chapter and block </span></span>
 <span><span class="va">codes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"D60"</span>, <span class="st">"IX"</span>, <span class="st">"I10-I15"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/icd10_title.html">icd10_title</a></span><span class="op">(</span><span class="va">token</span>, <span class="va">codes</span><span class="op">)</span></span>
@@ -170,91 +195,7 @@
 <span><span class="co">#&gt; 1      D60 Acquired pure red cell aplasia [erythroblastopenia]</span></span>
 <span><span class="co">#&gt; 2       IX                  Diseases of the circulatory system</span></span>
 <span><span class="co">#&gt; 3  I10-I15                               Hypertensive diseases</span></span></code></pre></div>
-<div class="section level4">
-<h4 id="top-down-search">Top-down search<a class="anchor" aria-label="anchor" href="#top-down-search"></a>
-</h4>
-<p>Given a chapter you can also list all the blocks in a chapter</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/icd10_blocks.html">icd10_blocks</a></span><span class="op">(</span><span class="va">token</span>, chapter <span class="op">=</span> <span class="st">"III"</span><span class="op">)</span></span>
-<span><span class="co">#&gt;     codes                                                          title</span></span>
-<span><span class="co">#&gt; 1 D50-D53                                           Nutritional anaemias</span></span>
-<span><span class="co">#&gt; 2 D55-D59                                            Haemolytic anaemias</span></span>
-<span><span class="co">#&gt; 3 D60-D64                                    Aplastic and other anaemias</span></span>
-<span><span class="co">#&gt; 4 D65-D69 Coagulation defects, purpura and other haemorrhagic conditions</span></span>
-<span><span class="co">#&gt; 5 D70-D77               Other diseases of blood and blood-forming organs</span></span>
-<span><span class="co">#&gt; 6 D80-D89               Certain disorders involving the immune mechanism</span></span></code></pre></div>
-<p>As well as all of the chapters in a block:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/icd10_codes.html">icd10_codes</a></span><span class="op">(</span><span class="va">token</span>, block <span class="op">=</span> <span class="st">"D55-D59"</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   codes                                title</span></span>
-<span><span class="co">#&gt; 1   D55      Anaemia due to enzyme disorders</span></span>
-<span><span class="co">#&gt; 2   D56                         Thalassaemia</span></span>
-<span><span class="co">#&gt; 3   D57                Sickle-cell disorders</span></span>
-<span><span class="co">#&gt; 4   D58 Other hereditary haemolytic anaemias</span></span>
-<span><span class="co">#&gt; 5   D59          Acquired haemolytic anaemia</span></span></code></pre></div>
-<p>The same command allows you to search inside a code:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/icd10_codes.html">icd10_codes</a></span><span class="op">(</span><span class="va">token</span>, block <span class="op">=</span> <span class="st">"D55"</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   codes                                                              title</span></span>
-<span><span class="co">#&gt; 1 D55.0 Anaemia due to glucose-6-phosphate dehydrogenase [G6PD] deficiency</span></span>
-<span><span class="co">#&gt; 2 D55.1           Anaemia due to other disorders of glutathione metabolism</span></span>
-<span><span class="co">#&gt; 3 D55.2                     Anaemia due to disorders of glycolytic enzymes</span></span>
-<span><span class="co">#&gt; 4 D55.3                  Anaemia due to disorders of nucleotide metabolism</span></span>
-<span><span class="co">#&gt; 5 D55.8                             Other anaemias due to enzyme disorders</span></span>
-<span><span class="co">#&gt; 6 D55.9                        Anaemia due to enzyme disorder, unspecified</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="search-for-code-in-releases">Search for code in releases<a class="anchor" aria-label="anchor" href="#search-for-code-in-releases"></a>
-</h3>
-<p>Not all codes are available across releases. For example, the <code>C80.0</code> code was not in the <code>2008</code> release of the ICD-10. Hence if you are using that release you will not find it:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/icd10_search.html">icd10_search</a></span><span class="op">(</span><span class="va">token</span>, <span class="st">"C80.0"</span>, release <span class="op">=</span> <span class="fl">2008</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in value[[3L]](cond): Request not found. Possibly any of release,</span></span>
-<span><span class="co">#&gt; chapter/block/code or language is not available or incorrectly specified.</span></span>
-<span><span class="co">#&gt; Warning in value[[3L]](cond): Request not found. Possibly any of release,</span></span>
-<span><span class="co">#&gt; chapter/block/code or language is not available or incorrectly specified.</span></span>
-<span><span class="co">#&gt;   searched chapter chapter_title</span></span>
-<span><span class="co">#&gt; 1    C80.0    &lt;NA&gt;          &lt;NA&gt;</span></span></code></pre></div>
-<p>However you can use the <code>icd10_code_search_release</code> to search for a release containing that code:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/icd10_code_search_release.html">icd10_code_search_release</a></span><span class="op">(</span><span class="va">token</span>, code <span class="op">=</span> <span class="st">"C80.0"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "2019" "2016" "2010"</span></span></code></pre></div>
-<p>and use one of those releases instead:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/icd10_search.html">icd10_search</a></span><span class="op">(</span><span class="va">token</span>, <span class="st">"C80.0"</span>, release <span class="op">=</span> <span class="fl">2016</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   searched level_0                                             title_0 level_1</span></span>
-<span><span class="co">#&gt; 1    C80.0   C80.0 Malignant neoplasm, primary site unknown, so stated     C80</span></span>
-<span><span class="co">#&gt;                                             title_1 level_2</span></span>
-<span><span class="co">#&gt; 1 Malignant neoplasm, without specification of site C76-C80</span></span>
-<span><span class="co">#&gt;                                                               title_2 level_3</span></span>
-<span><span class="co">#&gt; 1 Malignant neoplasms of ill-defined, secondary and unspecified sites C00-C97</span></span>
-<span><span class="co">#&gt;               title_3 level_4   title_4</span></span>
-<span><span class="co">#&gt; 1 Malignant neoplasms      II Neoplasms</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="additional-information-on-releases">Additional information on releases<a class="anchor" aria-label="anchor" href="#additional-information-on-releases"></a>
-</h3>
-<p>The <code>icd10_releases</code> function lists all available ICD-10 releases</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/icd10_releases.html">icd10_releases</a></span><span class="op">(</span><span class="va">token</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "2019" "2016" "2010" "2008"</span></span></code></pre></div>
-<p>The default is 2019. You can change it with the <code>release</code> parameter across all functions.</p>
-<p>To obtain the complete information on a certain release you can use the <code>icd10_release_info</code> function:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/icd10_release_info.html">icd10_release_info</a></span><span class="op">(</span><span class="va">token</span>, release <span class="op">=</span> <span class="fl">2016</span><span class="op">)</span></span>
-<span><span class="co">#&gt;                                                                                                                    context </span></span>
-<span><span class="co">#&gt;                                                                   "http://id.who.int/icd/contexts/contextForTopLevel.json" </span></span>
-<span><span class="co">#&gt;                                                                                                                         id </span></span>
-<span><span class="co">#&gt;                                                                                    "http://id.who.int/icd/release/10/2016" </span></span>
-<span><span class="co">#&gt;                                                                                                             title.language </span></span>
-<span><span class="co">#&gt;                                                                                                                       "en" </span></span>
-<span><span class="co">#&gt;                                                                                                                title.value </span></span>
-<span><span class="co">#&gt; "International Statistical Classification of Diseases and Related Health Problems 10th Revision (ICD-10) Version for 2016" </span></span>
-<span><span class="co">#&gt;                                                                                                                releaseDate </span></span>
-<span><span class="co">#&gt;                                                                                                               "2016-11-01" </span></span>
-<span><span class="co">#&gt;                                                                                                                 browserUrl </span></span>
-<span><span class="co">#&gt;                                                                 "http://apps.who.int/classifications/icd10/browse/2016/en"</span></span></code></pre></div>
-</div>
+<p>Additional information on ICD-10 can be found in the <a href="https://rodrigozepeda.github.io/WHOicd/articles/ICD-10.html" class="external-link">ICD-10 article</a></p>
 </div>
 <div class="section level2">
 <h2 id="support">Support<a class="anchor" aria-label="anchor" href="#support"></a>

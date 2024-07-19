@@ -78,6 +78,29 @@ All of the options are available in the function's help page [`doris()`](https:/
 
 ## ICD-11 examples
 
+The main functions relating to ICD-11 are `icd11_search()` and `icd11_autocode()`. The first one allows you to search for a specific diagnosis using keywords inside `ICD-11` either in the _Mortality and Morbidity Statistics (MMS)_ or in the _International Classification of Functioning, Disability and Health (ICF)_.
+
+The following example searches for any coding related to Dementia related to HIV stage 4
+
+```{r}
+#Look for Dementia and HIV stage 4
+search_results <- icd11_search(token, "Dementia HIV stage 4")
+
+#Recover all of the titles matched
+search_results |> retrieve("title")
+```
+
+Another function of importance is `autocode` which reads plain-text diagnostic text and returns the best matching code either in  _MMS_ or _ICF_ 
+
+```{r}
+#Look for Dementia and HIV stage 4
+code_results <- icd11_autocode(token, "Patient with cerebrovascular accident")
+
+#Recover the code that matched
+code_results |> retrieve("title")
+```
+
+
 ## ICD-10 examples
 
 The main function relating to ICD-10 is `icd10_search()` which searches for the titles and parents of codes, blocks of chapters. As an example, we can search for the following vector and obtain a `data.frame`: 
@@ -96,64 +119,7 @@ codes <- c("D60", "IX", "I10-I15")
 icd10_title(token, codes)
 ```
 
-#### Top-down search
-
-Given a chapter you can also list all the blocks in a chapter
-
-```{r}
-icd10_blocks(token, chapter = "III")
-```
-
-As well as all of the chapters in a block:
-
-```{r}
-icd10_codes(token, block = "D55-D59")
-```
-The same command allows you to search inside a code:
-
-```{r}
-icd10_codes(token, block = "D55")
-```
-
-### Search for code in releases
-
-Not all codes are available across releases. For example, the `C80.0` code was not in the `2008` release of the ICD-10. Hence if you are using that release you will not find it:
-
-```{r}
-icd10_search(token, "C80.0", release = 2008)
-```
-
-However you can use the `icd10_code_search_release` to search for a release containing that code:
-
-```{r}
-icd10_code_search_release(token, code = "C80.0")
-```
-
-and use one of those releases instead:
-
-```{r}
-icd10_search(token, "C80.0", release = 2016)
-```
-
-### Additional information on releases
-
-The `icd10_releases` function lists all available ICD-10 releases
-
-```{r}
-icd10_releases(token)
-```
-
-The default is 2019. You can change it with the `release` parameter across all functions. 
-
-To obtain the complete information on a certain release you can use the `icd10_release_info` function:
-
-```{r}
-icd10_release_info(token, release = 2016)
-```
-
-
-
-
+Additional information on ICD-10 can be found in the [ICD-10 article](https://rodrigozepeda.github.io/WHOicd/articles/ICD-10.html)
 
 ## Support
 

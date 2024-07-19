@@ -384,4 +384,21 @@ code_place <- function(input) {
   stop("Input must be a number or a string")
 }
 
+#' Return list entries from search
+#'
+#' Function that retrieves a list of function
+#'
+#' @param lname Name of the list entry to recover as a vector
+#' @return A
+#' @examples
+#' val <- "title"
+#' search_results <- icd11_search(token, "HIV stage 4")
+#' search_results |> retrieve("title")
+#' @export
+retrieve <- function(list_val, val){
+  vec <- unlist(sapply(list_val$destinationEntities, function(entity) entity[val]))
+  names(vec) <- NULL
+  return(vec)
+}
+
 
