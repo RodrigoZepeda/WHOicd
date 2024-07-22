@@ -1,0 +1,92 @@
+---
+title: "ICD-11"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+CLIENT_ID <- Sys.getenv("CLIENT_ID")
+CLIENT_SECRET <- Sys.getenv("CLIENT_SECRET")
+```
+
+To interact with ICD-11 you should first get your token:
+
+```{r}
+library(WHOicd)
+
+#Substitute CLIENT_ID and CLIENT_SECRET by your credentials
+token <- get_token(CLIENT_ID, CLIENT_SECRET)
+```
+
+## Autocoding text diagnosis
+
+The function for automatically assigning an ICD-10 code from a diagnostic text is `icd11_autocode()`:
+
+```{r}
+#Auto code a diagnostic text such as `cerebrovascular accident`
+code_results <- icd11_autocode(token, "Patient with cerebrovascular accident")
+```
+
+Code results is a list with multiple entries. In particular, `theCode` will give you the ICD-11 code identified:
+
+```{r}
+#Recover the code that matched
+code_results |> retrieve("theCode")
+```
+
+The `matchScore` gives you a number between 0 and 1 specifying how good the match is. A perfect match is `1` while no-match would be `0`. 
+
+```{r}
+#Recover the code that matched
+code_results |> retrieve("matchScore")
+```
+
+## Information on a code 
+
+Once you have the matched code such as `r code_results |> retrieve("theCode")` from the previous section you can look for it with `icd11_codeinfo`. 
+
+```{r}
+#Recover the code that matched
+code_info <- icd11_codeinfo(token, code = "8B20")
+```
+
+A lot of information is retrieved from the code:
+```{r}
+names(code_info)
+```
+
+In particular: 
+* `parent` gives information of the chapter/section/block this code belongs to, 
+* `@id` returns the URI which is the main indexing for the code in the online system, 
+* `title` which is the name of the code, 
+* `exclusion` which are the conditions not included, 
+* `definition` provides a medical description of what it means, 
+* `browseUrl` a link to the online website to search for it 
+* `relatedEntitiesInMaternalChapter` are related codes in the chapter of maternal disease
+
+You can use the retrieve function or access the elements from the list directly:
+
+```{r}
+code_info |> retrieve("title")
+```
+
+## Searching for codes
+
+The `icd11_search()` function allows you to search for text and retrieve codes that contain that text. As an example, we can search for all codes containing or related to `malaria`:
+
+```{r}
+abortion_codes <- icd11_search(token, text = "malaria")
+```
+
+Which you can `retrieve()` the codes and titles of: 
+
+```{r}
+data.frame(
+  code = abortion_codes |> retrieve("theCode"),
+  title = abortion_codes |> retrieve("title")
+)
+```
+

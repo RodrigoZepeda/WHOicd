@@ -1,3 +1,8 @@
+# WHOicd 0.5.1
+
+* Stopped exporting functions to `code_place` and `code_maternal`.
+* Reduced the size of the examples' output
+
 # WHOicd 0.5.0
 
 * Changed `icd_search()` method to POST. 

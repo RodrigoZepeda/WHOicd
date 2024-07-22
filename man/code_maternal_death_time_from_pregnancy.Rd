@@ -19,8 +19,4 @@ the function verifies it against predefined codes. If it is not one of the codes
 If it is a text, the function returns the number corresponding to the code. If it is NULL,
 the function returns NULL.
 }
-\examples{
-code_maternal_death_time_from_pregnancy(3)          # returns 1
-code_maternal_death_time_from_pregnancy("Within 42 days before death") # returns 1
-code_maternal_death_time_from_pregnancy(NULL)        # returns NULL
-}
+\keyword{internal}

@@ -112,7 +112,7 @@ if (exists("CLIENT_ID") & exists("CLIENT_SECRET")) {
   token <- get_token(CLIENT_ID, CLIENT_SECRET)
 
   # Search for ICD-10 releases
-  icd11_search(token, text = "HIV stage 4")
+  search_results <- icd11_search(token, text = "HIV stage 4")
 }
 
 # Assuming that the CLIENT ID and CLIENT SECRET are set up. Substitute accordingly
@@ -121,7 +121,7 @@ if (exists("CLIENT_ID") & exists("CLIENT_SECRET")) {
   token <- get_token(CLIENT_ID, CLIENT_SECRET)
 
   # Search for ICD-10 releases
-  icd11_search2(token, text = "Cerebrovascular accident")
+  search_results <- icd11_search2(token, text = "Cerebrovascular accident")
 }
 
 }

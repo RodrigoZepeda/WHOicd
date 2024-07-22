@@ -228,7 +228,7 @@ NULL
 #'   token <- get_token(CLIENT_ID, CLIENT_SECRET)
 #'
 #'   # Search for ICD-10 releases
-#'   icd11_search(token, text = "HIV stage 4")
+#'   search_results <- icd11_search(token, text = "HIV stage 4")
 #' }
 #'
 #' @note This provides the default search but might throw different amount of information
@@ -272,6 +272,12 @@ icd11_search <- function(token,
     )
   )
 
+  if (any(search[["resultChopped"]])){
+    warning("Results chopped due to too many matches. Try narrowing your query.")
+  }
+
+
+
   return(search)
 }
 
@@ -283,7 +289,7 @@ icd11_search <- function(token,
 #'   token <- get_token(CLIENT_ID, CLIENT_SECRET)
 #'
 #'   # Search for ICD-10 releases
-#'   icd11_search2(token, text = "Cerebrovascular accident")
+#'   search_results <- icd11_search2(token, text = "Cerebrovascular accident")
 #' }
 #'
 #' @export
@@ -317,6 +323,10 @@ icd11_search2 <- function(token, text,
       releaseId = release
     )
   )
+
+  if (any(search[["resultChopped"]])){
+    warning("Results chopped due to too many matches. Try narrowing your query.")
+  }
 
   return(secret)
 }

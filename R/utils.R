@@ -281,12 +281,8 @@ codify_manner_of_death <- function(manner_of_death) {
 #'
 #' @return The corresponding maternal death time from pregnancy code as a number, or an error
 #' if the input is invalid.
-#' @export
 #'
-#' @examples
-#' code_maternal_death_time_from_pregnancy(3)          # returns 1
-#' code_maternal_death_time_from_pregnancy("Within 42 days before death") # returns 1
-#' code_maternal_death_time_from_pregnancy(NULL)        # returns NULL
+#' @keywords internal
 code_maternal_death_time_from_pregnancy <- function(input) {
   # Define the maternal death time from pregnancy codes and their descriptions
   maternal_death_time_from_pregnancy_codes <- c(
@@ -335,12 +331,8 @@ code_maternal_death_time_from_pregnancy <- function(input) {
 #' @param input Either a number or a string representing the place of occurrence external cause code.
 #'
 #' @return The corresponding place of occurrence external cause code as a number, or an error if the input is invalid.
-#' @export
 #'
-#' @examples
-#' code_place(1)         # returns 1
-#' code_place("Residential institution") # returns 1
-#' code_place(NULL)       # returns NULL
+#' @keywords internal
 code_place <- function(input) {
   # Define the place of occurrence external cause codes and their descriptions
   place_of_occurrence_external_cause_codes <- c(

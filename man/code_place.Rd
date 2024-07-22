@@ -18,8 +18,4 @@ the function verifies it against predefined codes. If it is not one of the codes
 If it is a text, the function returns the number corresponding to the code. If it is NULL,
 the function returns NULL.
 }
-\examples{
-code_place(1)         # returns 1
-code_place("Residential institution") # returns 1
-code_place(NULL)       # returns NULL
-}
+\keyword{internal}

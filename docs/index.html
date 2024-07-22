@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">WHOicd</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5.1</span>
       </span>
     </div>
 
@@ -54,6 +54,9 @@
     </li>
     <li>
       <a href="articles/ICD-10.html">ICD-10</a>
+    </li>
+    <li>
+      <a href="articles/ICD-11.html">ICD-11</a>
     </li>
   </ul>
 </li>
@@ -103,8 +106,10 @@
 <p>There are three main objectives for this package:</p>
 <ol style="list-style-type: decimal">
 <li>Use of the DORIS system to obtain underlying cause of death.</li>
-<li>Use of ICD-11 to codify causes of death.</li>
-<li>Use of ICD-10 to codify causes of death.</li>
+<li>
+<a href="https://rodrigozepeda.github.io/WHOicd/articles/ICD-11.html" class="external-link">Use of ICD-11 to codify causes of death</a>.</li>
+<li>
+<a href="https://rodrigozepeda.github.io/WHOicd/articles/ICD-10.html" class="external-link">Use of ICD-10 to search for causes of death</a>.</li>
 </ol>
 </div>
 <div class="section level2">
@@ -159,12 +164,13 @@
 <span><span class="co">#&gt; [6] "Dementia due to human immunodeficiency virus [Other specified HIV disease clinical stage 4 without mention of tuberculosis or malaria]"</span></span></code></pre></div>
 <p>Another function of importance is <code>autocode</code> which reads plain-text diagnostic text and returns the best matching code either in <em>MMS</em> or <em>ICF</em></p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#Look for Dementia and HIV stage 4</span></span>
+<code class="sourceCode R"><span><span class="co">#Auto code a diagnostic text such as `cerebrovascular accident`</span></span>
 <span><span class="va">code_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/autocode.html">icd11_autocode</a></span><span class="op">(</span><span class="va">token</span>, <span class="st">"Patient with cerebrovascular accident"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">#Recover the code that matched</span></span>
 <span><span class="va">code_results</span> <span class="op">|&gt;</span> <span class="fu"><a href="reference/retrieve.html">retrieve</a></span><span class="op">(</span><span class="st">"theCode"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "8B20"</span></span></code></pre></div>
+<p>Additional information on ICD-11 can be found in the <a href="https://rodrigozepeda.github.io/WHOicd/articles/ICD-11.html" class="external-link">ICD-11 article</a></p>
 </div>
 <div class="section level2">
 <h2 id="icd-10-examples">ICD-10 examples<a class="anchor" aria-label="anchor" href="#icd-10-examples"></a>

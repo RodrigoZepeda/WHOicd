@@ -53,8 +53,10 @@ token <- get_token(CLIENT_ID, CLIENT_SECRET)
 There are three main objectives for this package:
 
 1.  Use of the DORIS system to obtain underlying cause of death.
-2.  Use of ICD-11 to codify causes of death.
-3.  Use of ICD-10 to codify causes of death.
+2.  [Use of ICD-11 to codify causes of
+    death](https://rodrigozepeda.github.io/WHOicd/articles/ICD-11.html).
+3.  [Use of ICD-10 to search for causes of
+    death](https://rodrigozepeda.github.io/WHOicd/articles/ICD-10.html).
 
 ## DORIS (WHO Digital Open Rule Integrated Cause of Death Selection)
 
@@ -136,6 +138,9 @@ code_results <- icd11_autocode(token, "Patient with cerebrovascular accident")
 code_results |> retrieve("theCode")
 #> [1] "8B20"
 ```
+
+Additional information on ICD-11 can be found in the [ICD-11
+article](https://rodrigozepeda.github.io/WHOicd/articles/ICD-11.html)
 
 ## ICD-10 examples
 
