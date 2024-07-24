@@ -5,4 +5,7 @@ articles:
   articles/Generating-your-token: Generating-your-token.html
   articles/ICD-10: ICD-10.html
   articles/ICD-11: ICD-11.html
-last_built: 2024-07-22T18:54Z
+last_built: 2024-07-24T22:43Z
+urls:
+  reference: https://rodrigozepeda.github.io/WHOicd/reference
+  article: https://rodrigozepeda.github.io/WHOicd/articles

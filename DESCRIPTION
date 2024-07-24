@@ -7,6 +7,8 @@ Authors@R:
 Description: Interface to the World Health Organization (WHO) International Classification of Diseases (ICD) API. It allows users to search the reference codes for diseases, codify plain text causes of death, identify causes of death, and obtain additional information for reference codes. Currently available for ICD10, ICD11 and the DORIS system.
 License: MIT + file LICENSE
 Encoding: UTF-8
+URL: https://rodrigozepeda.github.io/WHOicd/ https://github.com/RodrigoZepeda/WHOicd/
+BugReports: https://github.com/RodrigoZepeda/WHOicd/issues
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 Suggests: 

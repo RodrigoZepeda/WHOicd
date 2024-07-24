@@ -23,7 +23,7 @@ token <- get_token(CLIENT_ID, CLIENT_SECRET)
 
 ## Autocoding text diagnosis
 
-The function for automatically assigning an ICD-10 code from a diagnostic text is `icd11_autocode()`:
+The function for automatically assigning an ICD-11 code from a diagnostic text is `icd11_autocode()`:
 
 ```{r}
 #Auto code a diagnostic text such as `cerebrovascular accident`
@@ -84,7 +84,7 @@ abortion_codes <- icd11_search(token, text = "malaria")
 Which you can `retrieve()` the codes and titles of: 
 
 ```{r}
-data.frame(
+tibble::tibble(
   code = abortion_codes |> retrieve("theCode"),
   title = abortion_codes |> retrieve("title")
 )

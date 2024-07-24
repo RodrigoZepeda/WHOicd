@@ -4,79 +4,57 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Retrieve data from the World Health Organization (WHO) International Classification of Diseases (ICD) API version 2 • WHOicd</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
-<script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="Retrieve data from the World Health Organization (WHO) International Classification of Diseases (ICD) API version 2">
+<script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
+<link href="deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Retrieve data from the World Health Organization (WHO) International Classification of Diseases (ICD) API version 2">
+<meta name="description" content="Interface to the World Health Organization (WHO) International Classification of Diseases (ICD) API. It allows users to search the reference codes for diseases, codify plain text causes of death, identify causes of death, and obtain additional information for reference codes. Currently available for ICD10, ICD11 and the DORIS system.">
 <meta property="og:description" content="Interface to the World Health Organization (WHO) International Classification of Diseases (ICD) API. It allows users to search the reference codes for diseases, codify plain text causes of death, identify causes of death, and obtain additional information for reference codes. Currently available for ICD10, ICD11 and the DORIS system.">
-<!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
 </head>
-<body data-spy="scroll" data-target="#toc">
+<body>
+    <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
-    <div class="container template-home">
-      <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <span class="navbar-brand">
-        <a class="navbar-link" href="index.html">WHOicd</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5.1</span>
-      </span>
-    </div>
+    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
 
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-<li>
-  <a href="reference/index.html">Reference</a>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Articles
+    <a class="navbar-brand me-2" href="index.html">WHOicd</a>
 
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="articles/Generating-your-token.html">Generating your token</a>
-    </li>
-    <li>
-      <a href="articles/ICD-10.html">ICD-10</a>
-    </li>
-    <li>
-      <a href="articles/ICD-11.html">ICD-11</a>
-    </li>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.1</small>
+
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar" class="collapse navbar-collapse ms-3">
+      <ul class="navbar-nav me-auto">
+<li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
+<li><a class="dropdown-item" href="articles/Generating-your-token.html">Generating your token</a></li>
+    <li><a class="dropdown-item" href="articles/ICD-10.html">ICD-10</a></li>
+    <li><a class="dropdown-item" href="articles/ICD-11.html">ICD-11</a></li>
   </ul>
 </li>
-<li>
-  <a href="news/index.html">Changelog</a>
-</li>
+<li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="navbar-nav">
+<li class="nav-item"><form class="form-inline" role="search">
+ <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="search.json">
+</form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/RodrigoZepeda/WHOicd/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+      </ul>
 </div>
-<!--/.nav-collapse -->
+
+
   </div>
-<!--/.container -->
-</div>
-<!--/.navbar -->
-
-
-
-      </header><div class="row">
-  <div class="contents col-md-9">
-<div class="section level1">
+</nav><div class="container template-home">
+<div class="row">
+  <main id="main" class="col-md-9"><div class="section level1">
 <div class="page-header"><h1 id="whoicd">WHOicd<a class="anchor" aria-label="anchor" href="#whoicd"></a>
 </h1></div>
 <!-- badges: start -->
@@ -96,7 +74,7 @@
 <p>For the examples we’ll assume you already have a <code>CLIENT_ID</code> and <code>CLIENT_SECRET</code> for the WHO API as obtained in the <a href="/articles/Generating-your-token.html"><strong>Generaring your token</strong></a> article.</p>
 <p>To interact with the API you’ll need to continuously create a token using the <code>get_token</code> function:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">WHOicd</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rodrigozepeda.github.io/WHOicd/">WHOicd</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">#Substitute CLIENT_ID and CLIENT_SECRET by your credentials</span></span>
 <span><span class="va">token</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_token.html">get_token</a></span><span class="op">(</span><span class="va">CLIENT_ID</span>, <span class="va">CLIENT_SECRET</span><span class="op">)</span></span></code></pre></div>
@@ -107,9 +85,9 @@
 <ol style="list-style-type: decimal">
 <li>Use of the DORIS system to obtain underlying cause of death.</li>
 <li>
-<a href="https://rodrigozepeda.github.io/WHOicd/articles/ICD-11.html" class="external-link">Use of ICD-11 to codify causes of death</a>.</li>
+<a href="https://rodrigozepeda.github.io/WHOicd/articles/ICD-11.html">Use of ICD-11 to codify causes of death</a>.</li>
 <li>
-<a href="https://rodrigozepeda.github.io/WHOicd/articles/ICD-10.html" class="external-link">Use of ICD-10 to search for causes of death</a>.</li>
+<a href="https://rodrigozepeda.github.io/WHOicd/articles/ICD-10.html">Use of ICD-10 to search for causes of death</a>.</li>
 </ol>
 </div>
 <div class="section level2">
@@ -143,7 +121,7 @@
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $warning</span></span>
 <span><span class="co">#&gt; NULL</span></span></code></pre></div>
-<p>All of the options are available in the function’s help page <a href="https://rodrigozepeda.github.io/WHOicd/reference/doris.html" class="external-link"><code>doris()</code></a>.</p>
+<p>All of the options are available in the function’s help page <a href="https://rodrigozepeda.github.io/WHOicd/reference/doris.html"><code>doris()</code></a>.</p>
 </div>
 <div class="section level2">
 <h2 id="icd-11-examples">ICD-11 examples<a class="anchor" aria-label="anchor" href="#icd-11-examples"></a>
@@ -170,7 +148,7 @@
 <span><span class="co">#Recover the code that matched</span></span>
 <span><span class="va">code_results</span> <span class="op">|&gt;</span> <span class="fu"><a href="reference/retrieve.html">retrieve</a></span><span class="op">(</span><span class="st">"theCode"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "8B20"</span></span></code></pre></div>
-<p>Additional information on ICD-11 can be found in the <a href="https://rodrigozepeda.github.io/WHOicd/articles/ICD-11.html" class="external-link">ICD-11 article</a></p>
+<p>Additional information on ICD-11 can be found in the <a href="https://rodrigozepeda.github.io/WHOicd/articles/ICD-11.html">ICD-11 article</a></p>
 </div>
 <div class="section level2">
 <h2 id="icd-10-examples">ICD-10 examples<a class="anchor" aria-label="anchor" href="#icd-10-examples"></a>
@@ -201,7 +179,7 @@
 <span><span class="co">#&gt; 1      D60 Acquired pure red cell aplasia [erythroblastopenia]</span></span>
 <span><span class="co">#&gt; 2       IX                  Diseases of the circulatory system</span></span>
 <span><span class="co">#&gt; 3  I10-I15                               Hypertensive diseases</span></span></code></pre></div>
-<p>Additional information on ICD-10 can be found in the <a href="https://rodrigozepeda.github.io/WHOicd/articles/ICD-10.html" class="external-link">ICD-10 article</a></p>
+<p>Additional information on ICD-10 can be found in the <a href="https://rodrigozepeda.github.io/WHOicd/articles/ICD-10.html">ICD-10 article</a></p>
 </div>
 <div class="section level2">
 <h2 id="support">Support<a class="anchor" aria-label="anchor" href="#support"></a>
@@ -209,10 +187,15 @@
 <p>This is not an official product of the WHO. However we are happy to provide support if you <a href="https://docs.github.com/en/issues/tracking-your-work-with-issues/creating-an-issue" class="external-link">raise an issue</a>.</p>
 </div>
 </div>
-  </div>
+  </main><aside class="col-md-3"><div class="links">
+<h2 data-toc-skip>Links</h2>
+<ul class="list-unstyled">
+<li><a href="https://github.com/RodrigoZepeda/WHOicd/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/RodrigoZepeda/WHOicd/issues" class="external-link">Report a bug</a></li>
+</ul>
+</div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <div class="license">
+<div class="license">
 <h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
@@ -245,23 +228,20 @@
 </ul>
 </div>
 
-  </div>
+  </aside>
 </div>
 
 
-      <footer><div class="copyright">
-  <p></p>
-<p>Developed by Rodrigo Zepeda-Tello.</p>
+    <footer><div class="pkgdown-footer-left">
+  <p>Developed by Rodrigo Zepeda-Tello.</p>
 </div>
 
-<div class="pkgdown">
-  <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+<div class="pkgdown-footer-right">
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
 </div>
 
-      </footer>
+    </footer>
 </div>
-
 
 
 
