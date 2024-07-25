@@ -56,7 +56,7 @@ token <- get_token(CLIENT_ID, CLIENT_SECRET)
 
 There are three main objectives for this package:
 
-1. Use of the DORIS system to obtain underlying cause of death.
+1. Use of the DORIS system to obtain underlying cause of death from death certificate information.
 2. [Use of ICD-11 to codify causes of death](https://rodrigozepeda.github.io/WHOicd/articles/ICD-11.html).
 3. [Use of ICD-10 to search for causes of death](https://rodrigozepeda.github.io/WHOicd/articles/ICD-10.html).
 
@@ -64,7 +64,7 @@ There are three main objectives for this package:
 
 The [Digital Open Rule Integrated Cause of Death Selection](https://icd.who.int/doris/en), DORIS, 
 provides a framework for obtaining the underlying cause of death from a death certificate. DORIS
-functionality has been implemented in the `doris` function. 
+functionality has been implemented in the `doris()` function. 
 
 The following example considers a 60 year old female whose primary cause of death was `2D42`: 
 `Malignant neoplasms of ill-defined sites` due to `2E03`: `Malignant neoplasm metastasis in bone or bone marrow` due to `CB41.0Z`: `Acute respiratory failure, unspecified`. 
@@ -108,17 +108,30 @@ Additional information on ICD-11 can be found in the [ICD-11 article](https://ro
 The main function relating to ICD-10 is `icd10_search()` which searches for the titles and parents of codes, blocks of chapters. As an example, we can search for the following vector and obtain a `data.frame`: 
 
 ```{r}
+#| results: false
 #Search for code, specific code, chapter and block 
 codes <- c("D60", "IX", "I10-I15")
 icd10_search(token, codes)
 ```
 
+```{r}
+#| echo: false
+icd10_search(token, codes) |> tibble::as_tibble()
+```
+
 If you only want to get the title of the current code/chapter/block you can use `icd10_title` which is faster as it requires less requests to the API:
 
 ```{r}
+#| results: false
 #Search for code, specific code, chapter and block 
 codes <- c("D60", "IX", "I10-I15")
 icd10_title(token, codes)
+```
+
+```{r}
+#| echo: false
+#Search for code, specific code, chapter and block 
+icd10_title(token, codes) |> tibble::as_tibble()
 ```
 
 Additional information on ICD-10 can be found in the [ICD-10 article](https://rodrigozepeda.github.io/WHOicd/articles/ICD-10.html)

@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">WHOicd</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -83,7 +83,7 @@
 </blockquote>
 <p>There are three main objectives for this package:</p>
 <ol style="list-style-type: decimal">
-<li>Use of the DORIS system to obtain underlying cause of death.</li>
+<li>Use of the DORIS system to obtain underlying cause of death from death certificate information.</li>
 <li>
 <a href="https://rodrigozepeda.github.io/WHOicd/articles/ICD-11.html">Use of ICD-11 to codify causes of death</a>.</li>
 <li>
@@ -93,7 +93,7 @@
 <div class="section level2">
 <h2 id="doris-who-digital-open-rule-integrated-cause-of-death-selection">DORIS (WHO Digital Open Rule Integrated Cause of Death Selection)<a class="anchor" aria-label="anchor" href="#doris-who-digital-open-rule-integrated-cause-of-death-selection"></a>
 </h2>
-<p>The <a href="https://icd.who.int/doris/en" class="external-link">Digital Open Rule Integrated Cause of Death Selection</a>, DORIS, provides a framework for obtaining the underlying cause of death from a death certificate. DORIS functionality has been implemented in the <code>doris</code> function.</p>
+<p>The <a href="https://icd.who.int/doris/en" class="external-link">Digital Open Rule Integrated Cause of Death Selection</a>, DORIS, provides a framework for obtaining the underlying cause of death from a death certificate. DORIS functionality has been implemented in the <code><a href="reference/doris.html">doris()</a></code> function.</p>
 <p>The following example considers a 60 year old female whose primary cause of death was <code>2D42</code>: <code>Malignant neoplasms of ill-defined sites</code> due to <code>2E03</code>: <code>Malignant neoplasm metastasis in bone or bone marrow</code> due to <code>CB41.0Z</code>: <code>Acute respiratory failure, unspecified</code>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/doris.html">doris</a></span><span class="op">(</span><span class="va">token</span>, sex <span class="op">=</span> <span class="st">"Female"</span>, age <span class="op">=</span> <span class="fu"><a href="reference/iso_8601.html">iso_8601</a></span><span class="op">(</span>years <span class="op">=</span> <span class="fl">60</span><span class="op">)</span>, cause_of_death_code_a <span class="op">=</span> <span class="st">"2D42"</span>,</span>
@@ -157,28 +157,24 @@
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#Search for code, specific code, chapter and block </span></span>
 <span><span class="va">codes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"D60"</span>, <span class="st">"IX"</span>, <span class="st">"I10-I15"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="reference/icd10_search.html">icd10_search</a></span><span class="op">(</span><span class="va">token</span>, <span class="va">codes</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   searched code                                          code_title   block</span></span>
-<span><span class="co">#&gt; 1      D60  D60 Acquired pure red cell aplasia [erythroblastopenia] D60-D64</span></span>
-<span><span class="co">#&gt; 2       IX &lt;NA&gt;                                                &lt;NA&gt;    &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 3  I10-I15 &lt;NA&gt;                                                &lt;NA&gt; I10-I15</span></span>
-<span><span class="co">#&gt;                   block_title chapter</span></span>
-<span><span class="co">#&gt; 1 Aplastic and other anaemias     III</span></span>
-<span><span class="co">#&gt; 2                        &lt;NA&gt;      IX</span></span>
-<span><span class="co">#&gt; 3       Hypertensive diseases      IX</span></span>
-<span><span class="co">#&gt;                                                                                         chapter_title</span></span>
-<span><span class="co">#&gt; 1 Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism</span></span>
-<span><span class="co">#&gt; 2                                                                  Diseases of the circulatory system</span></span>
-<span><span class="co">#&gt; 3                                                                  Diseases of the circulatory system</span></span></code></pre></div>
+<span><span class="fu"><a href="reference/icd10_search.html">icd10_search</a></span><span class="op">(</span><span class="va">token</span>, <span class="va">codes</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co">#&gt; # A tibble: 3 × 7</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="co">#&gt;   searched code  code_title              block block_title chapter chapter_title</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt;                   &lt;chr&gt; &lt;chr&gt;       &lt;chr&gt;   &lt;chr&gt;        </span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co">#&gt; 1 D60      D60   Acquired pure red cell… D60-… Aplastic a… III     Diseases of …</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co">#&gt; 2 IX       &lt;NA&gt;  &lt;NA&gt;                    &lt;NA&gt;  &lt;NA&gt;        IX      Diseases of …</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co">#&gt; 3 I10-I15  &lt;NA&gt;  &lt;NA&gt;                    I10-… Hypertensi… IX      Diseases of …</span></span></code></pre></div>
 <p>If you only want to get the title of the current code/chapter/block you can use <code>icd10_title</code> which is faster as it requires less requests to the API:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#Search for code, specific code, chapter and block </span></span>
 <span><span class="va">codes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"D60"</span>, <span class="st">"IX"</span>, <span class="st">"I10-I15"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="reference/icd10_title.html">icd10_title</a></span><span class="op">(</span><span class="va">token</span>, <span class="va">codes</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   searched                                               title</span></span>
-<span><span class="co">#&gt; 1      D60 Acquired pure red cell aplasia [erythroblastopenia]</span></span>
-<span><span class="co">#&gt; 2       IX                  Diseases of the circulatory system</span></span>
-<span><span class="co">#&gt; 3  I10-I15                               Hypertensive diseases</span></span></code></pre></div>
+<span><span class="fu"><a href="reference/icd10_title.html">icd10_title</a></span><span class="op">(</span><span class="va">token</span>, <span class="va">codes</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="co">#&gt; # A tibble: 3 × 2</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="co">#&gt;   searched title                                              </span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;                                              </span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="co">#&gt; 1 D60      Acquired pure red cell aplasia [erythroblastopenia]</span></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="co">#&gt; 2 IX       Diseases of the circulatory system                 </span></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="co">#&gt; 3 I10-I15  Hypertensive diseases</span></span></code></pre></div>
 <p>Additional information on ICD-10 can be found in the <a href="https://rodrigozepeda.github.io/WHOicd/articles/ICD-10.html">ICD-10 article</a></p>
 </div>
 <div class="section level2">

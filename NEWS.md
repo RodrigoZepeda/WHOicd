@@ -1,3 +1,9 @@
+# WHOicd 0.5.2
+
+* Added the site links to `DESCRIPTION`.
+* Changed website version to bootstrap v5.
+* Removed history from package.
+
 # WHOicd 0.5.1
 
 * Stopped exporting functions to `code_place` and `code_maternal`.

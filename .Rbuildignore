@@ -8,3 +8,5 @@
 ^codecov\.yml$
 ^\.github$
 ^vignettes/articles$
+^_pkgdown\.yml
+^\.Rhistory

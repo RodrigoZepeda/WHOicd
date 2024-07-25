@@ -52,7 +52,8 @@ token <- get_token(CLIENT_ID, CLIENT_SECRET)
 
 There are three main objectives for this package:
 
-1.  Use of the DORIS system to obtain underlying cause of death.
+1.  Use of the DORIS system to obtain underlying cause of death from
+    death certificate information.
 2.  [Use of ICD-11 to codify causes of
     death](https://rodrigozepeda.github.io/WHOicd/articles/ICD-11.html).
 3.  [Use of ICD-10 to search for causes of
@@ -63,7 +64,7 @@ There are three main objectives for this package:
 The [Digital Open Rule Integrated Cause of Death
 Selection](https://icd.who.int/doris/en), DORIS, provides a framework
 for obtaining the underlying cause of death from a death certificate.
-DORIS functionality has been implemented in the `doris` function.
+DORIS functionality has been implemented in the `doris()` function.
 
 The following example considers a 60 year old female whose primary cause
 of death was `2D42`: `Malignant neoplasms of ill-defined sites` due to
@@ -152,19 +153,14 @@ we can search for the following vector and obtain a `data.frame`:
 #Search for code, specific code, chapter and block 
 codes <- c("D60", "IX", "I10-I15")
 icd10_search(token, codes)
-#>   searched code                                          code_title   block
-#> 1      D60  D60 Acquired pure red cell aplasia [erythroblastopenia] D60-D64
-#> 2       IX <NA>                                                <NA>    <NA>
-#> 3  I10-I15 <NA>                                                <NA> I10-I15
-#>                   block_title chapter
-#> 1 Aplastic and other anaemias     III
-#> 2                        <NA>      IX
-#> 3       Hypertensive diseases      IX
-#>                                                                                         chapter_title
-#> 1 Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism
-#> 2                                                                  Diseases of the circulatory system
-#> 3                                                                  Diseases of the circulatory system
 ```
+
+    #> # A tibble: 3 × 7
+    #>   searched code  code_title              block block_title chapter chapter_title
+    #>   <chr>    <chr> <chr>                   <chr> <chr>       <chr>   <chr>        
+    #> 1 D60      D60   Acquired pure red cell… D60-… Aplastic a… III     Diseases of …
+    #> 2 IX       <NA>  <NA>                    <NA>  <NA>        IX      Diseases of …
+    #> 3 I10-I15  <NA>  <NA>                    I10-… Hypertensi… IX      Diseases of …
 
 If you only want to get the title of the current code/chapter/block you
 can use `icd10_title` which is faster as it requires less requests to
@@ -174,11 +170,14 @@ the API:
 #Search for code, specific code, chapter and block 
 codes <- c("D60", "IX", "I10-I15")
 icd10_title(token, codes)
-#>   searched                                               title
-#> 1      D60 Acquired pure red cell aplasia [erythroblastopenia]
-#> 2       IX                  Diseases of the circulatory system
-#> 3  I10-I15                               Hypertensive diseases
 ```
+
+    #> # A tibble: 3 × 2
+    #>   searched title                                              
+    #>   <chr>    <chr>                                              
+    #> 1 D60      Acquired pure red cell aplasia [erythroblastopenia]
+    #> 2 IX       Diseases of the circulatory system                 
+    #> 3 I10-I15  Hypertensive diseases
 
 Additional information on ICD-10 can be found in the [ICD-10
 article](https://rodrigozepeda.github.io/WHOicd/articles/ICD-10.html)
